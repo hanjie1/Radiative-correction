@@ -1,0 +1,4 @@
+#!/bin/tcsh
+cd ../
+nice +10 run_extern slac_e139_fe
+cat SCRIPTS/40degheader.txt OUT/slac_e139_fe.out >! OUT/slac_e139_fe6.out

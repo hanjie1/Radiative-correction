@@ -1,0 +1,4 @@
+Version of externals_all that incorporates both latest XEM model (version
+used for generating PRL results) and an option to use Peter/Vahe's nuclear fit.
+This requires using the nucleon fit from f1f2in09 instead of f1f2in06 - so has
+some differences fro the original model.

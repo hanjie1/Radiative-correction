@@ -1,0 +1,4 @@
+#!/bin/tcsh
+run_extern 29degc12
+run_extern 29degd2
+

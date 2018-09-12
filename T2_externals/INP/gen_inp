@@ -1,0 +1,23 @@
+#!/bin/bash
+
+if [ $# -lt 2 ]
+then
+	echo "Please enter kin and tgt "
+	read kin
+	read tgt
+else
+	kin=$1
+	tgt=$2
+fi
+
+
+
+file=marathon_kin${kin}_${tgt}.inp
+rm -f -v ${file}
+
+
+echo "input files for EXTERNAL: runplan/target/output">${file}
+echo "RUNPLAN/marathon_kin${kin}.inp">>${file}
+echo "TARG/targ.${tgt}">>${file}
+echo "OUT/marathon_kin${kin}_${tgt}_details.out">>${file}
+
