@@ -159,7 +159,7 @@ void plot_H3He3()
       mg3->Add(gRatio[ii]);
   }
   mg3->Draw("AP");
-  mg3->SetTitle("Ratio of two H3/D results;x;");
+  mg3->SetTitle("Ratio of two H3/He3 results;x;");
 
   auto leg3=new TLegend(0.7,0.6,0.85,0.85);
   nn=2;
