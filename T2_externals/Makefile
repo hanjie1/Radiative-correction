@@ -7,10 +7,10 @@ F77       :=gfortran
 
 externals_all_objs = externals_all.o sigmodel_calc_simple.o fy.o target_info.o \
 	             F1F209.o f_to_sig.o y_calc.o sig_bar_df.o nform_xem.o \
-                     get_cc_info.o
+                     get_cc_info.o gsmearing.o
 externals_all_srcs = externals_all.f sigmodel_calc_simple.f fy.f target_info.f \
                      F1F209.f f_to_sig.f y_calc.f sig_bar_df.f nform_xem.f \
-                     get_cc_info.f
+                     get_cc_info.f gsmearing.f
 
 ########################################
 
@@ -28,6 +28,9 @@ fy.o: fy.f
 	$(F77) $(FFLAGS) -c $< -o $@
 
 sigmodel_calc_simple.o: sigmodel_calc_simple.f
+	$(F77) $(FFLAGS) -c $< -o $@
+
+gsmearing.o: gsmearing.f
 	$(F77) $(FFLAGS) -c $< -o $@
 
 bdisnew4he3.o: bdisnew4he3.f

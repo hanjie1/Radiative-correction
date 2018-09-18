@@ -32,8 +32,10 @@ C=======================================================================
       COMMON /TARGT/ iZ,iA,avgN,avgA,avgM,amuM 
       INTEGER IZ,IA                                                     
       REAL AVGN,AVGA,AVGM,AMUM 
-      COMMON/IKK12/IG,IDUT,INEL_MODEL,PAULI_MODEL,NUC_METHOD,NUC_MODEL
-      INTEGER IG,IDUT,INEL_MODEL,PAULI_MODEL,NUC_METHOD,NUC_MODEL  
+      COMMON/IKK12/IG,IDUT,INEL_MODEL,PAULI_MODEL,NUC_METHOD,NUC_MODEL,
+     >             SIG_MODEL
+      INTEGER IG,IDUT,INEL_MODEL,PAULI_MODEL,NUC_METHOD,NUC_MODEL,
+     >        SIG_MODEL
       COMMON /TTYPE/ TARGET                                             
       CHARACTER*7    TARGET  
       REAL TTOT,TLEN
@@ -196,7 +198,7 @@ C Born cross section:
 c           CALL SECNUCLW(E0SET,EPSET,TH,SIGMA_BORN)                 
          XFLAG = 3
          CALL SIGMODEL_CALC(E0SET,EPSET,TH,iZ,
-     >        iA,avgM,DUM1,DUM2,SIGMA_BORN,XFLAG,FACT)
+     >        iA,avgM,DUM1,DUM2,SIGMA_BORN,XFLAG,FACT,SIG_MODEL)
 
 !         prttst=.false.
 
@@ -206,7 +208,7 @@ c     CALL  FYXSEC8(E0SET,EPSET,TH,SIGMA_CORR)
 
          XFLAG = 2
          CALL SIGMODEL_CALC(E0SET,EPSET,TH,iZ,
-     >        iA,avgM,DUM1,DUM2,SIGMA_CORR,XFLAG,FACT)
+     >        iA,avgM,DUM1,DUM2,SIGMA_CORR,XFLAG,FACT,SIG_MODEL)
          qefact = fact
 
          write(*,'(1x,''e,ep,th,sigb,sigqe='',3f8.2,2e12.4)')
@@ -396,7 +398,7 @@ cc also, all deltae_cc's are computed for Z-1, not Z!/-*
 
               XFLAG = 1
               CALL SIGMODEL_CALC(beame_cc,eprime_cc,TH,iZ,
-     >             iA,avgM,DUM1,DUM2,sigborn_cc,XFLAG,FACT)           
+     >             iA,avgM,DUM1,DUM2,sigborn_cc,XFLAG,FACT,SIG_MODEL)           
               f1cc = beame_cc/e0sv(npts)
               ccor=0.
               if(sigborn_cc.gt.0.0) then ! avoid nan
@@ -2053,6 +2055,11 @@ C calculates cross section per NUCLEUS, not per nucleon.
       INTEGER XFLAG
       COMMON /SIG/ CSTYPE                                               
       CHARACTER*1  CSTYPE   
+      COMMON/IKK12/IG,IDUT,INEL_MODEL,PAULI_MODEL,NUC_METHOD,NUC_MODEL,
+     >             SIG_MODEL
+      INTEGER IG,IDUT,INEL_MODEL,PAULI_MODEL,NUC_METHOD,NUC_MODEL,
+     >        SIG_MODEL
+
 
       real deltae_cc, f1cc ! boost and focus factor for coulomb correction.
       real sigborn_cc,sigborninel_cc,sigbornqe_cc
@@ -2093,7 +2100,7 @@ cc         CALL SIGMODEL_CALC(E0,EP,TH,iZ,
 cc     >        iA,avgM,DUM1,DUM2,SIGMA,XFLAG,FACT)
 
           CALL SIGMODEL_CALC(beame_cc,eprime_cc,TH,iZ,
-     >        iA,avgM,DUM1,DUM2,sigborn_cc,XFLAG,FACT)
+     >        iA,avgM,DUM1,DUM2,sigborn_cc,XFLAG,FACT,SIG_MODEL)
            
                f1cc = beame_cc/E0
              
@@ -2112,7 +2119,7 @@ c         CALL SIGMODEL_CALC(E0,EP,TH,iZ,
 c     >        iA,avgM,DUM1,DUM2,SIGMA,XFLAG,FACT)
 
            CALL SIGMODEL_CALC(beame_cc,eprime_cc,TH,iZ,
-     >        iA,avgM,DUM1,DUM2,sigborn_cc,XFLAG,FACT)
+     >        iA,avgM,DUM1,DUM2,sigborn_cc,XFLAG,FACT,SIG_MODEL)
            
            f1cc = beame_cc/E0
              
@@ -3724,8 +3731,10 @@ c      SUBROUTINE READIN_EXT(LEN_FILENAME,FILENAME)
       COMMON /TARGT/  iZ,iA,avgN,avgA,avgM,amuM 
       INTEGER IZ,IA
       REAL avgN,avgA,avgM,amuM                                   
-      COMMON/IKK12/IG,IDUT,INEL_MODEL,PAULI_MODEL,NUC_METHOD,NUC_MODEL
-      INTEGER IG,IDUT,INEL_MODEL,PAULI_MODEL,NUC_METHOD,NUC_MODEL
+      COMMON/IKK12/IG,IDUT,INEL_MODEL,PAULI_MODEL,NUC_METHOD,NUC_MODEL,
+     >             SIG_MODEL
+      INTEGER IG,IDUT,INEL_MODEL,PAULI_MODEL,NUC_METHOD,NUC_MODEL,
+     >        SIG_MODEL
       COMMON /TTYPE/  TARGET                                            
       CHARACTER*7     TARGET
       COMMON /TRL/    TTARG,TWALL,TBEAM,TSPEC,ITARG,NSEG,JTARG
@@ -3783,7 +3792,7 @@ c      OPEN(UNIT=20,FILE='extern.inp')
      +            target,                                               
      +            ttarg,twall,tbeam,tspec,                              
      +            NSEG,                                                 
-     +    IG,IDUT,INEL_MODEL,PAULI_MODEL,NUC_METHOD,NUC_MODEL
+     +    IG,IDUT,INEL_MODEL,PAULI_MODEL,NUC_METHOD,NUC_MODEL,SIG_MODEL
 
     
       IF(TARGET.EQ.'E140XH2') ITARG=1                                   
@@ -3804,7 +3813,8 @@ c      OPEN(UNIT=20,FILE='extern.inp')
      +             15X,I5/    ! INEL_MODEL
      +             15X,I5/     !Pauli suppression     
      +             15X,I5/     ! Nuclear Tail Method: NUC_METHOD
-     +             15X,I5)     ! Nuclear Form Factor: NUC_MODEL
+     +             15X,I5/     ! Nuclear Form Factor: NUC_MODEL
+     +             15X,I5)     ! DIS model used in sigmodel_calc_simple.f
 
       call Q_E_VANORDEN_INIT(REAL(iZ),REAL(iA),.25,1)!Fermi Momentum=.25
       if (avgA.eq.0..or.avgM.eq.0) call weiz                            
@@ -3816,7 +3826,8 @@ c      OPEN(UNIT=20,FILE='extern.inp')
      +COMMENT(1),COMMENT(2),COMMENT(3),COMMENT(4),COMMENT(5),COMMENT(6),
      > RAD_STRING
       WRITE(10,200) iZ,iA,avgA,amuM,avgM,target,ttarg,twall,tbeam,tspec,
-     + Nseg,IG,IDUT,INEL_MODEL,PAULI_MODEL,NUC_METHOD,NUC_MODEL
+     + Nseg,IG,IDUT,INEL_MODEL,PAULI_MODEL,NUC_METHOD,NUC_MODEL,
+     + SIG_MODEL
 200   FORMAT('TARGET (iZ,iA) = (',I3,',',I3,');   avgA = ',F7.3,        
      +                 '; amuM=',F7.3,'; avgM=',F7.3,/                  
      +                 ' targ=',A7,'; ttarg(rl)=',F7.5,'; twall=',F7.5, 
@@ -3824,7 +3835,8 @@ c      OPEN(UNIT=20,FILE='extern.inp')
      +       '         Nseg  = ',I3/' MODELS: P elastc(ikk)=',i2,
      >     '; deut elastic=',i2, '; inelastc=',I3, 
      >     '; Pauli Supresion=',i2 /
-     >     ' NUCLEAR METHOD=',I2,';   NUCLEAR_MODEL=',I2/)
+     >     ' NUCLEAR METHOD=',I2,';   NUCLEAR_MODEL=',I2/
+     >     ' DIS MODEL=',I2/)
 
 
 C Now open output files
