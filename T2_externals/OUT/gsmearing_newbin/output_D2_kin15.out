@@ -1,0 +1,44 @@
+EXTERNAL/TSAI:  VERSION OF 8/8/96
+
+Marathon                                                                
+D2_kin15.inp                                                            
+                                                                        
+Hall A 2018: 25 cm Deuterium target                                     
+Nominal values - not exact                                              
+
+----*----1----*----2----*----3----*----4----*----5----*----6----*----7--
+                                                                        
+
+TARGET (iZ,iA) = (  1,  2);   avgA =   2.000; amuM=  2.013; avgM=  1.875
+ targ=TRITIUM; ttarg(rl)=0.00114; twall=0.00481; tbeam=0.00342; tspec=0.00732
+         Nseg  =   4
+ MODELS: P elastc(ikk)=14; deut elastic=13; inelastc=206; Pauli Supresion= 4
+ NUCLEAR METHOD= 1;   NUCLEAR_MODEL= 1
+ DIS MODEL= 2
+
+    E1    TH    Q2 COS_K         SMR     NUC          INT-SMR
+    EP     X    W2 QE-PK  INELA  Q-ELA  ELAST   TOTAL  MODEL
+
+ Deut Elastic Model: ia,iamec,rsc,rscmec (1,2,3,4)=  3
+ TJON DEUT ELASTIC FILESS TO BE OPEN=rscctj.tjon_input   rscqtj.tjon_input   rscmtj.tjon_input   
+  10.590 40.602 10.94    1.47   -3.65    0.80    0.00   -2.85  0.922
+   2.146  0.690  5.78    1.58   -8.13    0.87    0.00   -7.26 4.556E-02
+
+  10.590 37.968 10.94    1.15   -5.32    0.61    0.00   -4.71  0.923
+   2.441  0.715  5.23    1.23  -10.19    0.67    0.00   -9.52 4.366E-02
+
+  10.590 35.924 10.94    0.97   -6.77    0.54    0.00   -6.23  0.933
+   2.716  0.741  4.71    1.04  -11.99    0.59    0.00  -11.40 4.015E-02
+
+  10.590 34.285 10.94    0.88   -8.12    0.54    0.00   -7.58  0.957
+   2.973  0.765  4.23    0.94  -13.68    0.59    0.00  -13.09 3.577E-02
+
+  10.590 32.937 10.94    0.85   -9.55    0.59    0.00   -8.96  1.002
+   3.214  0.790  3.78    0.92  -15.47    0.65    0.00  -14.83 3.100E-02
+
+  10.590 31.807 10.94    0.92  -10.64    0.76    0.00   -9.89  1.080
+   3.440  0.815  3.36    1.02  -16.84    0.83    0.00  -16.01 2.529E-02
+
+  0.000 0.000  0.000 .000  0.00  0.00  0.00  0.00  0.00  0.00 0.000
+                           0.00  0.00  0.00  0.00  0.00  0.00 0.000E+00
+
