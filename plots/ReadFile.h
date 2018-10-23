@@ -1,5 +1,5 @@
 #define MAXBIN 35
-TString Yieldpath="/home/hanjie/work/MARATHON/RadCor/T2_externals/RUNPLAN/datafile_new/";
+TString Yieldpath="/home/hanjie/work/MARATHON/RadCor/T2_externals/RUNPLAN/datafile/";
 TString RCpath="/home/hanjie/work/MARATHON/RadCor/T2_externals/OUT/";
 int ReadYield(TString filename,int kin,Double_t x[][MAXBIN],Double_t Q2[][MAXBIN],Double_t Yield[][MAXBIN],Double_t Y_err[][MAXBIN]){
     ifstream file;
@@ -7,36 +7,35 @@ int ReadYield(TString filename,int kin,Double_t x[][MAXBIN],Double_t Q2[][MAXBIN
     file.open(myfile);
     if(!file.is_open())return 0;
 
-    Ssiz_t from=0;
-    TString content,tmp;
-    int nn=0;
-    int KKin=0;
-    if(kin<=5)KKin=kin;
-    if(kin==7)KKin=kin-1;
-    if(kin==9)KKin=kin-2;
-    if(kin==11)KKin=kin-3;
-    if(kin==13)KKin=kin-4;
-    if(kin==15)KKin=kin-5;
-    
-    while(tmp.ReadLine(file)){
-          if(nn==0){nn++;continue;}
-          tmp.Tokenize(content,from,", ");
-//          int bin=atoi(content.Data());
-          x[KKin][nn-1]=atof(content.Data());
-          tmp.Tokenize(content,from,", ");
-//          x[KKin][nn-1]=atof(content.Data());
-          tmp.Tokenize(content,from,", ");
-          Q2[KKin][nn-1]=atof(content.Data());
-          tmp.Tokenize(content,from,", ");
-          Yield[KKin][nn-1]=atof(content.Data());
-          tmp.Tokenize(content,from," ");
-          Y_err[KKin][nn-1]=atof(content.Data());
-          //cout<<x[KKin][bin]<<"  "<<Q2[KKin][bin]<<"  "<<Yield[KKin][bin]<<"  "<<Y_err[KKin][bin]<<endl;
-          from=0;
-          nn++;
-     }
-    file.close();
-    return 1;
+     Ssiz_t from=0;
+     TString content,tmp;
+     int nn=0;
+     int KKin=0;
+     if(kin<=5)KKin=kin-1;
+     if(kin==7)KKin=kin-2;
+     if(kin==9)KKin=kin-3;
+     if(kin==11)KKin=kin-4;
+     if(kin==13)KKin=kin-5;
+     if(kin==15)KKin=kin-6;
+     
+     while(tmp.ReadLine(file)){
+           if(nn==0){nn++;continue;}
+           tmp.Tokenize(content,from,", ");
+           int bin=atoi(content.Data());
+           tmp.Tokenize(content,from,", ");
+           x[KKin][bin]=atof(content.Data());
+           tmp.Tokenize(content,from,", ");
+           Q2[KKin][bin]=atof(content.Data());
+           tmp.Tokenize(content,from,", ");
+           Yield[KKin][bin]=atof(content.Data());
+           tmp.Tokenize(content,from," ");
+           Y_err[KKin][bin]=atof(content.Data());
+           //cout<<x[KKin][bin]<<"  "<<Q2[KKin][bin]<<"  "<<Yield[KKin][bin]<<"  "<<Y_err[KKin][bin]<<endl;
+           from=0;
+           nn++;
+      }
+     file.close();
+     return 1;
 
 }
 

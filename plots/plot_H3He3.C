@@ -98,22 +98,24 @@ void plot_H3He3()
       }
   }
 
+  int color[11]={1,2,3,4,6,7,8,9,12,30,46};
+
   TCanvas *c1=new TCanvas("c1");
   TMultiGraph *mg1=new TMultiGraph();
   for(int ii=0;ii<11;ii++){
       gH3HeRaw[ii]->SetMarkerStyle(8);
-      if(ii<9) gH3HeRaw[ii]->SetMarkerColor(ii+1);
-      else gH3HeRaw[ii]->SetMarkerColor(ii+2);
+      gH3HeRaw[ii]->SetMarkerColor(color[ii]);
       mg1->Add(gH3HeRaw[ii]);
   }
   mg1->Draw("AP");
-  mg1->SetTitle("H3/D Raw Yield ratio;x;H3/D");
+  mg1->SetTitle("H3/He3 Raw Yield ratio;x;H3/He3");
 
   auto leg1=new TLegend(0.7,0.6,0.85,0.85);
   int nn=1;
+  leg1->SetNColumns(5);
   for(int ii=0;ii<11;ii++){
-      if(ii<6)leg1->AddEntry(gH3HeRaw[ii],Form("H3/D kin%d",ii),"P");
-      else {leg1->AddEntry(gH3HeRaw[ii],Form("H3/D kin%d",ii+nn),"P");
+      if(ii<6)leg1->AddEntry(gH3HeRaw[ii],Form("H3/He3 kin%d",ii),"P");
+      else {leg1->AddEntry(gH3HeRaw[ii],Form("H3/He3 kin%d",ii+nn),"P");
              nn++;
            }
   }
@@ -124,30 +126,25 @@ void plot_H3He3()
   for(int ii=0;ii<11;ii++){
       gH3HeRC1[ii]->SetMarkerStyle(8);
       gH3HeRC2[ii]->SetMarkerStyle(22);
-      if(ii<9){
-         gH3HeRC1[ii]->SetMarkerColor(ii+1);
-         gH3HeRC2[ii]->SetMarkerColor(ii+1);
-      }
-      else {
-         gH3HeRC1[ii]->SetMarkerColor(ii+2);
-         gH3HeRC2[ii]->SetMarkerColor(ii+2);
-      }
+      gH3HeRC1[ii]->SetMarkerColor(color[ii]);
+      gH3HeRC2[ii]->SetMarkerColor(color[ii]);
       mg2->Add(gH3HeRC1[ii]);
       mg2->Add(gH3HeRC2[ii]);
   }
   mg2->Draw("AP");
-  mg2->SetTitle("H3/D with Radiative correction;x;H3/D");
+  mg2->SetTitle("H3/He3 with Radiative correction;x;H3/He3");
 
   auto leg2=new TLegend(0.7,0.6,0.85,0.85);
   nn=1;
+  leg2->SetNColumns(5);
   for(int ii=0;ii<11;ii++){
       if(ii<6){
-         leg2->AddEntry(gH3HeRC1[ii],Form("gsmearing_newbin kin%d",ii),"P");
-         leg2->AddEntry(gH3HeRC2[ii],Form("Bodek_newbin kin%d",ii),"P");
+         leg2->AddEntry(gH3HeRC1[ii],Form("gsmearing kin%d",ii),"P");
+         leg2->AddEntry(gH3HeRC2[ii],Form("Bodek kin%d",ii),"P");
       }
       else{
-         leg2->AddEntry(gH3HeRC1[ii],Form("gsmearing_newbin kin%d",ii+nn),"P");
-         leg2->AddEntry(gH3HeRC2[ii],Form("Bodek_newbin kin%d",ii+nn),"P");
+         leg2->AddEntry(gH3HeRC1[ii],Form("gsmearing kin%d",ii+nn),"P");
+         leg2->AddEntry(gH3HeRC2[ii],Form("Bodek kin%d",ii+nn),"P");
 	 nn++;
       }
   }
@@ -157,18 +154,18 @@ void plot_H3He3()
   TMultiGraph *mg3=new TMultiGraph();
   for(int ii=0;ii<11;ii++){
       gRatio[ii]->SetMarkerStyle(8);
-      if(ii<9)gRatio[ii]->SetMarkerColor(ii+1);
-      else gRatio[ii]->SetMarkerColor(ii+2);
+      gRatio[ii]->SetMarkerColor(color[ii]);
       mg3->Add(gRatio[ii]);
   }
   mg3->Draw("AP");
-  mg3->SetTitle("Ratio of two H3/D results;x;");
+  mg3->SetTitle("Ratio of two H3/He3 results;x;");
 
   auto leg3=new TLegend(0.7,0.6,0.85,0.85);
   nn=1;
+  leg3->SetNColumns(5);
   for(int ii=0;ii<11;ii++){
-      if(ii<6)leg3->AddEntry(gRatio[ii],Form("Bodek_newbin/gsmearing_newbin kin%d",ii),"P");
-      else {leg3->AddEntry(gRatio[ii],Form("Bodek_newbin/gsmearing_newbin kin%d",ii+nn),"P");
+      if(ii<6)leg3->AddEntry(gRatio[ii],Form("Bodek/gsmearing kin%d",ii),"P");
+      else {leg3->AddEntry(gRatio[ii],Form("Bodek/gsmearing kin%d",ii+nn),"P");
             nn++;
            }
   }
@@ -179,30 +176,25 @@ void plot_H3He3()
   for(int ii=0;ii<11;ii++){
       gRCfactor1[ii]->SetMarkerStyle(8);
       gRCfactor2[ii]->SetMarkerStyle(22);
-      if(ii<9){
-         gRCfactor1[ii]->SetMarkerColor(ii+1);
-         gRCfactor2[ii]->SetMarkerColor(ii+1);
-      }
-      else {
-         gRCfactor1[ii]->SetMarkerColor(ii+2);
-         gRCfactor2[ii]->SetMarkerColor(ii+2);
-      }
+      gRCfactor1[ii]->SetMarkerColor(color[ii]);
+      gRCfactor2[ii]->SetMarkerColor(color[ii]);
       mg4->Add(gRCfactor1[ii]);
       mg4->Add(gRCfactor2[ii]);
   }
   mg4->Draw("AP");
-  mg4->SetTitle("H3/D with Radiative correction;x;H3/D");
+  mg4->SetTitle("H3/He3 RC factor ratio;x;RC_H3/RC_He3");
 
   auto leg4=new TLegend(0.7,0.6,0.85,0.85);
+  leg4->SetNColumns(5);
   nn=1;
   for(int ii=0;ii<11;ii++){
       if(ii<6){
-         leg4->AddEntry(gRCfactor1[ii],Form("gsmearing_newbin kin%d",ii),"P");
-         leg4->AddEntry(gRCfactor2[ii],Form("Bodek_newbin kin%d",ii),"P");
+         leg4->AddEntry(gRCfactor1[ii],Form("gsmearing kin%d",ii),"P");
+         leg4->AddEntry(gRCfactor2[ii],Form("Bodek kin%d",ii),"P");
       }
       else{
-         leg4->AddEntry(gRCfactor1[ii],Form("gsmearing_newbin kin%d",ii+nn),"P");
-         leg4->AddEntry(gRCfactor2[ii],Form("Bodek_newbin kin%d",ii+nn),"P");
+         leg4->AddEntry(gRCfactor1[ii],Form("gsmearing kin%d",ii+nn),"P");
+         leg4->AddEntry(gRCfactor2[ii],Form("Bodek kin%d",ii+nn),"P");
 	 nn++;
       }
   }

@@ -53,7 +53,7 @@ void plot_Dp()
           Dp_ratio[ii][jj]=D2_Yield[ii][jj]/H1_Yield[ii][jj];
 	  Dp_err[ii][jj]=Dp_ratio[ii][jj]*sqrt(pow(D2_Yerr[ii][jj]/D2_Yield[ii][jj],2)+pow(H1_Yerr[ii][jj]/H1_Yield[ii][jj],2));
 //          if(Dp_err[ii][jj]>0.1)continue;
-          gDpRaw[ii]->SetPoint(nn,D2R_x[ii][jj],Dp_ratio[ii][jj]);
+          gDpRaw[ii]->SetPoint(nn,D2_x[ii][jj],Dp_ratio[ii][jj]);
           gDpRaw[ii]->SetPointError(nn,0.0,Dp_err[ii][jj]);
           nn++;
       }
@@ -100,10 +100,13 @@ void plot_Dp()
   }
 
   TCanvas *c1=new TCanvas("c1");
+//  c1->Divide(2,2);
+//  c1->cd(1);
+  int color[5]={1,2,3,4,6};
   TMultiGraph *mg1=new TMultiGraph();
   for(int ii=0;ii<5;ii++){
       gDpRaw[ii]->SetMarkerStyle(8);
-      gDpRaw[ii]->SetMarkerColor(ii+1);
+      gDpRaw[ii]->SetMarkerColor(color[ii]);
       mg1->Add(gDpRaw[ii]);
   }
   mg1->Draw("AP");
@@ -116,12 +119,13 @@ void plot_Dp()
   leg1->Draw();
 
   TCanvas *c2=new TCanvas("c2");
+//  c1->cd(2);
   TMultiGraph *mg2=new TMultiGraph();
   for(int ii=0;ii<5;ii++){
       gDpRC1[ii]->SetMarkerStyle(8);
-      gDpRC1[ii]->SetMarkerColor(ii+1);
+      gDpRC1[ii]->SetMarkerColor(color[ii]);
       gDpRC2[ii]->SetMarkerStyle(22);
-      gDpRC2[ii]->SetMarkerColor(ii+1);
+      gDpRC2[ii]->SetMarkerColor(color[ii]);
       mg2->Add(gDpRC1[ii]);
       mg2->Add(gDpRC2[ii]);
   }
@@ -130,16 +134,17 @@ void plot_Dp()
 
   auto leg2=new TLegend(0.7,0.6,0.85,0.85);
   for(int ii=0;ii<5;ii++){
-      leg2->AddEntry(gDpRC1[ii],Form("gsmearing_newbin kin%d",ii),"P");
-      leg2->AddEntry(gDpRC2[ii],Form("Bodek_newbin kin%d",ii),"P");
+      leg2->AddEntry(gDpRC1[ii],Form("gsmearing kin%d",ii),"P");
+      leg2->AddEntry(gDpRC2[ii],Form("Bodek kin%d",ii),"P");
   }
   leg2->Draw();
 
+//  c1->cd(3);
   TCanvas *c3=new TCanvas("c3");
   TMultiGraph *mg3=new TMultiGraph();
   for(int ii=0;ii<5;ii++){
       gRatio[ii]->SetMarkerStyle(8);
-      gRatio[ii]->SetMarkerColor(ii+1);
+      gRatio[ii]->SetMarkerColor(color[ii]);
       mg3->Add(gRatio[ii]);
   }
   mg3->Draw("AP");
@@ -147,17 +152,18 @@ void plot_Dp()
 
   auto leg3=new TLegend(0.7,0.6,0.85,0.85);
   for(int ii=0;ii<5;ii++){
-      leg3->AddEntry(gRatio[ii],Form("Bodek_newbin/gsmearing_newbin kin%d",ii),"P");
+      leg3->AddEntry(gRatio[ii],Form("Bodek/gsmearing kin%d",ii),"P");
   }
   leg3->Draw();
 
+//  c1->cd(4);
   TCanvas *c4=new TCanvas("c4");
   TMultiGraph *mg4=new TMultiGraph();
   for(int ii=0;ii<5;ii++){
       gRCfactor1[ii]->SetMarkerStyle(8);
-      gRCfactor1[ii]->SetMarkerColor(ii+1);
+      gRCfactor1[ii]->SetMarkerColor(color[ii]);
       gRCfactor2[ii]->SetMarkerStyle(22);
-      gRCfactor2[ii]->SetMarkerColor(ii+1);
+      gRCfactor2[ii]->SetMarkerColor(color[ii]);
       mg4->Add(gRCfactor1[ii]);
       mg4->Add(gRCfactor2[ii]);
   }
@@ -166,8 +172,8 @@ void plot_Dp()
 
   auto leg4=new TLegend(0.7,0.6,0.85,0.85);
   for(int ii=0;ii<5;ii++){
-      leg4->AddEntry(gRCfactor1[ii],Form("gsmearing_newbin kin%d",ii),"P");
-      leg4->AddEntry(gRCfactor2[ii],Form("Bodek_newbin kin%d",ii),"P");
+      leg4->AddEntry(gRCfactor1[ii],Form("gsmearing kin%d",ii),"P");
+      leg4->AddEntry(gRCfactor2[ii],Form("Bodek kin%d",ii),"P");
   }
   leg4->Draw();
 

@@ -1422,8 +1422,8 @@ C ionization loss and calculate kinematic dependent quantities:
 
 C Peter takes care of eloss here - but we correct the data.
 C so set DEL0 and DELP to zero 
-      DEL0 = 0.0
-      DELP = 0.0
+c      DEL0 = 0.0
+c      DELP = 0.0
 
 
 1     E0 = E0SET-DEL0                                                   

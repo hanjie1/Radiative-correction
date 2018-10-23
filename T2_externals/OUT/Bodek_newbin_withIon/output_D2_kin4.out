@@ -1,0 +1,41 @@
+EXTERNAL/TSAI:  VERSION OF 8/8/96
+
+Marathon                                                                
+D2_kin4.inp                                                             
+                                                                        
+Hall A 2018: 25 cm Deuterium target                                     
+Nominal values - not exact                                              
+
+----*----1----*----2----*----3----*----4----*----5----*----6----*----7--
+                                                                        
+
+TARGET (iZ,iA) = (  1,  2);   avgA =   2.000; amuM=  2.013; avgM=  1.875
+ targ=TRITIUM; ttarg(rl)=0.00114; twall=0.00481; tbeam=0.00342; tspec=0.00732
+         Nseg  =   4
+ MODELS: P elastc(ikk)=14; deut elastic=13; inelastc=206; Pauli Supresion= 4
+ NUCLEAR METHOD= 1;   NUCLEAR_MODEL= 1
+ DIS MODEL= 1
+
+    E1    TH    Q2 COS_K         SMR     NUC          INT-SMR
+    EP     X    W2 QE-PK  INELA  Q-ELA  ELAST   TOTAL  MODEL
+
+ Deut Elastic Model: ia,iamec,rsc,rscmec (1,2,3,4)=  3
+ TJON DEUT ELASTIC FILESS TO BE OPEN=rscctj.tjon_input   rscqtj.tjon_input   rscmtj.tjon_input   
+  10.590 27.786  4.76    4.69   14.26    3.83    0.04   18.13  0.963
+   1.947  0.293 12.34    5.32   13.26    4.20    0.04   17.50 2.046E+00
+
+  10.590 24.422  4.76    2.66    9.83    1.86    0.02   11.72  0.963
+   2.509  0.314 11.29    2.96    7.96    2.03    0.02   10.01 2.772E+00
+
+  10.590 22.296  4.76    1.75    6.86    1.10    0.01    7.97  0.961
+   3.003  0.334 10.36    1.92    4.31    1.20    0.01    5.52 3.455E+00
+
+  10.590 20.816  4.76    1.26    4.64    0.74    0.01    5.38  0.956
+   3.440  0.354  9.54    1.37    1.50    0.81    0.01    2.32 4.082E+00
+
+  10.590 19.719  4.76    0.97    2.82    0.55    0.00    3.37  0.951
+   3.829  0.375  8.81    1.05   -0.84    0.60    0.00   -0.24 4.645E+00
+
+  0.000 0.000  0.000 .000  0.00  0.00  0.00  0.00  0.00  0.00 0.000
+                           0.00  0.00  0.00  0.00  0.00  0.00 0.000E+00
+

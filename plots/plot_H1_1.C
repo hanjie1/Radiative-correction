@@ -4,11 +4,11 @@ using namespace std;
 
 void plot_H1_1()
 {
-     Double_t H1_x[4][MAXBIN],H1_Q2[4][MAXBIN],H1_Yield[4][MAXBIN],H1_Yerr[4][MAXBIN];
-     Double_t H1R_x[4][MAXBIN],H1R_Q2[4][MAXBIN],H1_Born1[4][MAXBIN],H1_Rad1[4][MAXBIN];
-     Double_t H1_Born2[4][MAXBIN],H1_Rad2[4][MAXBIN];
+     Double_t H1_x[5][MAXBIN],H1_Q2[5][MAXBIN],H1_Yield[5][MAXBIN],H1_Yerr[5][MAXBIN];
+     Double_t H1R_x[5][MAXBIN],H1R_Q2[5][MAXBIN],H1_Born1[5][MAXBIN],H1_Rad1[5][MAXBIN];
+     Double_t H1_Born2[5][MAXBIN],H1_Rad2[5][MAXBIN];
 
-     for(int ii=0;ii<4;ii++){
+     for(int ii=0;ii<5;ii++){
 	 for(int jj=0;jj<MAXBIN;jj++){
              H1_x[ii][jj]=0.0; H1_Q2[ii][jj]=0.0; H1_Yield[ii][jj]=0.0; H1_Yerr[ii][jj]=0.0;
              H1R_x[ii][jj]=0.0; H1R_Q2[ii][jj]=0.0; H1_Born1[ii][jj]=0.0; H1_Rad1[ii][jj]=0.0;
@@ -17,37 +17,37 @@ void plot_H1_1()
 
    TString Yfile;
    TString RCfile;
-   Int_t KIN=1;
+   Int_t KIN=0;
    while(KIN<5){
        Yfile=Form("H1_kin%d.txt",KIN);
        ReadYield(Yfile,KIN,H1_x,H1_Q2,H1_Yield,H1_Yerr); 
-       RCfile=Form("gsmearing/H1_kin%d_xs.out",KIN);
+       RCfile=Form("gsmearing_newbin/H1_kin%d_xs.out",KIN);
        ReadRC(RCfile,KIN,H1R_x,H1R_Q2,H1_Born1,H1_Rad1);  
-       RCfile=Form("Bodek/H1_kin%d_xs.out",KIN);
+       RCfile=Form("Bodek_newbin/H1_kin%d_xs.out",KIN);
        ReadRC(RCfile,KIN,H1R_x,H1R_Q2,H1_Born2,H1_Rad2);  
        KIN+=1;
    }
 
-  TGraphErrors *gH1Raw[4];
-  for(int ii=0;ii<4;ii++){
+  TGraphErrors *gH1Raw[5];
+  for(int ii=0;ii<5;ii++){
       gH1Raw[ii]=new TGraphErrors();
       int nn=0;
       for(int jj=0;jj<MAXBIN;jj++){
           if(H1_x[ii][jj]==0)continue;
-          gH1Raw[ii]->SetPoint(nn,H1_x[ii][jj],H1_Yield[ii][jj]);
+          gH1Raw[ii]->SetPoint(nn,H1R_x[ii][jj],H1_Yield[ii][jj]);
           gH1Raw[ii]->SetPointError(nn,0.0,H1_Yerr[ii][jj]);
           nn++;
       }
   }
-  TGraph *gH1Rad1[4];
-  TGraph *gH1Born1[4];
-  TGraph *gH1RC1[4];
-  TGraph *gH1Rad2[4];
-  TGraph *gH1Born2[4];
-  TGraph *gH1RC2[4];
-  TGraph *gRatio_1[4];
-  TGraph *gRatio_2[4];
-  for(int ii=0;ii<4;ii++){
+  TGraph *gH1Rad1[5];
+  TGraph *gH1Born1[5];
+  TGraph *gH1RC1[5];
+  TGraph *gH1Rad2[5];
+  TGraph *gH1Born2[5];
+  TGraph *gH1RC2[5];
+  TGraph *gRatio_1[5];
+  TGraph *gRatio_2[5];
+  for(int ii=0;ii<5;ii++){
       gH1Rad1[ii]=new TGraph();
       gH1Born1[ii]=new TGraph();
       gH1RC1[ii]=new TGraph();
@@ -74,7 +74,7 @@ void plot_H1_1()
 
   TCanvas *c1=new TCanvas("c1");
   TMultiGraph *mg1=new TMultiGraph();
-  for(int ii=0;ii<4;ii++){
+  for(int ii=0;ii<5;ii++){
       gH1Raw[ii]->SetMarkerStyle(8);
       if(ii==9)gH1Raw[ii]->SetMarkerColor(30);
       else gH1Raw[ii]->SetMarkerColor(ii+1);
@@ -84,9 +84,9 @@ void plot_H1_1()
   mg1->SetTitle("H1 Data Yield;x;Yield");
 
   auto leg1=new TLegend(0.7,0.6,0.85,0.85);
-  int nn=2;
-  for(int ii=0;ii<4;ii++){
-      if(ii<5)leg1->AddEntry(gH1Raw[ii],Form("H1 kin%d",ii+1),"P");
+  int nn=1;
+  for(int ii=0;ii<5;ii++){
+      if(ii<5)leg1->AddEntry(gH1Raw[ii],Form("H1 kin%d",ii),"P");
       else {leg1->AddEntry(gH1Raw[ii],Form("H1 kin%d",ii+nn),"P");
 	    nn++;	    
       }
@@ -95,14 +95,14 @@ void plot_H1_1()
 
   TCanvas *c2=new TCanvas("c2");
   TMultiGraph *mg2=new TMultiGraph();
-  for(int ii=0;ii<4;ii++){
+  for(int ii=0;ii<5;ii++){
       gH1RC1[ii]->SetMarkerStyle(22);
       gH1RC1[ii]->SetMarkerSize(1.5);
-      gH1RC1[ii]->SetMarkerColor(4);
+      gH1RC1[ii]->SetMarkerColor(ii+1);
       mg2->Add(gH1RC1[ii]);
       gH1RC2[ii]->SetMarkerStyle(22);
       gH1RC2[ii]->SetMarkerSize(1.5);
-      gH1RC2[ii]->SetMarkerColor(2);
+      gH1RC2[ii]->SetMarkerColor(ii+1);
       mg2->Add(gH1RC2[ii]);
   }
   mg2->Draw("AP");
@@ -115,14 +115,14 @@ void plot_H1_1()
 
   TCanvas *c3=new TCanvas("c3");
   TMultiGraph *mg3=new TMultiGraph();
-  for(int ii=0;ii<4;ii++){
+  for(int ii=0;ii<5;ii++){
       gH1Born1[ii]->SetMarkerStyle(22);
       gH1Born1[ii]->SetMarkerSize(1.5);
-      gH1Born1[ii]->SetMarkerColor(4);
+      gH1Born1[ii]->SetMarkerColor(ii+1);
       mg3->Add(gH1Born1[ii]);
       gH1Born2[ii]->SetMarkerStyle(22);
       gH1Born2[ii]->SetMarkerSize(1.5);
-      gH1Born2[ii]->SetMarkerColor(2);
+      gH1Born2[ii]->SetMarkerColor(ii+1);
       mg3->Add(gH1Born2[ii]);
   }
   mg3->Draw("AP");
@@ -135,14 +135,14 @@ void plot_H1_1()
 
   TCanvas *c4=new TCanvas("c4");
   TMultiGraph *mg4=new TMultiGraph();
-  for(int ii=0;ii<4;ii++){
+  for(int ii=0;ii<5;ii++){
       gH1Rad1[ii]->SetMarkerStyle(22);
       gH1Rad1[ii]->SetMarkerSize(1.5);
-      gH1Rad1[ii]->SetMarkerColor(4);
+      gH1Rad1[ii]->SetMarkerColor(ii+1);
       mg4->Add(gH1Rad1[ii]);
-      gH1Rad2[ii]->SetMarkerStyle(22);
+      gH1Rad2[ii]->SetMarkerStyle(8);
       gH1Rad2[ii]->SetMarkerSize(1.5);
-      gH1Rad2[ii]->SetMarkerColor(2);
+      gH1Rad2[ii]->SetMarkerColor(ii+1);
       mg4->Add(gH1Rad2[ii]);
   }
   mg4->Draw("AP");
@@ -155,10 +155,10 @@ void plot_H1_1()
 
   TCanvas *c5=new TCanvas("c5");
   TMultiGraph *mg5=new TMultiGraph();
-  for(int ii=0;ii<4;ii++){
+  for(int ii=0;ii<5;ii++){
       gRatio_1[ii]->SetMarkerStyle(22);
       gRatio_1[ii]->SetMarkerSize(1.5);
-      gRatio_1[ii]->SetMarkerColor(4);
+      gRatio_1[ii]->SetMarkerColor(ii+1);
       mg5->Add(gRatio_1[ii]);
   }
   mg5->Draw("AP");
@@ -170,10 +170,10 @@ void plot_H1_1()
 
   TCanvas *c6=new TCanvas("c6");
   TMultiGraph *mg6=new TMultiGraph();
-  for(int ii=0;ii<4;ii++){
+  for(int ii=0;ii<5;ii++){
       gRatio_2[ii]->SetMarkerStyle(22);
       gRatio_2[ii]->SetMarkerSize(1.5);
-      gRatio_2[ii]->SetMarkerColor(4);
+      gRatio_2[ii]->SetMarkerColor(ii+1);
       mg6->Add(gRatio_2[ii]);
   }
   mg6->Draw("AP");
@@ -187,7 +187,7 @@ void plot_H1_1()
 
 
 /*
-  for(int ii=0;ii<4;ii++){
+  for(int ii=0;ii<5;ii++){
      cout<<"-------  "<<ii<<"  -------"<<endl;
      for(int jj=0;jj<MAXBIN;jj++){
          if(H1_x[ii][jj]==0)continue;
