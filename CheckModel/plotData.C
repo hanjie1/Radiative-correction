@@ -11,7 +11,7 @@ void plotData()
 
     TString filename;
     if(Z==1&&A==2)filename="2H.dat"; 
-    if(Z==2&&A==3)filename="4He.dat"; 
+    if(Z==2&&A==3)filename="3He.dat"; 
     if(Z==2&&A==4)filename="4He.dat"; 
 
     ifstream infile1;
@@ -40,12 +40,12 @@ void plotData()
     infile1.close();
     
     ofstream outfile;
-    outfile.open("4He_Q2_xbj.dat");
+    outfile.open("3He_Q2_xbj.dat");
 
     ofstream outfile1;
-    outfile1.open("4He_50.dat");
+    outfile1.open("3He_50.dat");
     ofstream outfile2;
-    outfile2.open("data/4He_50.dat");
+    outfile2.open("data/3He_50.dat");
 
     nn=nn-1;
     Double_t Q2[MAXNUM]={0.0},xbj[MAXNUM]={0.0},W2[MAXNUM]={0.0};
