@@ -13,7 +13,7 @@ c       Z:		- Number of protons in nucleus.
 c       M_TGT:	- Mass of target nucleus in GeV/c2.
 c       M_REC:	- Mass of recoiling nucleon in GeV/c2.
 c       E_SEP:	- Separation energy for target nucleus in GeV/c2.
-c       SIG  :	- Calculated cross section in nb/(MeV-ster).
+c       SIG  :	- Calculated cross section in nb/(MeV-ster).// should be nb/(GeV-ster)
 C       ______________________________________________________________________________
 
         implicit none
