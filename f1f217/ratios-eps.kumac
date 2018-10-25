@@ -1,0 +1,104 @@
+ve/del *
+exec standard.kumac
+set lwid 5
+set vsiz 0.3
+set yval 80.
+
+xmin = 0.2
+xmax = 10.1
+ymin = 0.75
+ymax = 1.25
+*ymax = 20000.
+*ymax = 70000.
+
+
+set pmci 1
+ve/create par(3) r  20. 0.25 0.89
+ve/create epar(3) r 
+
+np = 5
+
+q2t1 = 0.5
+q2t2 = 1.0
+q2t3 = 2.0
+q2t4 = 3.0
+q2t5 = 4.0
+
+q2min1 = 0.1
+q2min2 = 0.5
+q2min3 = 1.5
+q2min4 = 2.5
+q2min5 = 3.5
+
+q2max1 = 0.5
+q2max2 = 1.5
+q2max3 = 2.5
+q2max4 = 3.5
+q2max5 = 10.0
+
+*q2t1 = 1.0
+*q2t2 = 2.0
+*q2t3 = 3.0
+*q2t4 = 4.0
+
+*q2min1 = 0.5
+*q2min2 = 1.5
+*q2min3 = 2.5
+*q2min4 = 3.5
+
+*q2max1 = 1.5
+*q2max2 = 2.5
+*q2max3 = 3.5
+*q2max4 = 10.0
+
+zone 1 [np]
+
+do i=1,[np]
+ ve/read  e[i],ep[i],th[i],w2[i],q2[i],eps[i],sig[i],esig[i],sigm[i],rat[i],erat[i],set[i] rat_q[q2t[i]]_leps.dat
+
+ sigma xerr[i] = 0.*ep[i]
+
+ ve/read  e2[i],ep2[i],th2[i],w22[i],q22[i],eps2[i],sig2[i],esig2[i],sigm2[i],rat2[i],erat2[i],set2[i] rat_q[q2t[i]]_heps.dat
+
+ sigma xerr2[i] = 0.*ep2[i]
+
+
+
+ null [xmin] [xmax] [ymin] [ymax]
+ 
+ if [i]=[np]-1 then
+  set yval 0.2
+ endif 
+
+ string[i] =  [q2min[i]] "L# Q^2! "L# [q2max[i]]
+ if [i] = [np] then
+   string[i] =  [q2min[i]] "L# Q^2! 
+ endif
+
+* set pmci 2
+* hplot/err w2[i] rat[i] xerr[i] erat[i] 3000 21 0.2 22
+
+ set pmci 4
+ hplot/err w22[i] rat2[i] xerr2[i] erat2[i] 3000 21 0.2 22
+ 
+
+ set pmci 2
+ hplot/err w2[i] rat[i] xerr[i] erat[i] 3000 21 0.2 22
+
+
+ text 0.68*[xmax] 0.9*[ymax] [string[i]] 0.4
+
+ set plci 2
+ set ltyp 2
+ dline 0.4 [xmax] 1.0 1.0
+ set plci 1
+ set ltyp 1
+
+ if [i] = 3 then
+  ATITLE  ' ' 'd[s]^data! / d[s]^fit!' ' '  220
+ endif
+
+enddo
+
+ATITLE  'W^2!(GeV^2!)' ' '  ' ' 220
+
