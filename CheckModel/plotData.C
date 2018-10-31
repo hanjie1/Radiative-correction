@@ -40,13 +40,13 @@ void plotData()
     infile1.close();
     
     ofstream outfile;
-    outfile.open("3He_Q2_xbj.dat");
-
+    outfile.open("2H_Q2_xbj.dat");
+/*
     ofstream outfile1;
-    outfile1.open("3He_50.dat");
+    outfile1.open("2H_1573.dat");
     ofstream outfile2;
-    outfile2.open("data/3He_50.dat");
-
+    outfile2.open("data/2H_1573.dat");
+*/
     nn=nn-1;
     Double_t Q2[MAXNUM]={0.0},xbj[MAXNUM]={0.0},W2[MAXNUM]={0.0};
     Double_t Eprime[MAXNUM]={0.0};
@@ -56,35 +56,35 @@ void plotData()
 	W2[ii]=Mp*Mp+2*Mp*Nu[ii]-Q2[ii];
         Eprime[ii]=E0[ii]-Nu[ii];
         outfile<<E0[ii]<<"  "<<Theta[ii]<<"  "<<Q2[ii]<<"  "<<xbj[ii]<<endl; 
-        if(E0[ii]==5.766&&Theta[ii]==50)outfile1<<left<<fixed<<setprecision(4)<<setw(6)<<E0[ii]<<" "<<setw(6)<<Eprime[ii]<<" "<<setw(6)<<Theta[ii]<<endl;
-        if(E0[ii]==5.766&&Theta[ii]==50)outfile2<<E0[ii]<<" "<<Eprime[ii]<<" "<<Theta[ii]<<" "<<XS[ii]<<" "<<XS_err[ii]<<endl;
+//        if(E0[ii]==20.999&&Theta[ii]==10)outfile1<<left<<fixed<<setprecision(4)<<setw(6)<<E0[ii]<<" "<<setw(6)<<Eprime[ii]<<" "<<setw(6)<<Theta[ii]<<endl;
+//        if(E0[ii]==20.999&&Theta[ii]==10)outfile2<<E0[ii]<<" "<<Eprime[ii]<<" "<<Theta[ii]<<" "<<XS[ii]<<" "<<XS_err[ii]<<endl;
     }
     outfile.close();
-
+/*
     outfile1.close();
     outfile2.close();
-
+*/
     TCanvas *c1=new TCanvas("c1");
     TGraphErrors *gXbj=new TGraphErrors();
     int npoint=0;
     for(int ii=0;ii<nn;ii++){
-	if(E0[ii]!=5.766)continue;
-	if(Theta[ii]!=50)continue;
-	gXbj->SetPoint(npoint,xbj[ii],Q2[ii]);
+	if(E0[ii]!=20.999)continue;
+	if(Theta[ii]!=10)continue;
+	gXbj->SetPoint(npoint,xbj[ii],W2[ii]);
         gXbj->SetPointError(npoint,0,0);
         npoint++;
     }
     gXbj->SetMarkerStyle(8);
     gXbj->SetMarkerColor(4);
     gXbj->Draw("AP");
-    gXbj->SetTitle("Q2 vs. xbj(E0=5.766,Theta=50);xbj;Q2");
+    gXbj->SetTitle("Q2 vs. xbj(E0=20.999,Theta=10);xbj;Q2");
 
     TCanvas *c2=new TCanvas("c2");
     TGraphErrors *gNu=new TGraphErrors();
     npoint=0;
     for(int ii=0;ii<nn;ii++){
-	if(E0[ii]!=5.766)continue;
-	if(Theta[ii]!=50)continue;
+	if(E0[ii]!=20.999)continue;
+	if(Theta[ii]!=10)continue;
 	gNu->SetPoint(npoint,Nu[ii],XS[ii]);
         gNu->SetPointError(npoint,0,XS_err[ii]);
         npoint++;
@@ -95,7 +95,7 @@ void plotData()
     gNu->SetTitle("XS vs. nu;nu;XS");
 
     TCanvas *c3=new TCanvas("c3");
-    TGraph *gQ2E0=new TGraph(nn,xbj,XS);
+    TGraph *gQ2E0=new TGraph(nn,xbj,W2);
     gQ2E0->SetMarkerStyle(8);
     gQ2E0->Draw("AP");
     gQ2E0->SetTitle("Q2 vs. xbj;xbj;Q2");

@@ -25,6 +25,8 @@ c     & 0.99209E+00,0.99553E+00,0.10000E+01,0.10125E+01,0.10060E+01 /
      &     1.0,1.0,1.0,1.0,1.0 /
       
       character*40 filename
+      character*60 myfile
+      integer nn
 
       opt = 0  !!! Include all components of cross section model  !!!
 c      filename = '12C-it2n.dat'
@@ -146,6 +148,12 @@ CCC///    Now do sorting in whatever variable    ///CCC
      &            eps,cs(j),cserr(j),sigm,rat,erat,set(j)
          endif  
        enddo
+
+       nn=index(filename,'.')
+       myfile='chi2_'//filename(1:nn-1)//'.out'
+       open(unit=18,file=myfile,status="old", position="append")
+       write(18,*) chi2
+
 
  3000  format(6f9.4,3f15.4,2f8.4,1i4)
  3200  format(6f9.4,2f13.4)

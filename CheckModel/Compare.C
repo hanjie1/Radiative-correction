@@ -2,9 +2,9 @@
 void Compare()
 {
     TString file1,file2,file3;
-    file1="data/3He_50.dat";
-    file2="model_result/He3_50_Bodek.out";
-    file3="model_result/He3_50_gsmearing.out";
+    file1="data/2H_20999.dat";
+    file2="model_result/D2_20999_Bodek.out";
+    file3="model_result/D2_20999_gsmearing.out";
 
     ifstream infile1,infile2,infile3;
     infile1.open(file1);
@@ -80,10 +80,10 @@ void Compare()
     mg->Add(gModel1);
     mg->Add(gModel2);
     mg->Draw("APL");
-    mg->SetTitle("He3 cross section;xbj;XS");
+    mg->SetTitle("D2 cross section;xbj;XS");
 
     auto leg1=new TLegend(0.7,0.6,0.85,0.85);
-    leg1->AddEntry(gData,"Data E0=5.766,Theta=50","P");
+    leg1->AddEntry(gData,"Data E0=20.999,Theta=10","P");
     leg1->AddEntry(gModel1,"Bodek","P");
     leg1->AddEntry(gModel2,"gsmearing","P");
     leg1->Draw();

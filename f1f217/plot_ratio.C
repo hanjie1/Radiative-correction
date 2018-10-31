@@ -272,6 +272,15 @@ void plot_ratio()
      mg1->GetYaxis()->SetRangeUser(0.75,1.25);
      mg1->GetYaxis()->SetLabelSize(0.1);
      mg1->GetYaxis()->SetNdivisions(6);
+     TLine *l1=new TLine(0,1,10,1);
+     l1->SetLineColor(2);
+     l1->Draw();
+     TLatex *t1 = new TLatex();
+     t1->SetNDC();
+     t1->SetTextFont(32);
+     t1->SetTextSize(0.1);
+     t1->SetTextColor(1);
+     t1->DrawLatex(0.8,0.8,"0.1<Q_{2}<0.5");
 
      pad1->cd(2);
      TMultiGraph *mg2=new TMultiGraph();
@@ -283,9 +292,19 @@ void plot_ratio()
      mg2->Add(gh1);
      mg2->Draw("AP");
      mg2->GetXaxis()->SetLimits(0,10);
+     mg2->GetXaxis()->SetLabelSize(0.1);
      mg2->GetYaxis()->SetRangeUser(0.75,1.25);
      mg2->GetYaxis()->SetLabelSize(0.1);
      mg2->GetYaxis()->SetNdivisions(6);
+     TLine *l2=new TLine(0,1,10,1);
+     l2->SetLineColor(2);
+     l2->Draw();
+     TLatex *t2 = new TLatex();
+     t2->SetNDC();
+     t2->SetTextFont(32);
+     t2->SetTextSize(0.1);
+     t2->SetTextColor(1);
+     t2->DrawLatex(0.8,0.8,"0.5<Q_{2}<1.5");
 
      pad1->cd(3);
      TMultiGraph *mg3=new TMultiGraph();
@@ -297,9 +316,19 @@ void plot_ratio()
      mg3->Add(gh2);
      mg3->Draw("AP");
      mg3->GetXaxis()->SetLimits(0,10);
+     mg3->GetXaxis()->SetLabelSize(0.1);
      mg3->GetYaxis()->SetRangeUser(0.75,1.25);
      mg3->GetYaxis()->SetLabelSize(0.1);
      mg3->GetYaxis()->SetNdivisions(6);
+     TLine *l3=new TLine(0,1,10,1);
+     l3->SetLineColor(2);
+     l3->Draw();
+     TLatex *t3 = new TLatex();
+     t3->SetNDC();
+     t3->SetTextFont(32);
+     t3->SetTextSize(0.1);
+     t3->SetTextColor(1);
+     t3->DrawLatex(0.8,0.8,"1.5<Q_{2}<2.5");
 
      pad1->cd(4);
      TMultiGraph *mg4=new TMultiGraph();
@@ -311,9 +340,19 @@ void plot_ratio()
      mg4->Add(gh3);
      mg4->Draw("AP");
      mg4->GetXaxis()->SetLimits(0,10);
+     mg4->GetXaxis()->SetLabelSize(0.1);
      mg4->GetYaxis()->SetRangeUser(0.75,1.25);
      mg4->GetYaxis()->SetLabelSize(0.1);
      mg4->GetYaxis()->SetNdivisions(6);
+     TLine *l4=new TLine(0,1,10,1);
+     l4->SetLineColor(2);
+     l4->Draw();
+     TLatex *t4 = new TLatex();
+     t4->SetNDC();
+     t4->SetTextFont(32);
+     t4->SetTextSize(0.1);
+     t4->SetTextColor(1);
+     t4->DrawLatex(0.8,0.8,"2.5<Q_{2}<3.5");
 
      pad1->cd(5);
      TMultiGraph *mg5=new TMultiGraph();
@@ -325,8 +364,18 @@ void plot_ratio()
      mg5->Add(gh4);
      mg5->Draw("AP");
      mg5->GetXaxis()->SetLimits(0,10);
+     mg5->GetXaxis()->SetLabelSize(0.1);
      mg5->GetYaxis()->SetRangeUser(0.75,1.25);
      mg5->GetYaxis()->SetLabelSize(0.1);
      mg5->GetYaxis()->SetNdivisions(6);
+     TLine *l5=new TLine(0,1,10,1);
+     l5->SetLineColor(2);
+     l5->Draw();
+     TLatex *t5 = new TLatex();
+     t5->SetNDC();
+     t5->SetTextFont(32);
+     t5->SetTextSize(0.1);
+     t5->SetTextColor(1);
+     t5->DrawLatex(0.8,0.8,"3.5<Q_{2}");
 
 }

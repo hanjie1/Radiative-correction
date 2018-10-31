@@ -33,12 +33,16 @@ C       Declare locals.
 	real*8	 	sig_qe,sig_dis,y,normfac,fact
         real*8		thr,cs,sn,tn,elastic_peak
 	real*8          Q2,nu,WSQ, x
-	real*8          F1,F2,W1,W2,sigmott,r
+	real*8          F1,F2,FL,W1,W2,sigmott,r
 	real*8          W1p,W1n,W1D,W2p,W2n,W2D
 	real*8          inelastic_it
 	integer         xflag !flag for which xsec to calculate 1=both 2=QE only 3=DIS only
 	logical         first
         integer         sigdis_model,model  !DIS_MODEL defined in TARG
+        real*8          eps,f1d,f2d,fLd,f2dqe,f1dqe,fLdqe,sigt,sigl
+        integer         wfn,opt
+        logical         doqe,dfirst/.false./
+        real*8          pi2,alp
 
 	save
 
@@ -57,6 +61,10 @@ C       Declare locals.
 	z=dble(zpass)
 	m_tgt=dble(mpass)
         sigdis_model=model
+
+        alp = 1./137.036
+        pi2 = 3.14159*3.14159
+
 
 	sig =0.0
 	sig_qe=0.0
@@ -107,13 +115,28 @@ C Use old Bodek fit + SLAC EMC fit for now, b/c F1F2IN09 doesn't like large Q2,W
   
          if(sigdis_model .eq. 2) then
 C       Mott cross section
-          call gsmearing(Z,A,WSQ,Q2,F1,F2)
+c          call gsmearing(Z,A,WSQ,Q2,F1,F2)
+           opt=3
+           call SFCROSS(WSQ,Q2,A,Z,opt,sigt,sigl,f1,f2,fL)
 C       Convert F1,F2 to W1,W2
           W1 = F1/m_p
           W2 = F2/nu
           sigmott=(19732.0/(2.0*137.0388*e1*sn**2))**2*cs**2/1.d6
           sig_dis = 1d3*sigmott*(W2+2.0*W1*tn**2)
          endif 
+
+         if(sigdis_model .eq. 3) then
+            if((Z.eq.1) .and. (A.eq.2)) then
+               eps = 1.0/(1+2.*(1+Q2/(4*m_p**2*x**2)*tn**2))
+               doqe = .false.
+               wfn=2
+               call RESCSD(WSQ,Q2,eps,doqe,f1d,f2d,fLd,wfn,sig_dis)
+            else 
+               write(6,*) 'Wrong DIS model !! This model is for '//
+     >         'Deuterium only'
+               sig_dis=0.0
+            endif
+         endif
 CDG apply "iteration" correction (used for XEM analysis)
 CDG DO not use this for more "generic" stuff.
 CDG        sig_dis = sig_dis*inelastic_it(x,A)
@@ -124,7 +147,24 @@ c             W2=0.0
 
 
 	if((xflag.eq.1).or.(xflag.eq.2)) then
-	   call F1F2QE09(Z, A, Q2, WSQ, F1, F2)
+          if(sigdis_model .eq. 3) then
+            if((Z.eq.1) .and. (A.eq.2)) then
+               eps = 1.0/(1+2.*(1+Q2/(4*m_p**2*x**2)*tn**2))
+               wfn=2
+               dfirst = .false.
+               call SQESUB(WSQ,Q2,wfn,f2dqe,f1dqe,fLdqe,dfirst)
+               sigt = 0.3894e3*f1dqe*pi2*alp*8.0/abs(wsq-m_p**2)
+               sigl = 0.3894e3*fLdqe*pi2*alp*8.0/abs(wsq-m_p**2)/2.*abs(wsq-m_p**2+q2)/q2
+               sig_qe = sigt+eps*sigl
+            else
+               write(6,*) 'Wrong QE model !! This model is for '//
+     >         'Deuterium only'
+               sig_qe=0.0
+            endif
+          else
+c	   call F1F2QE09(Z, A, Q2, WSQ, F1, F2)
+           opt=1
+           call SFCROSS(WSQ,Q2,A,Z,opt,sigt,sigl,f1,f2,fL)
 C       Convert F1,F2 to W1,W2
 	   W1 = F1/m_p
 	   W2 = F2/nu
@@ -133,6 +173,7 @@ C       Mott cross section
 	   sig_qe = 1d3*sigmott*(W2+2.0*W1*tn**2)
 C Temp test - DJG May 23, 2013
 c	   sig_qe=sig_qe/0.8
+          endif
 	endif
 
 
