@@ -87,6 +87,7 @@ c	write(6,*) 'got to 1'
 	nu=e1-e2
 	WSQ = -Q2 + m_p**2 + 2.0*m_p*nu 
         x = Q2/2/m_p/nu
+        eps = 1.0/(1+2.*(1+Q2/(4*m_p**2*x**2)*tn**2))
 
 	F1=0
 	F2=0
@@ -119,15 +120,15 @@ c          call gsmearing(Z,A,WSQ,Q2,F1,F2)
            opt=3
            call SFCROSS(WSQ,Q2,A,Z,opt,sigt,sigl,f1,f2,fL)
 C       Convert F1,F2 to W1,W2
-          W1 = F1/m_p
-          W2 = F2/nu
-          sigmott=(19732.0/(2.0*137.0388*e1*sn**2))**2*cs**2/1.d6
-          sig_dis = 1d3*sigmott*(W2+2.0*W1*tn**2)
+c           W1 = F1/m_p
+c           W2 = F2/nu
+c          sigmott=(19732.0/(2.0*137.0388*e1*sn**2))**2*cs**2/1.d6
+c          sig_dis = 1d3*sigmott*(W2+2.0*W1*tn**2)
+           sig_dis = sigt+eps*sigl
          endif 
 
          if(sigdis_model .eq. 3) then
             if((Z.eq.1) .and. (A.eq.2)) then
-               eps = 1.0/(1+2.*(1+Q2/(4*m_p**2*x**2)*tn**2))
                doqe = .false.
                wfn=2
                call RESCSD(WSQ,Q2,eps,doqe,f1d,f2d,fLd,wfn,sig_dis)
@@ -149,7 +150,6 @@ c             W2=0.0
 	if((xflag.eq.1).or.(xflag.eq.2)) then
           if(sigdis_model .eq. 3) then
             if((Z.eq.1) .and. (A.eq.2)) then
-               eps = 1.0/(1+2.*(1+Q2/(4*m_p**2*x**2)*tn**2))
                wfn=2
                dfirst = .false.
                call SQESUB(WSQ,Q2,wfn,f2dqe,f1dqe,fLdqe,dfirst)

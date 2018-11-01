@@ -12,7 +12,8 @@ void plot_ratio()
      ifstream infile14;
      ifstream infile15;
 
-     infile1.open("rat_q0.5_leps.dat");
+     infile1.open("D2.dat");
+/*     infile1.open("rat_q0.5_leps.dat");
      infile2.open("rat_q1_leps.dat");
      infile3.open("rat_q2_leps.dat");
      infile4.open("rat_q3_leps.dat");
@@ -22,7 +23,7 @@ void plot_ratio()
      infile13.open("rat_q2_heps.dat");
      infile14.open("rat_q3_heps.dat");
      infile15.open("rat_q4_heps.dat");
-
+*/
      Double_t rat05[MAXNUM],rat1[MAXNUM],rat2[MAXNUM],rat3[MAXNUM],rat4[MAXNUM];
      Double_t rat05_err[MAXNUM],rat1_err[MAXNUM],rat2_err[MAXNUM],rat3_err[MAXNUM],rat4_err[MAXNUM];
      Double_t rat105[MAXNUM],rat11[MAXNUM],rat12[MAXNUM],rat13[MAXNUM],rat14[MAXNUM];
@@ -51,7 +52,7 @@ void plot_ratio()
            from=0;
      }
      infile1.close();
-
+/*
      int nn1=0;
      while(tmp.ReadLine(infile2)){
            tmp.Tokenize(content,from," ");
@@ -240,9 +241,10 @@ void plot_ratio()
            from=0;
      }
      infile15.close();
-
+*/
      TGraphErrors *gl05=new TGraphErrors(nn,W2_05,rat05,0,rat05_err);
-     TGraphErrors *gl1=new TGraphErrors(nn1,W2_1,rat1,0,rat1_err);
+     gl05->Draw("AP*");
+/*     TGraphErrors *gl1=new TGraphErrors(nn1,W2_1,rat1,0,rat1_err);
      TGraphErrors *gl2=new TGraphErrors(nn2,W2_2,rat2,0,rat2_err);
      TGraphErrors *gl3=new TGraphErrors(nn3,W2_3,rat3,0,rat3_err);
      TGraphErrors *gl4=new TGraphErrors(nn4,W2_4,rat4,0,rat4_err);
@@ -377,5 +379,5 @@ void plot_ratio()
      t5->SetTextSize(0.1);
      t5->SetTextColor(1);
      t5->DrawLatex(0.8,0.8,"3.5<Q_{2}");
-
+*/
 }

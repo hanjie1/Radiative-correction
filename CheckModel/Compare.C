@@ -2,9 +2,9 @@
 void Compare()
 {
     TString file1,file2,file3;
-    file1="data/2H_20999.dat";
-    file2="model_result/D2_20999_Bodek.out";
-    file3="model_result/D2_20999_gsmearing.out";
+    file1="data/2H_1573.dat";
+    file2="model_result/D2_1573_newgsmearing.out";
+    file3="model_result/D2_1573_gsmearing.out";
 
     ifstream infile1,infile2,infile3;
     infile1.open(file1);
@@ -71,11 +71,11 @@ void Compare()
     gData->SetMarkerColor(1);
     gData->SetLineColor(1);
     gModel1->SetMarkerStyle(8);
-    gModel1->SetMarkerColor(4);
-    gModel1->SetLineColor(4);
+    gModel1->SetMarkerColor(6);
+    gModel1->SetLineColor(6);
     gModel2->SetMarkerStyle(8);
-    gModel2->SetMarkerColor(6);
-    gModel2->SetLineColor(6);
+    gModel2->SetMarkerColor(4);
+    gModel2->SetLineColor(4);
     mg->Add(gData);
     mg->Add(gModel1);
     mg->Add(gModel2);
@@ -83,8 +83,8 @@ void Compare()
     mg->SetTitle("D2 cross section;xbj;XS");
 
     auto leg1=new TLegend(0.7,0.6,0.85,0.85);
-    leg1->AddEntry(gData,"Data E0=20.999,Theta=10","P");
-    leg1->AddEntry(gModel1,"Bodek","P");
+    leg1->AddEntry(gData,"Data E0=15.73,Theta=10","P");
+    leg1->AddEntry(gModel1,"new gsmearing","P");
     leg1->AddEntry(gModel2,"gsmearing","P");
     leg1->Draw();
 
