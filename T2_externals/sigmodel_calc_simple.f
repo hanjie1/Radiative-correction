@@ -40,6 +40,7 @@ C       Declare locals.
 	logical         first
         integer         sigdis_model,model  !DIS_MODEL defined in TARG
         real*8          eps,f1d,f2d,fLd,f2dqe,f1dqe,fLdqe,sigt,sigl
+        real*8          kappa,flux
         integer         wfn,opt
         logical         doqe,dfirst/.false./
         real*8          pi2,alp
@@ -87,7 +88,10 @@ c	write(6,*) 'got to 1'
 	nu=e1-e2
 	WSQ = -Q2 + m_p**2 + 2.0*m_p*nu 
         x = Q2/2/m_p/nu
-        eps = 1.0/(1+2.*(1+Q2/(4*m_p**2*x**2)*tn**2))
+        eps = 1.0/(1+2.*(1+Q2/(4*m_p**2*x**2))*tn**2)
+        kappa = abs((wsq-m_p**2))/2./m_p
+        flux = alp*kappa/(2.*pi2*Q2)*e2/e1/(1.-eps)
+        wfn=2
 
 	F1=0
 	F2=0
@@ -119,19 +123,21 @@ C       Mott cross section
 c          call gsmearing(Z,A,WSQ,Q2,F1,F2)
            opt=3
            call SFCROSS(WSQ,Q2,A,Z,opt,sigt,sigl,f1,f2,fL)
+           sig_dis = 1000*flux*(sigt+eps*sigl)
 C       Convert F1,F2 to W1,W2
 c           W1 = F1/m_p
 c           W2 = F2/nu
 c          sigmott=(19732.0/(2.0*137.0388*e1*sn**2))**2*cs**2/1.d6
 c          sig_dis = 1d3*sigmott*(W2+2.0*W1*tn**2)
-           sig_dis = sigt+eps*sigl
          endif 
 
          if(sigdis_model .eq. 3) then
-            if((Z.eq.1) .and. (A.eq.2)) then
+            if((Z.eq.1.) .and. (A.eq.2.)) then
                doqe = .false.
                wfn=2
                call RESCSD(WSQ,Q2,eps,doqe,f1d,f2d,fLd,wfn,sig_dis)
+               sig_dis=1000*flux*sig_dis
+
             else 
                write(6,*) 'Wrong DIS model !! This model is for '//
      >         'Deuterium only'
@@ -149,13 +155,14 @@ c             W2=0.0
 
 	if((xflag.eq.1).or.(xflag.eq.2)) then
           if(sigdis_model .eq. 3) then
-            if((Z.eq.1) .and. (A.eq.2)) then
-               wfn=2
+            if((Z.eq.1.) .and. (A.eq.2.)) then
                dfirst = .false.
                call SQESUB(WSQ,Q2,wfn,f2dqe,f1dqe,fLdqe,dfirst)
                sigt = 0.3894e3*f1dqe*pi2*alp*8.0/abs(wsq-m_p**2)
                sigl = 0.3894e3*fLdqe*pi2*alp*8.0/abs(wsq-m_p**2)/2.*abs(wsq-m_p**2+q2)/q2
                sig_qe = sigt+eps*sigl
+               sig_qe=1000*flux*sig_qe
+
             else
                write(6,*) 'Wrong QE model !! This model is for '//
      >         'Deuterium only'
@@ -165,12 +172,14 @@ c             W2=0.0
 c	   call F1F2QE09(Z, A, Q2, WSQ, F1, F2)
            opt=1
            call SFCROSS(WSQ,Q2,A,Z,opt,sigt,sigl,f1,f2,fL)
+           sig_qe = sigt+eps*sigl
+           sig_qe = 1000*flux*sig_qe
 C       Convert F1,F2 to W1,W2
-	   W1 = F1/m_p
-	   W2 = F2/nu
+c	   W1 = F1/m_p
+c	   W2 = F2/nu
 C       Mott cross section
-	   sigmott=(19732.0/(2.0*137.0388*e1*sn**2))**2*cs**2/1.d6
-	   sig_qe = 1d3*sigmott*(W2+2.0*W1*tn**2)
+c	   sigmott=(19732.0/(2.0*137.0388*e1*sn**2))**2*cs**2/1.d6
+c	   sig_qe = 1d3*sigmott*(W2+2.0*W1*tn**2)
 C Temp test - DJG May 23, 2013
 c	   sig_qe=sig_qe/0.8
           endif

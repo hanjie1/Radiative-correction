@@ -31,11 +31,11 @@ void CheckTable()
      infile1.close();
 
      TCanvas *c1=new TCanvas("c1");
-     TGraph *gBorn=new TGraph(nn-1,Theta,XS_Born);
+     TGraph *gBorn=new TGraph(nn-1,Ep,XS_Born);
      gBorn->SetMarkerStyle(8);
      gBorn->Draw("AP");
      TCanvas *c2=new TCanvas("c2");
-     TGraph *gRad=new TGraph(nn-1,Theta,XS_Rad);
+     TGraph *gRad=new TGraph(nn-1,Ep,XS_Rad);
      gRad->SetMarkerStyle(8);
      gRad->Draw("AP");
 

@@ -60,6 +60,7 @@ C=======================================================================
       EXTERNAL       CONTINUUM,QETAIL,QEPEAK,EPEAK,ATAILFL1,ATAILFL_QE
       common/testing/prttst
       logical prttst,doeg1b,dorad,doext,doccor
+      logical dfirst
       common/experiment/ doeg1b
       real*4  xval(37),tmptmp,psf1(5),psf2(5)
       real*8 q28,w8,w18,w28
@@ -69,6 +70,8 @@ C=======================================================================
       real deltae_cc, f1cc ! boost and focus factor for coulomb correction.
       real sigborn_cc,sigborninel_cc,sigbornqe_cc
       real beame_cc,eprime_cc,ccor
+      real*8 f1dqe,f2dqe,fldqe
+      integer wfn
 
       COMMON/ioana/xval
 
@@ -149,6 +152,10 @@ c check out pauli supp.
           write(6,'(1x,12f5.2)') e0set,q2set,psf1,psf2
         enddo
       enddo
+
+      dfirst = .true.
+      wfn=2
+      call SQESUB(1.0,1.0,wfn,f2dqe,f1dqe,fLdqe,dfirst)
 
 c Loop over kinematic points:                                           
                                                                         
