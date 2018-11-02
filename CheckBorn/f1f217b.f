@@ -957,7 +957,6 @@ c        write(6,*) r1,r
       firsty = .false.
       if(first) firsty = .true.
       
-      write(6,*) "f1f2: 11 ",w2,q2
       Z1 = 1.
       A = 2.
       mp = (0.938272+0.939565)/2.0d0    !!! average p,n
@@ -1078,7 +1077,6 @@ c        if(fLs.LT.0.0) write(6,2000) w2,q2,f1s,f2s,fLs
         if(f2s.LT.0.0) f2s = 0.0
         if(fLs.LT.0.0) fLs = 0.0
  
-        write(6,*) "f1f2: 22 ",f1s,f2s,fls
 c       if(w2.LT.1.0) write(6,2000) w2,q2,f1s,f2s,fLs
 
  2000 format(8f9.4)
@@ -2897,7 +2895,6 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       if(A.LE.4) xvalt(4) = 0.60E+1
       
 c      write(6,*) xvalc
-      write(6,*) "f1f2 11: ",w2,q2 
       call csfit(w2,q2,A,Z,xvalc,opt,sigt,sigL)
 
 c      write(6,*) w2,q2,sigt,sigL
@@ -2906,7 +2903,6 @@ c      write(6,*) w2,q2,sigt,sigL
       fL = sigl*2.*x
       sigt = 0.3894e3*8.0d0*pi2*alpha/abs(w2-mp2)*sigt
       sigL =  0.3894e3*8.0d0*pi2*alpha/abs(w2-mp2)*sigL
-      write(6,*) "f1f2 22: ",sigt,sigl 
       
       return
       end

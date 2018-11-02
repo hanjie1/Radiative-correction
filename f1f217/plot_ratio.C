@@ -38,8 +38,9 @@ void plot_ratio()
            tmp.Tokenize(content,from," ");
            tmp.Tokenize(content,from," ");
            tmp.Tokenize(content,from," ");
-           W2_05[nn]=atof(content.Data());
+           //W2_05[nn]=atof(content.Data());
            tmp.Tokenize(content,from," ");
+           W2_05[nn]=atof(content.Data());
            tmp.Tokenize(content,from," ");
            tmp.Tokenize(content,from," ");
            tmp.Tokenize(content,from," ");

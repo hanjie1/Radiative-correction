@@ -12,12 +12,13 @@
         CHARACTER*72    COMMENT(3)
         logical   doqe,dfirst
 
-        Z=1.0
-        A=2.0
+        Z=2.0
+        A=3.0
         Mp=0.93827231
         PI=3.1415927
         pi2=pi*pi
         alpha = 1./137.036
+        wfn=2
 
         write(6,*) 'Enter the input file name (in INP directory)'
         read(5,*) filename
@@ -30,6 +31,9 @@
         outfile='OUT/'//trim(filename)//'.out'
         open(unit=66,file=outfile)
         write(66,*) '***x   Q2   Theta   Eprime   Sig_Born'
+
+        dfirst = .true.
+        call SQESUB(1.0,1.0,wfn,f2dqe,f1dqe,fLdqe,dfirst)
 
         do 99 ii=1,100000
            e0=0
@@ -47,29 +51,27 @@
            nu=e0-ep
            WSQ = -Q2 + Mp**2 + 2.0*Mp*nu
            x = Q2/2/Mp/nu
-           eps = 1.0/(1+2.*(1+Q2/(4*Mp**2*x**2)*tn**2))
+           eps = 1.0/(1+2.*(1+Q2/(4*Mp**2*x**2))*tn**2)
+           kappa = abs((wsq-Mp**2))/2./Mp
+           flux = alpha*kappa/(2.*pi2*Q2)*ep/e0/(1.-eps)
 
            sig_dis=0.0
            sig_qe=0.0
-           if((Z.eq.1).and.(A.eq.2)) then
+           if((Z.eq.1.).and.(A.eq.2.)) then
                doqe = .false.
                wfn=2
-               dfirst = .true.
+               dfirst = .false.
                call SQESUB(WSQ,Q2,wfn,f2dqe,f1dqe,fLdqe,dfirst)
                sigt = 0.3894e3*f1dqe*pi2*alpha*8.0/abs(wsq-Mp**2)
                sigl = 0.3894e3*fLdqe*pi2*alpha*8.0/abs(wsq-Mp**2)/2.*abs(wsq-Mp**2+q2)/q2
                sig_qe = sigt+eps*sigl
-               kappa = abs((wsq-Mp**2))/2./Mp
-               flux = alpha*kappa/(2.*pi2*Q2)*ep/e0/(1.-eps)
                sig_qe=flux*sig_qe
-               
+              
                call RESCSD(WSQ,Q2,eps,doqe,f1d,f2d,fLd,wfn,sig_dis)
                sig_dis=flux*sig_dis
 
            else 
                opt=3
-               kappa = abs((wsq-Mp**2))/2./Mp
-               flux = alpha*kappa/(2.*pi2*Q2)*ep/e0/(1.-eps)
                call SFCROSS(WSQ,Q2,A,Z,opt,sigt,sigl,f1,f2,fL)
                sig_dis = flux*(sigt+eps*sigl)
 
@@ -78,7 +80,7 @@
                sig_qe = flux*(sigt+eps*sigl)
            endif
 
-           sigma=(sig_qe+sig_dis)*10000
+           sigma=(sig_qe+sig_dis)*1000
            write(66,*) x,Q2,theta,Ep,sigma
      
 99      continue

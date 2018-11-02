@@ -1,0 +1,62 @@
+        program CheckBorn
+        implicit none
+
+        real*8 e0,ep,theta,Mp,Z,A,thr
+        real*8 F1,F2,FL,sigt,sigl,sig_dis,sig_qe,sigma,eps
+        real*8 Q2,Wsq,f1qe,f2qe,flqe
+        real*8 f1d,f2d,fld,f1dqe,f2dqe,fldqe
+        real*8 x,nu,kappa,flux
+        real*8 PI,pi2,alpha,cs,sn,tn
+        integer         wfn,opt,ii,i
+        character*80    filename,infile,outfile
+        CHARACTER*72    COMMENT(3)
+        logical   doqe,dfirst
+
+        Z=1.0
+        A=2.0
+        Mp=0.93827231
+        PI=3.1415927
+        pi2=pi*pi
+        alpha = 1./137.036
+        wfn=2
+
+        e0 = 2.2375
+        ep = 1.2447
+        theta = 33.13
+
+
+        dfirst = .true.
+        call SQESUB(1.0,1.0,wfn,f2dqe,f1dqe,fLdqe,dfirst)
+
+        thr = theta*PI/180.0
+        sn = sin(thr/2.)
+        tn = tan(thr/2.)
+
+        Q2 = 4.*e0*ep*sn**2
+        nu=e0-ep
+        WSQ = -Q2 + Mp**2 + 2.0*Mp*nu
+        x = Q2/2/Mp/nu
+        eps = 1.0/(1+2.*(1+Q2/(4*Mp**2*x**2))*tn**2)
+        write(6,*) eps,Q2,Mp,x,tn
+        eps = 1./(1. + 2.*(nu*nu+q2)/q2*tn*tn)
+        write(6,*) eps,nu
+
+        sig_dis=0.0
+        sig_qe=0.0
+
+        doqe = .false.
+        dfirst = .false.
+        call SQESUB(WSQ,Q2,wfn,f2dqe,f1dqe,fLdqe,dfirst)
+        sigt = 0.3894e3*f1dqe*pi2*alpha*8.0/abs(wsq-Mp**2)
+        sigl = 0.3894e3*fLdqe*pi2*alpha*8.0/abs(wsq-Mp**2)/2.*abs(wsq-Mp**2+q2)/q2
+        sig_qe = sigt+eps*sigl
+        kappa = abs((wsq-Mp**2))/2./Mp
+        flux = alpha*kappa/(2.*pi2*Q2)*ep/e0/(1.-eps)
+        sig_qe=flux*sig_qe
+              
+        call RESCSD(WSQ,Q2,eps,doqe,f1d,f2d,fLd,wfn,sig_dis)
+        sig_dis=flux*sig_dis
+
+        sigma=(sig_qe+sig_dis)*1000
+     
+        end
