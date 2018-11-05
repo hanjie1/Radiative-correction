@@ -906,6 +906,8 @@ c     &               (1.-xpr(1))**2
       character*1 targ
       real*8 mp2,pi,pi2,alpha,t1,t2
       logical goodfit
+      real DSLOPE,ST,SLOPE,SY
+      logical gd
 
 
       targ = 'P'
@@ -919,7 +921,7 @@ c     &               (1.-xpr(1))**2
       x = q2/(w2+q2-mp2)
 
       call f2allm(x,q2,f2)
-      call f2glob(x,q2,targ,modt,f2)
+      call gf2glob(x,q2,targ,modt,f2)
       call r1998(x,q2,r,dr,goodfit)
       if(q2.LE.0.15) then
         q2t = 0.15
@@ -2872,7 +2874,6 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
      & 0.15755E+01,0.10000E+01,0.00000E+00,0.10000E+01,0.00000E+00 /   
       
       LOGICAL GOODFIT/.true./  
-
       mp = .938272
       mp2 = mp*mp 
 

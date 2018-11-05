@@ -62,7 +62,6 @@ C       Declare locals.
 	z=dble(zpass)
 	m_tgt=dble(mpass)
         sigdis_model=model
-
         alp = 1./137.036
         pi2 = 3.14159*3.14159
 
@@ -170,7 +169,7 @@ c             W2=0.0
             endif
           else
 c	   call F1F2QE09(Z, A, Q2, WSQ, F1, F2)
-           opt=1
+c           opt=1
            call SFCROSS(WSQ,Q2,A,Z,opt,sigt,sigl,f1,f2,fL)
            sig_qe = sigt+eps*sigl
            sig_qe = 1000*flux*sig_qe

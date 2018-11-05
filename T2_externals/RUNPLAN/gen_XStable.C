@@ -8,7 +8,7 @@ void gen_XStable(){
      Double_t Ep0=3.1;
      Double_t M=0.938272;
 
-     Double_t delp=4.0;   //dp/p=+/-4.0%
+     Double_t delp=6.0;   //dp/p=+/-4.0%
      Double_t delTh=2.5;  //delta_theta=+/-2.5 deg;
 
      Int_t MaxBinP=(2*delp/100.0*Ep0)/0.005+1+1;
