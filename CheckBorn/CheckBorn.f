@@ -13,7 +13,7 @@
         logical   doqe,dfirst
 
         Z=2.0
-        A=3.0
+        A=4.0
         Mp=0.93827231
         PI=3.1415927
         pi2=pi*pi

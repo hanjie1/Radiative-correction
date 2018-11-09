@@ -2483,9 +2483,11 @@ c nucl-th/0109032
 ! changed 4/09
       if(IA.eq.3) kf=0.115
       if(iA.eq.3) Es=0.001 
+c      if(IA.eq.3) kf=0.193
+c      if(iA.eq.3) Es=0.016 
 ! changed 4/09
-      if(IA.gt.3) kf=0.198
-      if(iA.gt.3) Es=0.015
+      if(IA.gt.3) kf=0.193
+      if(iA.gt.3) Es=0.016
       if(IA.gt.7) kf=0.228
       if(iA.gt.7) Es=0.020 
 c changed 5/09
@@ -2621,8 +2623,9 @@ CCC   Note:  not tested for nuclei with A < 12 or A > 64                        
       qv = sqrt(nu**2 + q2)
 
       If(A.GE.3) then
-         deltae = 0.014
-         kf = 0.198
+c         deltae = 0.014
+         deltae = 0.016
+         kf = 0.193
       elseif(A.GE.10.) then
         deltae = 0.015  !!! energy shift !!!
         kf = 0.228      !!! fermi momentum  !!!
@@ -2633,6 +2636,7 @@ CCC   Note:  not tested for nuclei with A < 12 or A > 64                        
         deltae = 0.023
         kf = 0.241
       endif
+c      es=deltae
 
       norm = 20.471
       norm = norm*2.0
@@ -2892,7 +2896,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       do i=1,40
          xvalc(i) = xvalt(i+lstart)
       enddo   
-      if(A.LE.4) xvalt(4) = 0.60E+1
+      if(A.LE.4) xvalt(4) = 6.0
       
 c      write(6,*) xvalc
       call csfit(w2,q2,A,Z,xvalc,opt,sigt,sigL)

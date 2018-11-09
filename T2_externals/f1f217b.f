@@ -906,9 +906,6 @@ c     &               (1.-xpr(1))**2
       character*1 targ
       real*8 mp2,pi,pi2,alpha,t1,t2
       logical goodfit
-      real DSLOPE,ST,SLOPE,SY
-      logical gd
-
 
       targ = 'P'
       modt = 12

@@ -8,6 +8,9 @@
       real*8 f1,f2,fl,f1qe,flqe,r,rqe,sigt,sigl,sigm,f2qe,f2mec  
       real*8 alpha,pi,pi2,mp,mp2,res,veff,chi2,q2min,q2max,w2max
       real*8 epsmin,epsmax
+      real   kf,es
+      real*8 xvalt
+      integer jj,nfile
 
       integer i,j,k,ntot,opt,set(20000) 
       real*4 x4,a4,emcfac,fitemc
@@ -51,108 +54,132 @@ c      filename = '48Ca.dat'
 
       ntot = 0
       i=0
-
+c      if((abs(q2min-0.1).le.0.001).and.(abs(epsmin-0.0).le.0.1))nfile=0
+c      if((abs(q2min-0.5).le.0.001).and.(abs(epsmin-0.0).le.0.1))nfile=1
+c      if((abs(q2min-1.5).le.0.001).and.(abs(epsmin-0.0).le.0.1))nfile=2
+c      if((abs(q2min-2.5).le.0.001).and.(abs(epsmin-0.0).le.0.1))nfile=3
+c      if((abs(q2min-3.5).le.0.001).and.(abs(epsmin-0.0).le.0.1))nfile=4
+c      if((abs(q2min-0.1).le.0.001).and.(abs(epsmin-0.6).le.0.1))nfile=5
+c      if((abs(q2min-0.5).le.0.001).and.(abs(epsmin-0.6).le.0.1))nfile=6
+c      if((abs(q2min-1.5).le.0.001).and.(abs(epsmin-0.6).le.0.1))nfile=7
+c      if((abs(q2min-2.5).le.0.001).and.(abs(epsmin-0.6).le.0.1))nfile=8
+c      if((abs(q2min-3.5).le.0.001).and.(abs(epsmin-0.6).le.0.1))nfile=9
 
 
 *****    Read in data   *****
+      do 99 jj=0,20
+         kf=0.233
+c0.198
+         es=0.015
+c0.015
+         xvalt=0.0+1.0*jj
+c6.0
 
-      open(unit=15,file=filename,status='old')
-      do i=1,16
-        read(15,*)    !!!  Read header  !!!
-      enddo
-
-      i = 1
-      dowhile(.not.thend)
-
-       read(15,*,end=2000) Z(i),A(i),e(i),th(i),nu(i),cs(i),cserr(i),
-     &   set(i)      
-
-       ep(i) = e(i)-nu(i)
-
-       sys = 0.03
-       if(set(i).EQ.8.OR.set(i).EQ.11) then
-         sys = 0.055
-       elseif(set(i).EQ.12) then
-         sys = 0.0225
-       elseif(set(i).EQ.14) then
-         sys = 0.001
-       endif
-       cserr(i) = sqrt(cserr(i)*cserr(i)+sys*sys*cs(i)*cs(i))
-
-       if(coulomb) then
-        call vcoul(A(i),Z(i),veff)
-        foc(i) = 1.0D0 + veff/e(i)
-        e(i) = e(i) + veff     
-        ep(i) = ep(i) + veff
-        cs(i) = cs(i)/foc(i)/foc(i)
-        cserr(i) = cserr(i)/foc(i)/foc(i)
-       endif
-      
-       q2(i) = 4.*e(i)*ep(i)*sin(th(i)*pi/180./2.)*sin(th(i)*pi/180./2.)
-       w2(i) = mp2+2.*mp*nu(i)-q2(i)
-       x(i) = q2(i)/2./mp/nu(i)
-
-       ntot = i
-       i=i+1 
-
-      enddo
-
- 2000 thend = .true.
-
-
+         open(unit=15,file=filename,status='old')
+         do i=1,16
+           read(15,*)    !!!  Read header  !!!
+         enddo
+   
+         thend = .false.
+         i = 1
+         dowhile(.not.thend)
+   
+          read(15,*,end=2000) Z(i),A(i),e(i),th(i),nu(i),cs(i),cserr(i),
+     &      set(i)      
+   
+          ep(i) = e(i)-nu(i)
+   
+          sys = 0.03
+          if(set(i).EQ.8.OR.set(i).EQ.11) then
+            sys = 0.055
+          elseif(set(i).EQ.12) then
+            sys = 0.0225
+          elseif(set(i).EQ.14) then
+            sys = 0.001
+          endif
+          cserr(i) = sqrt(cserr(i)*cserr(i)+sys*sys*cs(i)*cs(i))
+   
+          if(coulomb) then
+           call vcoul(A(i),Z(i),veff)
+           foc(i) = 1.0D0 + veff/e(i)
+           e(i) = e(i) + veff     
+           ep(i) = ep(i) + veff
+           cs(i) = cs(i)/foc(i)/foc(i)
+           cserr(i) = cserr(i)/foc(i)/foc(i)
+          endif
+         
+          q2(i) = 4.*e(i)*ep(i)*sin(th(i)*pi/180./2.)*sin(th(i)*pi/180./2.)
+          w2(i) = mp2+2.*mp*nu(i)-q2(i)
+          x(i) = q2(i)/2./mp/nu(i)
+   
+          ntot = i
+          i=i+1 
+   
+         enddo
+   
+ 2000    thend = .true.
+         close(15,status='keep')
+   
+   
 CCC///    Now do sorting in whatever variable    ///CCC
-       k = 0
-       chi2 = 0.0
-       do j=1,ntot
-         wr = .false.            !!! if true then include data  !!!
-         new = .true.
-         wr = .true.
-         k = k+1
-
-         sin2 = sin(th(j)*pi/180./2.)*sin(th(j)*pi/180./2.)
-         tan2 = sin2/(1.-sin2)
-         eps = 1./(1. + 2.*(nu(j)*nu(j)+q2(j))/q2(j)*tan2)
-         kappa = abs(w2(j)-mp2)/2./mp
-
-         if(w2(j).LT.0.15.or.nu(j).LE.0.0.OR.q2(j).LT.q2min.OR.
+          k = 0
+          chi2 = 0.0
+          do j=1,ntot
+            wr = .false.            !!! if true then include data  !!!
+            new = .true.
+            wr = .true.
+            k = k+1
+   
+            sin2 = sin(th(j)*pi/180./2.)*sin(th(j)*pi/180./2.)
+            tan2 = sin2/(1.-sin2)
+            eps = 1./(1. + 2.*(nu(j)*nu(j)+q2(j))/q2(j)*tan2)
+            kappa = abs(w2(j)-mp2)/2./mp
+   
+            if(w2(j).LT.0.15.or.nu(j).LE.0.0.OR.q2(j).LT.q2min.OR.
      &         q2(j).GT.q2max.or.w2(j).GT.w2max.or.eps.LT.epsmin.
      &         or.eps.GT.epsmax.or.set(j).EQ.2) 
      &        wr = .false.
-
-         if(set(j).EQ.13.AND.th(j).GE.74.0.AND.w2(j).GT.3.25) then
-           wr = .false.
-         endif
-
-         flux = alpha*kappa/(2.*pi*pi*q2(j))*ep(j)/e(j)/(1.-eps) 
-
-         cs(j) = norm(set(j))*cs(j)
-         cserr(j) = norm(set(j))*cserr(j)
-
-         cs(j) = cs(j)/flux/1000.0
-         cserr(j) = cserr(j)/flux/1000.0
-
-         if(wr) then
-
-           call sfcross(w2(j),q2(j),A(j),Z(j),opt,sigt,sigl,f1,f2,fL)
-         
-           sigm = sigt+eps*sigl
-
-           res = cs(j)-sigm
-           chi2 = res*res/cserr(j)/cserr(j)
-
-           rat = cs(j)/sigm
-           erat = cserr(j)/cs(j)*rat
-
- 
-           write(6,3000) e(j),ep(j),th(j),w2(j),q2(j),
+   
+            if(set(j).EQ.13.AND.th(j).GE.74.0.AND.w2(j).GT.3.25) then
+              wr = .false.
+            endif
+   
+            flux = alpha*kappa/(2.*pi*pi*q2(j))*ep(j)/e(j)/(1.-eps) 
+   
+            cs(j) = norm(set(j))*cs(j)
+            cserr(j) = norm(set(j))*cserr(j)
+   
+            cs(j) = cs(j)/flux/1000.0
+            cserr(j) = cserr(j)/flux/1000.0
+   
+            if(wr) then
+   
+              call sfcross(w2(j),q2(j),A(j),Z(j),opt,sigt,sigl,f1,f2,fL,
+     &                  kf,es,xvalt)
+            
+              sigm = sigt+eps*sigl
+   
+              res = cs(j)-sigm
+              chi2 = res*res/cserr(j)/cserr(j)
+   
+              rat = cs(j)/sigm
+              erat = cserr(j)/cs(j)*rat
+   
+    
+              write(6,3000) e(j),ep(j),th(j),w2(j),q2(j),
      &            eps,cs(j),cserr(j),sigm,rat,erat,set(j)
-         endif  
-       enddo
-
-       nn=index(filename,'.')
-       myfile='chi2_'//filename(1:nn-1)//'.out'
-       open(unit=18,file=myfile,status="old", position="append")
-       write(18,*) chi2
+            endif  
+          enddo
+   
+          nn=index(filename,'.')
+c          write(myfile,'(I0)') nfile
+c          myfile='chi2_'//filename(1:nn-1)//trim(myfile)//'.out'
+          myfile='chi2_'//filename(1:nn-1)//'.out'
+          open(unit=18,file=myfile)
+cc,status="old", position="append")
+          write(18,'(F7.3,F8.4,F10.5,F20.10)') kf,es,xvalt,chi2
+    
+99     continue
 
 
  3000  format(6f9.4,3f15.4,2f8.4,1i4)

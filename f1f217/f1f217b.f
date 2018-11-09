@@ -2373,7 +2373,7 @@ c          if(den.eq.0.)pause 'failure in polintnum'
       
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC      
       
-      SUBROUTINE F1F2QE17(Z, A, qsq, wsq, xvalc,F1, F2)
+      SUBROUTINE F1F2QE17(Z, A, qsq, wsq, xvalc,F1, F2,kf4,es4)
 
 C Calculates quasielastic A(e,e')X structure functions F1 and F2 PER NUCLEUS  
 c for A>2 uses superscaling from Sick, Donnelly, Maieron, nucl-th/0109032
@@ -2401,6 +2401,7 @@ c outputs: F1, F2 (real*8) are structure functions per nucleus
       real kf, es, GM2bar, GE2bar, W1bar, W2bar, Delta, GL, GT
       real*8 xvalc(40),mcor,ecor
       integer IA, izz, izzmin, izp, izznom, izdif
+      real kf4,es4
       
       real*8 a1,a2,a3,b1,b2,b3,b4,b5,gd
 
@@ -2485,8 +2486,8 @@ c nucl-th/0109032
       if(IA.eq.3) kf=0.115
       if(iA.eq.3) Es=0.001 
 ! changed 4/09
-      if(IA.gt.3) kf=0.198
-      if(iA.gt.3) Es=0.015
+      if(IA.gt.3) kf=kf4
+      if(iA.gt.3) Es=es4
       if(IA.gt.7) kf=0.228
       if(iA.gt.7) Es=0.020 
 c changed 5/09
@@ -2590,7 +2591,7 @@ CCMEC - testing below  CCCC
 
 
                                                                         
-      SUBROUTINE GSMEARING(Z, A, W2, Q2, xval, F1, F2, FL)
+      SUBROUTINE GSMEARING(Z, A, W2, Q2, xval, F1, F2, FL,kf4,es4)
 
 CCC   Returns Fermi smeared structure functions.  Smearing function is a Gaussian.  CCC
 CCC   Note:  not tested for nuclei with A < 12 or A > 64                            CCC      
@@ -2603,6 +2604,7 @@ CCC   Note:  not tested for nuclei with A < 12 or A > 64                        
       real*8 epr2,wsqp,wsqp2,frac2b,fracs,xt,rc,off_mKP_fit
       real*8 dw2dpf,r,zt,at
       real*8 xxp(100),fytot,fytot2,norm
+      real   kf4,es4
 
       real*8 emcfac,emcfacL,xfr,xfl
       logical goodfit
@@ -2622,8 +2624,8 @@ CCC   Note:  not tested for nuclei with A < 12 or A > 64                        
       qv = sqrt(nu**2 + q2)
 
       If(A.GE.3) then
-         deltae = 0.014
-         kf = 0.198
+         deltae = es4
+         kf = kf4
       elseif(A.GE.10.) then
         deltae = 0.015  !!! energy shift !!!
         kf = 0.228      !!! fermi momentum  !!!
@@ -2634,6 +2636,7 @@ CCC   Note:  not tested for nuclei with A < 12 or A > 64                        
         deltae = 0.023
         kf = 0.241
       endif
+      es=deltae
 
       norm = 20.471
       norm = norm*2.0
@@ -2825,8 +2828,8 @@ CCCC   Converts reduced cross sections to structure functions for protons and ne
 
 
       
-      SUBROUTINE SFCROSS(w2,q2,A,Z,opt,sigt,sigl,f1,f2,fL)
-
+      SUBROUTINE SFCROSS(w2,q2,A,Z,opt,sigt,sigl,f1,f2,fL,kf4,es4,xvalt4
+     & )
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCC   Subroutine to return reduced cross sections and structure functions.      CCC
 CCC   opt:  0 (total), 1 (QE only), 2 (inelastic only), 3 (inelastic + MEC)     CCC
@@ -2837,6 +2840,8 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       real*8 w2,q2,A,Z,sigt,sigl,f1,f2,fl
       real*8 x,alpha,pi,pi2,mp,mp2,xvalc(40)
       integer lstart,i, opt
+      real   kf4,es4
+      real*8 xvalt4
       real*8 xvalt(160) / 
      & 0.40249E+00,0.70000E+01,0.33195E+00,0.66463E+01,0.80000E+00,
      & 0.14605E+00,0.15100E+01,0.16871E+01,0.33630E+00,-.22727E+01,
@@ -2893,11 +2898,11 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       do i=1,40
          xvalc(i) = xvalt(i+lstart)
       enddo   
-      if(A.LE.4) xvalt(4) = 0.60E+1
+      if(A.LE.4) xvalt(4) = xvalt4
       
 c      write(6,*) xvalc
       
-      call csfit(w2,q2,A,Z,xvalc,opt,sigt,sigL)
+      call csfit(w2,q2,A,Z,xvalc,opt,sigt,sigL,kf4,es4)
 
 c      write(6,*) w2,q2,sigt,sigL
       
@@ -2910,7 +2915,7 @@ c      write(6,*) w2,q2,sigt,sigL
       end
 
       
-      SUBROUTINE CSFIT(w2,q2,A,Z,xvalc,opt,sigt,sigL)
+      SUBROUTINE CSFIT(w2,q2,A,Z,xvalc,opt,sigt,sigL,kf4,es4)
       IMPLICIT none
 
       real*8 e,ep,th,q2,w2,x,cs,flux,kappa,sin2,tan2,csmod
@@ -2918,6 +2923,7 @@ c      write(6,*) w2,q2,sigt,sigL
       real*8 alpha,pi,pi2,mp,mp2,res,veff,foc,Z,A,xvalc(40)
       real*8 psip,fy1,fy2,int1,int2,rat,f1t,f2t,fLt
       integer i,j,k,ntot,opt
+      real   kf4,es4
       LOGICAL GOODFIT/.true./  
       character*40 filename
       mp = .938272
@@ -2947,13 +2953,13 @@ CCC  NEXT bit only needed if fitting scaling function CCC
       rat= int1/int2
 CCC
 
-      call gsmearing(Z,A,w2,q2,xvalc,f1,f2,fL)
+      call gsmearing(Z,A,w2,q2,xvalc,f1,f2,fL,kf4,es4)
 
       r = fL/2.0D0/x/f1
 
 c      write(6,*) w2,q2,f1,f2,fL
       
-      call f1f2qe17(Z,A,q2,w2,xvalc,f1qe,f2qe)
+      call f1f2qe17(Z,A,q2,w2,xvalc,f1qe,f2qe,kf4,es4)
 
 c      write(6,*) "17:  ", w2,q2,f1qe,f2qe     
 c      call f1f2qe16(Z,A,q2,w2,xvalc,f1qe,f2qe)
