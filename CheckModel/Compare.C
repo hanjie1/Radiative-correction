@@ -2,10 +2,10 @@
 void Compare()
 {
     TString file1,file2,file3,file4;
-    file1="data/4He_50.dat";
-    file2="model_result/He4_50_newfit.out";
-    file3="model_result/He4_50_newgsmearing.out";
-    file4="model_result/He4_50_newfit_1.out";
+    file1="data/4He_18.dat";
+    file2="model_result/He4_18_newfit.out";
+    file3="model_result/He4_18_newgsmearing.out";
+    file4="model_result/He4_18_newgsmearing.out";
 
     ifstream infile1,infile2,infile3,infile4;
     infile1.open(file1);
@@ -30,7 +30,6 @@ void Compare()
           XS[nn]=atof(content.Data());
           tmp.Tokenize(content,from," ");
           XS_err[nn]=atof(content.Data());
-          XS_err[nn]=XS_err[nn]*XS[nn];
           nn++;
           from=0;
     }
@@ -82,18 +81,18 @@ void Compare()
     infile4.close();
 
     nn=nn-1;
-    TGraphErrors *gData=new TGraphErrors(nn,W2,XS,0,XS_err);
-    TGraphErrors *gModel1=new TGraphErrors(nn,W2,XS_Bodek,0,0);
-    TGraphErrors *gModel2=new TGraphErrors(nn,W2,XS_gsmearing,0,0);
-    TGraphErrors *gModel3=new TGraphErrors(nn,W2,XS_new,0,0);
+    TGraphErrors *gData=new TGraphErrors(nn,xbj,XS,0,XS_err);
+    TGraphErrors *gModel1=new TGraphErrors(nn,xbj,XS_Bodek,0,0);
+    TGraphErrors *gModel2=new TGraphErrors(nn,xbj,XS_gsmearing,0,0);
+    TGraphErrors *gModel3=new TGraphErrors(nn,xbj,XS_new,0,0);
 
     TMultiGraph *mg=new TMultiGraph();
     gData->SetMarkerStyle(8);
     gData->SetMarkerColor(1);
     gData->SetLineColor(1);
     gModel1->SetMarkerStyle(8);
-    gModel1->SetMarkerColor(3);
-    gModel1->SetLineColor(3);
+    gModel1->SetMarkerColor(4);
+    gModel1->SetLineColor(4);
     gModel2->SetMarkerStyle(8);
     gModel2->SetMarkerColor(4);
     gModel2->SetLineColor(4);
@@ -102,16 +101,16 @@ void Compare()
     gModel3->SetLineColor(6);
     mg->Add(gData);
     mg->Add(gModel1);
-    mg->Add(gModel2);
-    mg->Add(gModel3);
+//    mg->Add(gModel2);
+//    mg->Add(gModel3);
     mg->Draw("APL");
-    mg->SetTitle("He4 cross section;w2;XS");
+    mg->SetTitle("He4 cross section;xbj;XS");
 
     auto leg1=new TLegend(0.7,0.6,0.85,0.85);
-    leg1->AddEntry(gData,"Data E0=5.766,Theta=50","P");
-    leg1->AddEntry(gModel1,"new","P");
-    leg1->AddEntry(gModel2,"original1","P");
-    leg1->AddEntry(gModel3,"original2","P");
+    leg1->AddEntry(gData,"Data E0=5.766,Theta=18","P");
+    leg1->AddEntry(gModel1,"F1F217","P");
+//    leg1->AddEntry(gModel2,"RESCSD","P");
+//    leg1->AddEntry(gModel3,"original2","P");
     leg1->Draw();
 
 

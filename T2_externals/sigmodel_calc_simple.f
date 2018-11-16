@@ -40,6 +40,7 @@ C       Declare locals.
 	logical         first
         integer         sigdis_model,model  !DIS_MODEL defined in TARG
         real*8          eps,f1d,f2d,fLd,f2dqe,f1dqe,fLdqe,sigt,sigl
+        real*8          sigtp,siglp
         real*8          kappa,flux
         integer         wfn,opt
         logical         doqe,dfirst/.false./
@@ -101,8 +102,8 @@ c
 c       do inelastic stuff
 c	   call F1F2IN09(Z, A, Q2, WSQ, F1, F2, r)
 C Use old Bodek fit + SLAC EMC fit for now, b/c F1F2IN09 doesn't like large Q2,W2
+	 if(wsq.gt.1.1664) then
           if(sigdis_model .eq. 1) then
-	   if(wsq.gt.1.1664) then
 	      call ineft(Q2,sqrt(wsq),W1p,W2p,dble(1.0))
 	      call ineft(Q2,sqrt(wsq),W1D,W2D,dble(2.0))
 
@@ -114,47 +115,52 @@ C Use old Bodek fit + SLAC EMC fit for now, b/c F1F2IN09 doesn't like large Q2,W
               sigmott=(19732.0/(2.0*137.0388*e1*sn**2))**2*cs**2/1.d6
               sig_dis = 1d3*sigmott*(W2+2.0*W1*tn**2)
               sig_dis = sig_dis*emc_func_slac(x, A)
-           endif
           endif
   
-         if(sigdis_model .eq. 2) then
+          if(sigdis_model .eq. 2) then
 C       Mott cross section
 c          call gsmearing(Z,A,WSQ,Q2,F1,F2)
-           opt=3
-           call SFCROSS(WSQ,Q2,A,Z,opt,sigt,sigl,f1,f2,fL)
-           sig_dis = 1000*flux*(sigt+eps*sigl)
+            if(A.gt.2)then
+              opt=3
+              call SFCROSS(WSQ,Q2,A,Z,opt,sigt,sigl,f1,f2,fL)
+              sig_dis = 1000*flux*(sigt+eps*sigl)
+            endif
+            if(A.EQ.1.0)then
+              call RESCSP(wsq,q2,sigtp,siglp)
+              sig_dis = 1000*flux*(sigtp+eps*siglp)
+            endif
 C       Convert F1,F2 to W1,W2
 c           W1 = F1/m_p
 c           W2 = F2/nu
 c          sigmott=(19732.0/(2.0*137.0388*e1*sn**2))**2*cs**2/1.d6
 c          sig_dis = 1d3*sigmott*(W2+2.0*W1*tn**2)
-         endif 
+          endif 
 
-         if(sigdis_model .eq. 3) then
-            if((Z.eq.1.) .and. (A.eq.2.)) then
-               doqe = .false.
-               wfn=2
-               call RESCSD(WSQ,Q2,eps,doqe,f1d,f2d,fLd,wfn,sig_dis)
-               sig_dis=1000*flux*sig_dis
+          if(sigdis_model .eq. 3) then
+             if((Z.eq.1.) .and. (A.eq.2.)) then
+                doqe = .false.
+                wfn=2
+                call RESCSD(WSQ,Q2,eps,doqe,f1d,f2d,fLd,wfn,sig_dis)
+                sig_dis=1000*flux*sig_dis
 
-            else 
+             else 
                write(6,*) 'Wrong DIS model !! This model is for '//
      >         'Deuterium only'
                sig_dis=0.0
-            endif
-         endif
+             endif
+          endif
 CDG apply "iteration" correction (used for XEM analysis)
 CDG DO not use this for more "generic" stuff.
 CDG        sig_dis = sig_dis*inelastic_it(x,A)
 c        else
 c             W1=0.0
 c             W2=0.0
+         endif
 	endif
 
 
 	if((xflag.eq.1).or.(xflag.eq.2)) then
-          if(sigdis_model .eq. 3) then
-            if((Z.eq.1.) .and. (A.eq.2.)) then
+           if((Z.eq.1.) .and. (A.eq.2.)) then
                dfirst = .false.
                call SQESUB(WSQ,Q2,wfn,f2dqe,f1dqe,fLdqe,dfirst)
                sigt = 0.3894e3*f1dqe*pi2*alp*8.0/abs(wsq-m_p**2)
@@ -162,17 +168,13 @@ c             W2=0.0
                sig_qe = sigt+eps*sigl
                sig_qe=1000*flux*sig_qe
 
-            else
-               write(6,*) 'Wrong QE model !! This model is for '//
-     >         'Deuterium only'
-               sig_qe=0.0
-            endif
-          else
+           else
+               opt=1
+               call SFCROSS(WSQ,Q2,A,Z,opt,sigt,sigl,f1,f2,fL)
+               sig_qe = sigt+eps*sigl
+               sig_qe = 1000*flux*sig_qe
+           endif
 c	   call F1F2QE09(Z, A, Q2, WSQ, F1, F2)
-c           opt=1
-           call SFCROSS(WSQ,Q2,A,Z,opt,sigt,sigl,f1,f2,fL)
-           sig_qe = sigt+eps*sigl
-           sig_qe = 1000*flux*sig_qe
 C       Convert F1,F2 to W1,W2
 c	   W1 = F1/m_p
 c	   W2 = F2/nu
@@ -181,7 +183,6 @@ c	   sigmott=(19732.0/(2.0*137.0388*e1*sn**2))**2*cs**2/1.d6
 c	   sig_qe = 1d3*sigmott*(W2+2.0*W1*tn**2)
 C Temp test - DJG May 23, 2013
 c	   sig_qe=sig_qe/0.8
-          endif
 	endif
 
 

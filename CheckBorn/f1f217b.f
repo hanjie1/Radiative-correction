@@ -52,7 +52,7 @@ c      write(6,*) "In rescsd:  ",q2,x,gamma2,w2,doqe
       if(x.GT.xfr) delta =  off_mKP_fit(xfr,wfn,drn)
       if(x.LT.xfl) delta =  off_mKP_fit(xfl,wfn,drn)
       if(q2.LT.0.01) delta = 0.0
-c      write(6,*) x,delta
+      write(6,'(6E15.4)') x,w2,q2,eps,f1d,f2d,delta
 c      delta = 0.0D0
       f1d = f1d/(1.0D0-delta)
       f2d = f2d/(1.0D0-delta)
@@ -2482,7 +2482,7 @@ c nucl-th/0109032
       if(iA.eq.2) Es=0.0022
 ! changed 4/09
       if(IA.eq.3) kf=0.115
-      if(iA.eq.3) Es=0.001 
+      if(iA.eq.3) Es=0.015
 c      if(IA.eq.3) kf=0.193
 c      if(iA.eq.3) Es=0.016 
 ! changed 4/09
@@ -2622,7 +2622,11 @@ CCC   Note:  not tested for nuclei with A < 12 or A > 64                        
       nu = (w2+q2-mp2)/2./mp      
       qv = sqrt(nu**2 + q2)
 
-      If(A.GE.3) then
+      If(A.EQ.3) then
+c         deltae = 0.014
+         deltae = 0.015
+         kf = 0.115
+      ELSEIf(A.GE.4) then
 c         deltae = 0.014
          deltae = 0.016
          kf = 0.193
@@ -2701,7 +2705,6 @@ c          call f1f2in09(zt,at,q2,wsqp,xval,f1nn,f2nn,r)  !!! must turn off thre
 c          fLnn =  (1.+4.*xt*xt*mp2/q2)*f2nn-2.0*xt*f1nn
 
           call sf(wsqp,q2,f1pp,fLpp,f2pp,f1nn,fLnn,f2nn)
-    
           f1pp = f1pp*emcfac*offshell
           f1nn = f1nn*emcfac*offshell
           fLpp = fLpp*emcfac*emcfacL*offshell
