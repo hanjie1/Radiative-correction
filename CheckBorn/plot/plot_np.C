@@ -2,11 +2,11 @@
 void plot_np()
 {
     ifstream file1,file2;
-    TString myfile1="../OUT/check_pnd_ineft_20.out";
+    TString myfile1="../OUT/check_pnd_ineft.out";
     file1.open(myfile1);
     if(!file1.is_open())return 0;
 
-    TString myfile2="../OUT/check_pnd_f1f2_20.out";
+    TString myfile2="../OUT/check_pnd_f1f2.out";
     file2.open(myfile2);
     if(!file2.is_open())return 0;
 

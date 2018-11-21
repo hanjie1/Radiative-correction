@@ -67,12 +67,12 @@ c      if((abs(q2min-3.5).le.0.001).and.(abs(epsmin-0.6).le.0.1))nfile=9
 
 
 *****    Read in data   *****
-      do 99 jj=0,20
+c      do 99 jj=0,20
          kf=0.233
 c0.198
          es=0.015
 c0.015
-         xvalt=0.0+1.0*jj
+         xvalt=6.0
 c6.0
 
          open(unit=15,file=filename,status='old')
@@ -171,15 +171,15 @@ CCC///    Now do sorting in whatever variable    ///CCC
             endif  
           enddo
    
-          nn=index(filename,'.')
+c          nn=index(filename,'.')
 c          write(myfile,'(I0)') nfile
 c          myfile='chi2_'//filename(1:nn-1)//trim(myfile)//'.out'
-          myfile='chi2_'//filename(1:nn-1)//'.out'
-          open(unit=18,file=myfile)
+c          myfile='chi2_'//filename(1:nn-1)//'.out'
+c          open(unit=18,file=myfile)
 cc,status="old", position="append")
-          write(18,'(F7.3,F8.4,F10.5,F20.10)') kf,es,xvalt,chi2
+c          write(18,'(F7.3,F8.4,F10.5,F20.10)') kf,es,xvalt,chi2
     
-99     continue
+c99     continue
 
 
  3000  format(6f9.4,3f15.4,2f8.4,1i4)

@@ -29,7 +29,7 @@ void plot_D2_SLAC()
    int nn=0;
    for(int ii=0;ii<1;ii++){
        for(int jj=0;jj<MAXBIN;jj++){
-	   if(D2_x[ii][jj]==0 || D2_Q2[ii][jj]>15)continue;
+	   if(D2_x[ii][jj]==0 || D2_Q2[ii][jj]>13)continue;
            hborn->SetPoint(nn,D2_x[ii][jj],D2_Born[ii][jj]);
            hborn1->SetPoint(nn,D2_x[ii][jj],D2_Born1[ii][jj]);
 
