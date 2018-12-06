@@ -27,7 +27,7 @@ void plot_D2()
    for(int ii=0;ii<11;ii++){
        Yfile=Form("INEFT/D2_kin%d.out",kin[ii]);
        ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born); 
-       Yfile=Form("f1f217/D2_kin%d.out",kin[ii]);
+       Yfile=Form("f1f217_new/D2_kin%d.out",kin[ii]);
        ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born1); 
    }
 

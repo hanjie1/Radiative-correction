@@ -35,11 +35,11 @@
         OPEN(UNIT=7,FILE=infile)
         READ(7,'(A72,/,A72,/,A72,/,/,/)') (COMMENT(i),i=1,3)
 
-        outfile='OUT/check_pnd_f1f2.out'
+        outfile='OUT/NP/'//trim(filename)//'_f1f217.out'
         open(unit=66,file=outfile)
         write(66,*) 'f1p    f2p    f1n    f2n    f1d    f2d'
 
-        outfile='OUT/check_pnd_ineft.out'
+        outfile='OUT/NP/'//trim(filename)//'_ineft.out'
         open(unit=77,file=outfile)
         write(77,*) 'f1p    f2p    f1n    f2n    f1d    f2d'
 

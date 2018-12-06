@@ -20,7 +20,7 @@
 
 
         Z=1.0
-        A=1.0
+        A=2.0
         Mp=0.93827231
         PI=3.1415927
         pi2=pi*pi
@@ -35,7 +35,7 @@
         OPEN(UNIT=7,FILE=infile)
         READ(7,'(A72,/,A72,/,A72,/,/,/)') (COMMENT(i),i=1,3)
 
-        outfile='OUT/f1f217/'//trim(filename)//'.out'
+        outfile='OUT/f1f217_new/'//trim(filename)//'.out'
         open(unit=66,file=outfile)
         write(66,*) '***x   Q2   Theta   Eprime   Sig_Born   Sig_Born_In    Sig_Born_QE'
 
@@ -69,15 +69,16 @@
            sig_dis=0.0
            sig_qe=0.0
            if((Z.eq.1.).and.(A.eq.2.)) then
-               doqe = .false.
-               wfn=2
-               dfirst = .false.
-               call SQESUB(WSQ,Q2,wfn,f2dqe,f1dqe,fLdqe,dfirst)
-               sigt = 0.3894e3*f1dqe*pi2*alpha*8.0/abs(wsq-Mp**2)
-               sigl = 0.3894e3*fLdqe*pi2*alpha*8.0/abs(wsq-Mp**2)/2.*abs(wsq-Mp**2+q2)/q2
-               sig_qe = sigt+eps*sigl
-               sig_qe=flux*sig_qe
+c               doqe = .false.
+c               wfn=2
+c               dfirst = .false.
+c               call SQESUB(WSQ,Q2,wfn,f2dqe,f1dqe,fLdqe,dfirst)
+c               sigt = 0.3894e3*f1dqe*pi2*alpha*8.0/abs(wsq-Mp**2)
+c               sigl = 0.3894e3*fLdqe*pi2*alpha*8.0/abs(wsq-Mp**2)/2.*abs(wsq-Mp**2+q2)/q2
+c               sig_qe = sigt+eps*sigl
+c               sig_qe=flux*sig_qe
               
+               doqe=.true.
                call RESCSD(WSQ,Q2,eps,doqe,f1d,f2d,fLd,wfn,sig_dis)
                sig_dis=flux*sig_dis
 

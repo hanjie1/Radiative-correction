@@ -20,11 +20,11 @@ void plot_HeD()
    for(int ii=0;ii<11;ii++){
        Yfile=Form("INEFT/He3_kin%d.out",kin[ii]);
        ReadYield(Yfile,kin[ii],He3_x,He3_Q2,He3_Born); 
-       Yfile=Form("f1f217/He3_kin%d.out",kin[ii]);
+       Yfile=Form("f1f217_new/He3_kin%d.out",kin[ii]);
        ReadYield(Yfile,kin[ii],He3_x,He3_Q2,He3_Born1); 
        Yfile=Form("INEFT/D2_kin%d.out",kin[ii]);
        ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born);
-       Yfile=Form("f1f217/D2_kin%d.out",kin[ii]);
+       Yfile=Form("f1f217_new/D2_kin%d.out",kin[ii]);
        ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born1);
    }
 

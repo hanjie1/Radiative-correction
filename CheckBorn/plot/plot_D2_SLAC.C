@@ -16,9 +16,9 @@ void plot_D2_SLAC()
    TString Yfile;
    int kin[1]={0};
    for(int ii=0;ii<1;ii++){
-       Yfile="INEFT/SLAC_20_D.out";
+       Yfile="INEFT/marathon.out";
        ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born); 
-       Yfile="f1f217/SLAC_20_D.out";
+       Yfile="f1f217/marathon.out";
        ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born1); 
    }
 
