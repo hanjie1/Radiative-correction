@@ -3,3 +3,5 @@ externals_all_xem2
 XEMC
 backup
 polrad20
+*.tar
+*.root
