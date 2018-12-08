@@ -26,13 +26,13 @@
         alpha = 1./137.036
         wfn=2
 
-        infile='../data/Marathon.dat'
+        infile='../data/F2d_Whitlow.dat'
         write(6,*) infile
 
         OPEN(UNIT=7,FILE=infile)
         READ(7,'(A72)') COMMENT
 
-        outfile='OUT/F2d_marathon.out'
+        outfile='OUT/F2d_Whitlow.out'
         open(unit=66,file=outfile)
         write(66,*) 'x    Q2    WSQ   F2d_data   F2d_stat_err',
      >      '  F2d_sys_err    F2d_f1f217    F2d_ineft'

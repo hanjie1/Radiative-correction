@@ -1,5 +1,5 @@
 #define MAXBIN 610
-void plot_D2()
+void plot_D2_all()
 {
      TString filename;
      ifstream file1;

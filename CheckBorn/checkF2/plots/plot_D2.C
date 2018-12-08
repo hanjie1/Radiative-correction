@@ -55,7 +55,8 @@ void plot_D2()
      myfile<<"x     Q2     W2    F2_data    F2_data_err    F2_f1f217    F2_ineft"<<endl;
      int np=0;
      for(int ii=0;ii<MAXBIN;ii++){
-         Double_t tmp_err=sqrt(F2D_stat[ii]*F2D_stat[ii]+F2D_sys[ii]*F2D_sys[ii]);
+         if(Q2[ii]>14||W2[ii]>14)continue;
+         Double_t tmp_err=F2D[ii]*sqrt(F2D_stat[ii]*F2D_stat[ii]+F2D_sys[ii]*F2D_sys[ii]);
 	 Double_t tmp_r=F2D[ii]/F2E[ii];
          Double_t tmp_r1=F2D[ii]/F2B[ii];
          if(Q2[ii]<8){
@@ -111,16 +112,16 @@ void plot_D2()
      pad1->Divide(1,4,0.0,0.0);
      pad1->cd(1);
      TMultiGraph *mg1=new TMultiGraph();
-     gDE[0]->SetMarkerColor(4);
+     gDE[0]->SetMarkerColor(2);
      gDE[0]->SetMarkerStyle(8);
-     gDB[0]->SetMarkerColor(1);
-     gDB[0]->SetMarkerStyle(8);
+     gDB[0]->SetMarkerColor(4);
+     gDB[0]->SetMarkerStyle(22);
      mg1->Add(gDE[0]);
      mg1->Add(gDB[0]);
      mg1->Draw("AP");
      mg1->GetXaxis()->SetLimits(0,1);
      mg1->GetXaxis()->SetLabelSize(0.1);
-     mg1->GetYaxis()->SetRangeUser(0.75,1.25);
+     mg1->GetYaxis()->SetRangeUser(0.78,1.22);
      mg1->GetYaxis()->SetLabelSize(0.1);
      mg1->GetYaxis()->SetNdivisions(6);
      TLine *l1=new TLine(0,1,1,1);
@@ -132,19 +133,23 @@ void plot_D2()
      t1->SetTextSize(0.1);
      t1->SetTextColor(1);
      t1->DrawLatex(0.8,0.8,"Q_{2}<8");
+     auto leg1=new TLegend(0.2,0.6,0.38,0.78);
+     leg1->AddEntry(gDE[0],"f1f217","P");
+     leg1->AddEntry(gDB[0],"Bodek","P");
+     leg1->Draw();
 
      pad1->cd(2);
      TMultiGraph *mg2=new TMultiGraph();
-     gDE[1]->SetMarkerColor(4);
+     gDE[1]->SetMarkerColor(2);
      gDE[1]->SetMarkerStyle(8);
-     gDB[1]->SetMarkerColor(1);
-     gDB[1]->SetMarkerStyle(8);
+     gDB[1]->SetMarkerColor(4);
+     gDB[1]->SetMarkerStyle(22);
      mg2->Add(gDE[1]);
      mg2->Add(gDB[1]);
      mg2->Draw("AP");
      mg2->GetXaxis()->SetLimits(0,1);
      mg2->GetXaxis()->SetLabelSize(0.1);
-     mg2->GetYaxis()->SetRangeUser(0.75,1.25);
+     mg2->GetYaxis()->SetRangeUser(0.78,1.22);
      mg2->GetYaxis()->SetLabelSize(0.1);
      mg2->GetYaxis()->SetNdivisions(6);
      TLine *l2=new TLine(0,1,1,1);
@@ -159,16 +164,16 @@ void plot_D2()
 
      pad1->cd(3);
      TMultiGraph *mg3=new TMultiGraph();
-     gDE[2]->SetMarkerColor(4);
+     gDE[2]->SetMarkerColor(2);
      gDE[2]->SetMarkerStyle(8);
-     gDB[2]->SetMarkerColor(1);
-     gDB[2]->SetMarkerStyle(8);
+     gDB[2]->SetMarkerColor(4);
+     gDB[2]->SetMarkerStyle(22);
      mg3->Add(gDE[2]);
      mg3->Add(gDB[2]);
      mg3->Draw("AP");
      mg3->GetXaxis()->SetLimits(0,1);
      mg3->GetXaxis()->SetLabelSize(0.1);
-     mg3->GetYaxis()->SetRangeUser(0.75,1.25);
+     mg3->GetYaxis()->SetRangeUser(0.78,1.22);
      mg3->GetYaxis()->SetLabelSize(0.1);
      mg3->GetYaxis()->SetNdivisions(6);
      TLine *l3=new TLine(0,1,1,1);
@@ -183,16 +188,16 @@ void plot_D2()
 
      pad1->cd(4);
      TMultiGraph *mg4=new TMultiGraph();
-     gDE[3]->SetMarkerColor(4);
+     gDE[3]->SetMarkerColor(2);
      gDE[3]->SetMarkerStyle(8);
-     gDB[3]->SetMarkerColor(1);
-     gDB[3]->SetMarkerStyle(8);
+     gDB[3]->SetMarkerColor(4);
+     gDB[3]->SetMarkerStyle(22);
      mg4->Add(gDE[3]);
      mg4->Add(gDB[3]);
      mg4->Draw("AP");
      mg4->GetXaxis()->SetLimits(0,1);
      mg4->GetXaxis()->SetLabelSize(0.1);
-     mg4->GetYaxis()->SetRangeUser(0.75,1.25);
+     mg4->GetYaxis()->SetRangeUser(0.78,1.22);
      mg4->GetYaxis()->SetLabelSize(0.1);
      mg4->GetYaxis()->SetNdivisions(6);
      TLine *l4=new TLine(0,1,1,1);

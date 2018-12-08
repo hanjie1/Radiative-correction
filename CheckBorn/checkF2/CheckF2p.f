@@ -32,7 +32,7 @@
         OPEN(UNIT=7,FILE=infile)
         READ(7,'(A72)') COMMENT
 
-        outfile='OUT/F2p_SLAC.out'
+        outfile='OUT/F2p_SLAC_newrescsp.out'
         open(unit=66,file=outfile)
         write(66,*) 'x    Q2    WSQ   F2p_data   F2p_stat_err  F2p_sys_err  ',
      >     'F2p_f1f217   F2p_ineft'

@@ -22,11 +22,11 @@ void plot_HeD()
    for(int ii=0;ii<11;ii++){
        Yfile=Form("Bodek_final/He3_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],He3_x,He3_Q2,He3_Born,He3_Rad); 
-       Yfile=Form("f1f217/He3_kin%d_xs.out",kin[ii]);
+       Yfile=Form("f1f217_new/He3_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],He3_x,He3_Q2,He3_Born1,He3_Rad1); 
        Yfile=Form("Bodek_final/D2_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born,D2_Rad);
-       Yfile=Form("f1f217/D2_kin%d_xs.out",kin[ii]);
+       Yfile=Form("f1f217_new/D2_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born1,D2_Rad1);
    }
 

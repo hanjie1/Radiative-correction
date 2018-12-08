@@ -57,6 +57,7 @@ void plot_F2p()
 
      int np[10]={0};
      for(int ii=0;ii<MAXBIN;ii++){
+         if(Q2[ii]>14||W2[ii]>14)continue;
          for(int jj=0;jj<10;jj++){
 	     if(xbj[ii]!=xx[jj])continue;
              gData[jj]->SetPoint(np[jj],Q2[ii],F2D[ii]);
@@ -92,17 +93,81 @@ void plot_F2p()
      }
      mg->Draw("AP"); 
 
-     int color[10]={1,2,3,4,5,6,7,8,9,46};
      TCanvas *c2=new TCanvas("c2","c2",1500,1500);
-     TMultiGraph *mg1=new TMultiGraph();
-     for(int ii=0;ii<10;ii++){
+     c2->cd();
+     TPad *pad1=new TPad("pad1","",0,0.,1.0,1.0);
+     pad1->Draw();
+     pad1->Divide(1,5,0.0,0.0);
+
+     for(int ii=0;ii<5;ii++){
+         pad1->cd(ii+1);
+         TMultiGraph *mg1=new TMultiGraph();
          gDE[ii]->SetMarkerStyle(8);
-         gDE[ii]->SetMarkerColor(color[ii]);
+         gDE[ii]->SetMarkerColor(2);
          gDB[ii]->SetMarkerStyle(22);
-         gDB[ii]->SetMarkerColor(color[ii]);
+         gDB[ii]->SetMarkerColor(4);
          mg1->Add(gDE[ii]);
          mg1->Add(gDB[ii]);
+         mg1->Draw("AP"); 
+         TLine *l1=new TLine(0,1,7.5,1);
+         l1->SetLineColor(2);
+         l1->Draw();
+         mg1->GetXaxis()->SetLimits(0,7.5);
+         mg1->GetXaxis()->SetLabelSize(0.1);
+         mg1->GetYaxis()->SetRangeUser(0.747,1.253);
+         mg1->GetYaxis()->SetLabelSize(0.09);
+         mg1->GetYaxis()->SetNdivisions(6);
+         TLatex *t1 = new TLatex();
+         t1->SetNDC();
+         t1->SetTextFont(32);
+         t1->SetTextSize(0.1);
+         t1->SetTextColor(1);
+         t1->DrawLatex(0.8,0.8,Form("x=%.3f",xx[ii]));
+         if(ii==0){
+            auto leg1=new TLegend(0.68,0.6,0.78,0.78);
+            leg1->AddEntry(gDE[ii],"f1f217","P");
+            leg1->AddEntry(gDB[ii],"Bodek","P");
+            leg1->Draw();
+         }
      }
-     mg1->Draw("AP"); 
+     c2->Update();
 
+     TCanvas *c3=new TCanvas("c3","c3",1500,1500);
+     c3->cd();
+     TPad *pad2=new TPad("pad2","",0,0.,1,1);
+     pad2->Draw();
+     pad2->Divide(1,5,0.0,0.0);
+
+     for(int ii=0;ii<5;ii++){
+         pad2->cd(ii+1);
+         TMultiGraph *mg1=new TMultiGraph();
+         gDE[ii+5]->SetMarkerStyle(8);
+         gDE[ii+5]->SetMarkerColor(2);
+         gDB[ii+5]->SetMarkerStyle(22);
+         gDB[ii+5]->SetMarkerColor(4);
+         mg1->Add(gDE[ii+5]);
+         mg1->Add(gDB[ii+5]);
+         mg1->Draw("AP"); 
+         TLine *l1=new TLine(3,1,14.5,1);
+         l1->SetLineColor(2);
+         l1->Draw();
+         mg1->GetXaxis()->SetLimits(3,14.5);
+         mg1->GetXaxis()->SetLabelSize(0.1);
+         mg1->GetYaxis()->SetRangeUser(0.68,1.32);
+         mg1->GetYaxis()->SetLabelSize(0.09);
+         mg1->GetYaxis()->SetNdivisions(8);
+         TLatex *t1 = new TLatex();
+         t1->SetNDC();
+         t1->SetTextFont(32);
+         t1->SetTextSize(0.1);
+         t1->SetTextColor(1);
+         t1->DrawLatex(0.8,0.8,Form("x=%.3f",xx[ii+5]));
+         if(ii==0){
+            auto leg1=new TLegend(0.68,0.6,0.78,0.78);
+            leg1->AddEntry(gDE[ii+5],"f1f217","P");
+            leg1->AddEntry(gDB[ii+5],"Bodek","P");
+            leg1->Draw();
+         }
+
+     }
 }

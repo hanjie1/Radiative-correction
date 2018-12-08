@@ -5,16 +5,16 @@ FFLAGS    = -C -g -w -fno-automatic -fbounds-check -ffixed-line-length-132
 F77       :=gfortran
 ########################################
 
-CheckBorn_objs = CheckBorn.o f1f217b.o f2allm.o f2glob.o r1998.o vcoul.o ineft.o
-CheckBorn_srcs = CheckBorn.f f1f217b.f f2allm.f f2glob.f r1998.f vcoul.f ineft.f
+CheckNP_objs = CheckNP.o f1f217b.o f2allm.o f2glob.o r1998.o vcoul.o ineft.o
+CheckNP_srcs = CheckNP.f f1f217b.f f2allm.f f2glob.f r1998.f vcoul.f ineft.f
 
 ########################################
 
-none: CheckBorn
+none: CheckNP
 
-all:  CheckBorn
+all:  CheckNP
 
-CheckBorn.o: CheckBorn.f
+CheckNP.o: CheckNP.f
 		 $(F77) $(FFLAGS) -c $< -o $@
 
 f2allm.o: f2allm.f
@@ -35,9 +35,9 @@ f1f217b.o: f1f217b.f
 ineft.o: ineft.f
 	$(F77) $(FFLAGS) -c $< -o $@
 
-CheckBorn: $(CheckBorn_objs) Makefile
-	$(F77) -o $@  $(FFLAGS) $(CheckBorn_objs) $(OTHERLIBS)
+CheckNP: $(CheckNP_objs) Makefile
+	$(F77) -o $@  $(FFLAGS) $(CheckNP_objs) $(OTHERLIBS)
 
 
 clean:
-	rm -f *.o CheckBorn
+	rm -f *.o CheckNP

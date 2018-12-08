@@ -102,8 +102,8 @@ c
 c       do inelastic stuff
 c	   call F1F2IN09(Z, A, Q2, WSQ, F1, F2, r)
 C Use old Bodek fit + SLAC EMC fit for now, b/c F1F2IN09 doesn't like large Q2,W2
-	 if(wsq.gt.1.1664) then
           if(sigdis_model .eq. 1) then
+	     if(wsq.gt.1.1664) then
 	      call ineft(Q2,sqrt(wsq),W1p,W2p,dble(1.0))
 	      call ineft(Q2,sqrt(wsq),W1D,W2D,dble(2.0))
 
@@ -115,6 +115,7 @@ C Use old Bodek fit + SLAC EMC fit for now, b/c F1F2IN09 doesn't like large Q2,W
               sigmott=(19732.0/(2.0*137.0388*e1*sn**2))**2*cs**2/1.d6
               sig_dis = 1d3*sigmott*(W2+2.0*W1*tn**2)
               sig_dis = sig_dis*emc_func_slac(x, A)
+             endif
           endif
   
           if(sigdis_model .eq. 2) then
@@ -155,7 +156,6 @@ CDG        sig_dis = sig_dis*inelastic_it(x,A)
 c        else
 c             W1=0.0
 c             W2=0.0
-         endif
 	endif
 
 

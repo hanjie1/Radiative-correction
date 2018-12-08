@@ -22,11 +22,11 @@ void plot_Dp()
    for(int ii=0;ii<5;ii++){
        Yfile=Form("Bodek_final/D2_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born,D2_Rad); 
-       Yfile=Form("f1f217/D2_kin%d_xs.out",kin[ii]);
+       Yfile=Form("f1f217_new/D2_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born1,D2_Rad1); 
        Yfile=Form("Bodek_final/H1_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],H1_x,H1_Q2,H1_Born,H1_Rad);
-       Yfile=Form("f1f217/H1_kin%d_xs.out",kin[ii]);
+       Yfile=Form("f1f217_new/H1_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],H1_x,H1_Q2,H1_Born1,H1_Rad1);
    }
 
