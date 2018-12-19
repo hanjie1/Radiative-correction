@@ -17,7 +17,7 @@
         real*8  emctmp
         real*8  sigtn,sigln,sigtp,siglp,flp,fln
         real*8  f1p,f2p,f1n,f2n
-        real*8  XSdata,XS_staterr,XS_syserr
+        real*8  XSdata,XS_staterr,XS_syserr,XSerr
         integer tmp(2)
 
         Z=1.0
@@ -28,13 +28,14 @@
         alpha = 1./137.036
         wfn=2
 
-        infile='../data/XS_Whitlow.dat'
+c        infile='../data/XS_Whitlow.dat'
+        infile='../Quasi_data/D2_QSI.dat'
         write(6,*) infile
 
         OPEN(UNIT=7,FILE=infile)
         READ(7,'(A72)') COMMENT
 
-        outfile='OUT/D2_Whitlow.out'
+        outfile='OUT/D2_Quasi.out'
         open(unit=66,file=outfile)
         write(66,*) 'x    Q2    WSQ   XS_data   XS_stat_err',
      >      '  XS_sys_err    XS_f1f217    XS_ineft'
@@ -45,12 +46,15 @@
         do 99 ii=1,100000
            x=0.0
            Q2=0.0
-           READ(7,'(I3,I2,F8.3,2F7.3,F5.3,F7.3,F5.3,2F7.3,E11.4,2F5.3)',END=100) tmp(1),tmp(2),
-     >      E0,Ep,theta,x,Q2,eps,wsq,rc_factor,XSdata,XS_staterr,XS_syserr
+c           READ(7,'(I3,I2,F8.3,2F7.3,F5.3,F7.3,F5.3,2F7.3,E11.4,2F5.3)',END=100) tmp(1),tmp(2),
+c     >      E0,Ep,theta,x,Q2,eps,wsq,rc_factor,XSdata,XS_staterr,XS_syserr
 c           READ(7,'(F9.4,F13.3,F14.4,F14.4,F11.4)',END=100) x,Q2,F2data,
 c     >     f2_staterr,f2_syserr
+           READ(7,'(2F9.4,F9.2,3F9.3,2E15.3)',END=100) E0,Ep,theta,x,Q2,wsq,XSdata,
+     >     XSerr
            IF (x.LE.0.) goto 99
            IF (Q2.GE.14.) goto 99
+           IF (WSQ.LE.1.16) goto 99
  
            thr = theta*PI/180.0
            sn = sin(thr/2.)
@@ -59,6 +63,7 @@ c     >     f2_staterr,f2_syserr
  
            nu=E0-Ep
            kappa = abs((wsq-Mp**2))/2./Mp
+           eps = 1.0/(1+2.*(1+Q2/(4*Mp**2*x**2))*tn**2)
 
            sig_dis=0.0
            sig_qe=0.0
@@ -73,7 +78,8 @@ c     >     f2_staterr,f2_syserr
            XS_ineft = 1d3*sigmott*(W2D+2.0*W1D*tn**2)
            XS_ineft = XS_ineft*emc_func_slac(x, A)
 
-           write(66,'(3f10.5,3F16.5,2F17.5)')x,q2,wsq,XSdata,XS_staterr,XS_syserr,sigma,XS_ineft
+c           write(66,'(3f10.5,3F16.5,2F17.5)')x,q2,wsq,XSdata,XS_staterr,XS_syserr,sigma,XS_ineft
+           write(66,'(3f10.5,3F16.5,2F17.5)')x,q2,wsq,XSdata,XSerr,sigma,XS_ineft
      
 99      continue
 100     continue

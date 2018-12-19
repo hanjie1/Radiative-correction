@@ -5,16 +5,16 @@ FFLAGS    = -C -g -w -fno-automatic -fbounds-check -ffixed-line-length-132
 F77       :=gfortran
 ########################################
 
-CheckF2p_objs = CheckF2p.o f1f217b.o f2allm.o f2glob.o r1998.o vcoul.o ineft.o rescsp-120818.o
-CheckF2p_srcs = CheckF2p.f f1f217b.f f2allm.f f2glob.f r1998.f vcoul.f ineft.f rescsp-120818.f
+CheckD2_objs = CheckD2.o f1f217b.o f2allm.o f2glob.o r1998.o vcoul.o ineft.o rescsp-120818.o
+CheckD2_srcs = CheckD2.f f1f217b.f f2allm.f f2glob.f r1998.f vcoul.f ineft.f rescsp-120818.f
 
 ########################################
 
-none: CheckF2p
+none: CheckD2
 
-all:  CheckF2p
+all:  CheckD2
 
-CheckF2p.o: CheckF2p.f
+CheckD2.o: CheckD2.f
 		 $(F77) $(FFLAGS) -c $< -o $@
 
 f2allm.o: f2allm.f
@@ -38,9 +38,9 @@ f1f217b.o: f1f217b.f
 ineft.o: ineft.f
 	$(F77) $(FFLAGS) -c $< -o $@
 
-CheckF2p: $(CheckF2p_objs) Makefile
-	$(F77) -o $@  $(FFLAGS) $(CheckF2p_objs) $(OTHERLIBS)
+CheckD2: $(CheckD2_objs) Makefile
+	$(F77) -o $@  $(FFLAGS) $(CheckD2_objs) $(OTHERLIBS)
 
 
 clean:
-	rm -f *.o CheckF2p
+	rm -f *.o CheckD2

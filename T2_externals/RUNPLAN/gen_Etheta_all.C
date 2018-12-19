@@ -10,7 +10,7 @@ void gen_Etheta_all(){
        for(int jj=0;jj<11;jj++){
           if(ii==0&&jj>4)continue;
           filename=Form("%s_kin%d.txt",target[ii].Data(),kin[jj]);
-          file1.open(Form("datafile_new/%s",filename.Data()));
+          file1.open(Form("datafile/%s",filename.Data()));
      
           Double_t xbj[MAXBIN]={0.0},Q2[MAXBIN]={0.0};
           Ssiz_t from=0;
@@ -34,6 +34,7 @@ void gen_Etheta_all(){
           ofstream file;
           Ssiz_t pos=filename.Index(".");
           TString outfile=filename.Replace(pos,5,".inp",4);
+	  outfile=Form("bin_avg/%s",outfile.Data());
           file.open(outfile);
           file<<"Marathon"<<endl;    
           file<<filename.Data()<<endl;    
