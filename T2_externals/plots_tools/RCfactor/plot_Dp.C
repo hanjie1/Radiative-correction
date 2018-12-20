@@ -8,6 +8,9 @@ void plot_Dp()
      Double_t D2_x[5][MAXBIN],D2_Q2[5][MAXBIN],D2_Born[5][MAXBIN],D2_Rad[5][MAXBIN],D2_Born1[5][MAXBIN],D2_Rad1[5][MAXBIN];
      Double_t Dp_RC[5][MAXBIN],Dp_RC1[5][MAXBIN];
      Double_t Dp_ratio[5][MAXBIN];
+     Double_t H1_Yield[5][MAXBIN],H1_Yerr[5][MAXBIN]; 
+     Double_t D2_Yield[5][MAXBIN],D2_Yerr[5][MAXBIN]; 
+     Double_t Dp_data[5][MAXBIN],Dp_dataerr[5][MAXBIN]; 
 
      for(int ii=0;ii<5;ii++){
 	 for(int jj=0;jj<MAXBIN;jj++){
@@ -15,19 +18,27 @@ void plot_Dp()
              D2_x[ii][jj]=0.0; D2_Q2[ii][jj]=0.0; D2_Born[ii][jj]=0.0; D2_Rad[ii][jj]=0.0;D2_Born1[ii][jj]=0.0; D2_Rad1[ii][jj]=0.0;
              Dp_RC[ii][jj]=0.0;Dp_RC1[ii][jj]=0.0;
 	     Dp_ratio[ii][jj]=0.0;
+             H1_Yield[ii][jj]=0.0;  H1_Yerr[ii][jj]=0.0; 
+     	     D2_Yield[ii][jj]=0.0;  D2_Yerr[ii][jj]=0.0; 
+             Dp_data[ii][jj]=0.0;   Dp_dataerr[ii][jj]=0.0; 
      }}
 
    TString Yfile;
    int kin[5]={0,1,2,3,4};
    for(int ii=0;ii<5;ii++){
-       Yfile=Form("Bodek_final/D2_kin%d_xs.out",kin[ii]);
+       Yfile=Form("bin_avg/Bodek/D2_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born,D2_Rad); 
-       Yfile=Form("f1f217_new/D2_kin%d_xs.out",kin[ii]);
+       Yfile=Form("bin_avg/f1f217/D2_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born1,D2_Rad1); 
-       Yfile=Form("Bodek_final/H1_kin%d_xs.out",kin[ii]);
+       Yfile=Form("bin_avg/Bodek/H1_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],H1_x,H1_Q2,H1_Born,H1_Rad);
-       Yfile=Form("f1f217_new/H1_kin%d_xs.out",kin[ii]);
+       Yfile=Form("bin_avg/f1f217/H1_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],H1_x,H1_Q2,H1_Born1,H1_Rad1);
+
+       Yfile=Form("H1_kin%d.txt",kin[ii]);
+       ReadData(Yfile,kin[ii],H1_Yield,H1_Yerr);
+       Yfile=Form("D2_kin%d.txt",kin[ii]);
+       ReadData(Yfile,kin[ii],D2_Yield,D2_Yerr);
    }
 
    TGraph *hborn=new TGraph();
@@ -55,18 +66,33 @@ void plot_Dp()
 
            if(Dp_RC1[ii][jj]>0)Dp_ratio[ii][jj]=Dp_RC[ii][jj]/Dp_RC1[ii][jj];
            hratio->SetPoint(nn,D2_x[ii][jj],Dp_ratio[ii][jj]);
+	
            nn++;
        }
    } 
 
+   TGraphErrors *gDpRaw[5];
+   for(int ii=0;ii<5;ii++){
+       gDpRaw[ii]=new TGraphErrors();
+       int nn=0;
+       for(int jj=0;jj<MAXBIN;jj++){
+          if(D2_x[ii][jj]==0||H1_x[ii][jj]==0)continue;
+          Dp_data[ii][jj]=D2_Yield[ii][jj]/H1_Yield[ii][jj];
+          Dp_dataerr[ii][jj]=Dp_data[ii][jj]*sqrt(pow(D2_Yerr[ii][jj]/D2_Yield[ii][jj],2)+pow(H1_Yerr[ii][jj]/H1_Yield[ii][jj],2));
+          if(Dp_dataerr[ii][jj]>0.1)continue;
+          gDpRaw[ii]->SetPoint(nn,D2_x[ii][jj],Dp_data[ii][jj]);
+          gDpRaw[ii]->SetPointError(nn,0.0,Dp_dataerr[ii][jj]);
+          nn++;
+      }
+   }
+
+
    TCanvas *c1=new TCanvas("c1","c1",1500,1500);
-   c1->Divide(2,1);
-   c1->cd(1);
    TMultiGraph *mg1=new TMultiGraph();
    hborn->SetMarkerStyle(8);
    hborn->SetMarkerColor(4);
    hborn1->SetMarkerStyle(8);
-   hborn1->SetMarkerColor(2);
+   hborn1->SetMarkerColor(9);
    mg1->Add(hborn);
    mg1->Add(hborn1);
    mg1->Draw("AP");
@@ -77,12 +103,18 @@ void plot_Dp()
    leg1->AddEntry(hborn1,"f1f217","P");
    leg1->Draw();
 
-   c1->cd(2);
+   TCanvas *c3=new TCanvas("c3","c3",1500,1500);
    TMultiGraph *mg2=new TMultiGraph();
    hrad->SetMarkerStyle(8);
    hrad->SetMarkerColor(4);
    hrad1->SetMarkerStyle(8);
-   hrad1->SetMarkerColor(2);
+   hrad1->SetMarkerColor(8);
+   int color[5]={1,2,3,6,9};
+   for(int ii=0;ii<5;ii++){
+       gDpRaw[ii]->SetMarkerStyle(22);
+       gDpRaw[ii]->SetMarkerColor(color[ii]);
+       mg2->Add(gDpRaw[ii]);
+   }
    mg2->Add(hrad);
    mg2->Add(hrad1);
    mg2->Draw("AP");
