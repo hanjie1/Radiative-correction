@@ -109,7 +109,7 @@ void plot_Dp()
    hrad->SetMarkerColor(4);
    hrad1->SetMarkerStyle(8);
    hrad1->SetMarkerColor(8);
-   int color[5]={1,2,3,6,9};
+   int color[5]={1,2,7,6,9};
    for(int ii=0;ii<5;ii++){
        gDpRaw[ii]->SetMarkerStyle(22);
        gDpRaw[ii]->SetMarkerColor(color[ii]);
