@@ -1,5 +1,5 @@
 #define MAXBIN 36
-TString Yieldpath="/home/hanjie/work/MARATHON/RadCor/T2_externals/OUT/";
+TString Yieldpath="/home/hanjie/work/MARATHON/RadCor/T2_externals/OUT/bin_avg/";
 int ReadYield(TString filename,int kin,Double_t x[][MAXBIN],Double_t Q2[][MAXBIN],Double_t Born[][MAXBIN],Double_t Rad[][MAXBIN]){
     ifstream file;
     TString myfile=Yieldpath+filename;

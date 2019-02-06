@@ -35,7 +35,6 @@ C       Declare locals.
 	real*8          Q2,nu,WSQ, x
 	real*8          F1,F2,FL,W1,W2,sigmott,r
 	real*8          W1p,W1n,W1D,W2p,W2n,W2D
-	real*8          inelastic_it
 	integer         xflag !flag for which xsec to calculate 1=both 2=QE only 3=DIS only
 	logical         first
         integer         sigdis_model,model  !DIS_MODEL defined in TARG
@@ -121,7 +120,7 @@ C Use old Bodek fit + SLAC EMC fit for now, b/c F1F2IN09 doesn't like large Q2,W
           if(sigdis_model .eq. 2) then
 C       Mott cross section
 c          call gsmearing(Z,A,WSQ,Q2,F1,F2)
-            if(A.gt.2)then
+            if(A.gt.2.0)then
               opt=3
               call SFCROSS(WSQ,Q2,A,Z,opt,sigt,sigl,f1,f2,fL)
               sig_dis = 1000*flux*(sigt+eps*sigl)
@@ -152,7 +151,6 @@ c          sig_dis = 1d3*sigmott*(W2+2.0*W1*tn**2)
           endif
 CDG apply "iteration" correction (used for XEM analysis)
 CDG DO not use this for more "generic" stuff.
-CDG        sig_dis = sig_dis*inelastic_it(x,A)
 c        else
 c             W1=0.0
 c             W2=0.0
@@ -196,116 +194,6 @@ c	   sig_qe=sig_qe/0.8
 	end
 
 
-	real*8 function inelastic_it(x,A)
-C DJG: Correction to inelastic cross section to F1F209 from XEM
-C DJG: 40 degree data. Just a simple one-pass iteration for use
-C DJG: to check our model dependence.
-	real*8 A,x
-	real*8 p1,p2,p3,p4
-	real*8 x1,x2,xit
-
-
-	inelastic_it = 1.0 ! set to 1 by default
-
-	if(A.gt.1.5.and.A.lt.2.5) then
-	   x1=0.3172d0
-	   x2=0.7275d0
-	   if(x.lt.x1) then
-	      xit=x1
-	   elseif(x.gt.x2) then
-	      xit=x2
-	   elseif(x.ge.x1 .and. x.le.x2) then
-	      xit=x
-	   endif
-	   inelastic_it=1.2394d0 - 2.1805d0*xit + 5.6853d0*xit**2
-     >     -4.3908d0*xit**3
-	endif
-
-	if(A.gt.2.5 .and. A.lt.3.5) then
-	   x1=0.3172
-	   x2=1.055
-	   if(x.lt.x1) then
-	      xit=x1
-	   elseif(x.gt.x2) then
-	      xit=x2
-	   elseif(x.ge.x1 .and. x.le.x2) then
-	      xit=x
-	   endif
-	   inelastic_it=2.9235d0 - 16.075d0*xit + 46.426d0*xit**2
-     >     -56.779d0*xit**3 + 25.007d0*xit**4
-	endif
-
-	if(A.gt.3.5 .and. A.lt.4.5) then
-	   x1=0.3172
-	   x2=1.0927
-	   if(x.lt.x1) then
-	      xit=x1
-	   elseif(x.gt.x2) then
-	      xit=x2
-	   elseif(x.ge.x1 .and. x.le.x2) then
-	      xit=x
-	   endif
-	   inelastic_it=1.505d0 - 4.8103d0*xit + 15.221d0*xit**2
-     >     -19.713d0*xit**3 + 8.9693d0*xit**4
-	endif
-
-	if(A.gt.8.5 .and. A.lt.9.5) then
-	   x1=0.6478
-	   x2=1.0929
-	   if(x.lt.x1) then
-	      xit=x1
-	   elseif(x.gt.x2) then
-	      xit=x2
-	   elseif(x.ge.x1 .and. x.le.x2) then
-	      xit=x
-	   endif
-	   inelastic_it=0.89139d0 + 0.44009d0*xit + -0.44163d0*xit**2
-	endif
-
-	if(A.gt.11.5 .and. A.lt.13.5) then
-	   x1=0.3172
-	   x2=1.005
-	   if(x.lt.x1) then
-	      xit=x1
-	   elseif(x.gt.x2) then
-	      xit=x2
-	   elseif(x.ge.x1 .and. x.le.x2) then
-	      xit=x
-	   endif
-	   inelastic_it=0.88964d0 + 0.39884d0*xit - 0.36051d0*xit**2
-	endif
-
-	if(A.gt.61.0 .and. A.lt.66.0) then
-	   x1=0.3172
-	   x2=1.005
-	   if(x.lt.x1) then
-	      xit=x1
-	   elseif(x.gt.x2) then
-	      xit=x2
-	   elseif(x.ge.x1 .and. x.le.x2) then
-	      xit=x
-	   endif
-	   inelastic_it=0.77646d0 + 0.90481d0*xit - 0.83815d0*xit**2
-	endif
-
-
-	if(A.gt.196.0 .and. A.lt.198.0) then
-	   x1=0.3172
-	   x2=1.005
-	   if(x.lt.x1) then
-	      xit=x1
-	   elseif(x.gt.x2) then
-	      xit=x2
-	   elseif(x.ge.x1 .and. x.le.x2) then
-	      xit=x
-	   endif
-	   inelastic_it=0.70439d0 + 1.0510d0*xit - 0.91679d0*xit**2
-	endif
-
-	return
-	end
-
-	   
 c-------------------------------------------------------------------------------------------
 	real*8 function emc_func_slac(x,A)
 	real*8 x,A,atemp
@@ -325,6 +213,4 @@ c-------------------------------------------------------------------------------
 	emc_func_slac = C*atemp**alpha
 	return 
 	end      
-	   
 
-	

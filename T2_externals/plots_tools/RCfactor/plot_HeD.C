@@ -20,13 +20,13 @@ void plot_HeD()
    TString Yfile;
    int kin[11]={0,1,2,3,4,5,7,9,11,13,15};
    for(int ii=0;ii<11;ii++){
-       Yfile=Form("Bodek_final/He3_kin%d_xs.out",kin[ii]);
+       Yfile=Form("Bodek/He3_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],He3_x,He3_Q2,He3_Born,He3_Rad); 
-       Yfile=Form("f1f217_new/He3_kin%d_xs.out",kin[ii]);
+       Yfile=Form("model111/He3_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],He3_x,He3_Q2,He3_Born1,He3_Rad1); 
-       Yfile=Form("Bodek_final/D2_kin%d_xs.out",kin[ii]);
+       Yfile=Form("Bodek/D2_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born,D2_Rad);
-       Yfile=Form("f1f217_new/D2_kin%d_xs.out",kin[ii]);
+       Yfile=Form("model111/D2_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born1,D2_Rad1);
    }
 
@@ -74,7 +74,7 @@ void plot_HeD()
 
    auto leg1=new TLegend(0.7,0.6,0.85,0.85);
    leg1->AddEntry(hborn,"Bodek","P");
-   leg1->AddEntry(hborn1,"f1f217","P");
+   leg1->AddEntry(hborn1,"model111","P");
    leg1->Draw();
 
    c1->cd(2);
@@ -90,7 +90,7 @@ void plot_HeD()
 
    auto leg2=new TLegend(0.7,0.6,0.85,0.85);
    leg2->AddEntry(hrad,"Bodek","P");
-   leg2->AddEntry(hrad1,"f1f217","P");
+   leg2->AddEntry(hrad1,"model111","P");
    leg2->Draw();
 
    TCanvas *c2=new TCanvas("c2","c2",1500,1500);
@@ -108,14 +108,14 @@ void plot_HeD()
 
    auto leg3=new TLegend(0.7,0.6,0.85,0.85);
    leg3->AddEntry(hRC,"Bodek","P");
-   leg3->AddEntry(hRC1,"f1f217","P");
+   leg3->AddEntry(hRC1,"model111","P");
    leg3->Draw();
 
    c2->cd(2);
    hratio->SetMarkerStyle(8);
    hratio->SetMarkerColor(4);
    hratio->Draw("AP");
-   hratio->SetTitle("He3/D Bodek/f1f217 ratio;xbj;"); 
+   hratio->SetTitle("He3/D Bodek/model111 ratio;xbj;"); 
 
 
 }
