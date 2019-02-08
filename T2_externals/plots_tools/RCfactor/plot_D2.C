@@ -21,9 +21,9 @@ void plot_D2()
    TString Yfile;
    int kin[11]={0,1,2,3,4,5,7,9,11,13,15};
    for(int ii=0;ii<11;ii++){
-       Yfile=Form("Bodek_final/D2_kin%d_xs.out",kin[ii]);
+       Yfile=Form("model211/D2_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born,D2_Rad); 
-       Yfile=Form("f1f217/D2_kin%d_xs.out",kin[ii]);
+       Yfile=Form("model111/D2_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born1,D2_Rad1); 
    }
 
@@ -33,7 +33,7 @@ void plot_D2()
    for(int ii=0;ii<11;ii++){
        int nn=0;
        from=0;
-       TString filename=Form("/home/hanjie/work/MARATHON/RadCor/T2_externals/RUNPLAN/datafile_new/D2_kin%d.txt",kin[ii]); 
+       TString filename=Form("/home/hanjie/work/MARATHON/RadCor/T2_externals/RUNPLAN/bin_avg/D2_kin%d.txt",kin[ii]); 
        Datafile.open(filename);
        while(tmp.ReadLine(Datafile)){
              if(nn==0){nn++;continue;}

@@ -38,7 +38,8 @@ C       Declare locals.
 	real*8	 	sig_qe,sig_dis,y,normfac,fact
         real*8		thr,cs,sn,tn,elastic_peak
 	real*8          Q2,nu,WSQ, x
-	real*8          F1,F2,FL,W1,W2,sigmott,r
+	real*8          F1,F2,FL,W1,W2,sigmott
+        real*8          R,DR,GD
 	real*8          W1p,W1n,W1D,W2p,W2n,W2D,F2D,F1D
 	integer         xflag !flag for which xsec to calculate 1=both 2=QE only 3=DIS only
 	logical         first
@@ -57,6 +58,9 @@ C       Declare locals.
 
 	real*8 emc_func_slac
 	external emc_func_slac
+
+	real*8 NMCF2d
+	external NMCF2d
 
 	data first/.true./
 
@@ -100,7 +104,7 @@ c	write(6,*) 'got to 1'
 
 	F1=0
 	F2=0
-	r=0
+	R=0
 	if((xflag.eq.1).or.(xflag.eq.3)) then
 c----------------------------------------------------------------
 c       
@@ -116,11 +120,16 @@ C Use old Bodek fit + SLAC EMC fit for now, b/c F1F2IN09 doesn't like large Q2,W
 
             if(A .gt. 1.0) then         
               if(D2_MODEL .eq. 1) then
-	         call ineft(Q2,sqrt(wsq),W1p,W2p,dble(1.0))
 	         call ineft(Q2,sqrt(wsq),W1D,W2D,dble(2.0))
         
                  F2D=nu*W2D*2.0
                  F1D=m_p*W1D*2.0
+              endif
+
+              if(D2_MODEL .eq. 2) then
+                 F2D=2.0*NMCF2d(x,Q2) 
+                 call R1998(x,Q2,R,DR,GD)
+                 F1D=F2D*(1+Q2/nu**2)/(2*x*(1+R))
               endif
 
               emccor=1.0
@@ -204,4 +213,68 @@ c-------------------------------------------------------------------------------
         end
 
 c----------------------------------------------------------------------------------------------
+
+        real*8 function NMCF2d(x,Q2)
+        real*8 x,Q2,W,beta
+        external beta
+        real*8 F2DIS,F2RES,F2BG
+        real*8 GQ2,S,sbar,xw,eps
+        real*8 a /4.177/,Wthr /1.03/,Mp /0.938272/,Q02 /2.0/,lamda /0.2/
+        real*8 ma2 /0.351/,mb2 /1.512/,Mdelta /1.232/,gammac /0.0728/
+        real*8 b/0.5/,c/0.05/,Mpi/0.138/
+        real*8 eta(4)
+        real*8 aa(6),bb(4)
+
+        DATA aa(1) /0.75966/, aa(2) /3.52/, aa(3) /0.83691/, 
+     *       aa(4) /12.876/, aa(5) /0.89456/, aa(6) /0.16452/
+        data bb(1) /-0.18202/, bb(2) /0.46256/, bb(3) /0.97906/, bb(4) /-2.9558/
+
+        sbar=log(log((Q2+ma2)/lamda**2)/log((Q02+ma2)/lamda**2))
+        eta(1)=aa(1)+bb(1)*sbar
+        eta(2)=aa(2)+bb(2)*sbar
+        eta(3)=aa(3)+bb(3)*sbar
+        eta(4)=aa(4)+bb(4)*sbar
+
+        W=sqrt(Mp*Mp+Q2*(1/x-1))
+        GQ2=1.0/(1.0+Q2/0.71)**2
+        S=1-exp(-a*(W-Wthr))
+        xw=(Q2+ma2)/(Q2/x+mb2)
+        F2DIS=(5.0/18.0*3.0/beta(eta(1),eta(2)+1.0)*xw**eta(1)*(1-xw)**eta(2)
+     >       +1.0/3.0*eta(3)*(1-xw)**eta(4))*S
+
+        F2RES=aa(5)**2*GQ2**3./2.*exp(-(W-Mdelta)**2/gammac**2)  
+
+        eps=sqrt(((W+c)**2+Mp**2-Mpi**2)**2/(4*(W+c)**2)-Mp**2)
+
+        F2BG=aa(6)**2*G**1./2.*eps*exp(-b*(W-Wthr)**2)
+
+        NMCF2d=(1-GQ2**2)*(F2DIS+F2RES+F2BG)
+        return
+        end
+
+c----------------------------------------------------------------------------------------------
+        real*8 function beta(z,w)
+        real*8 z,w,gammln 
+        external gammln
+        beta=exp(gammln(z)+gammln(w)-gammln(z+w))
+        return
+        end
+
+        real*8 function gammln(xx)
+        real*8 xx,x,tmp        
+        dimension cof(6)
+        data cof,stp/76.18009173d0,-86.50532033d0,24.01409822d0,
+     *    -1.231739516d0,.120858003d-2,-.536382d-5,2.50662827465d0/
+        data half,one,fpf/0.5d0,1.0d0,5.5d0/
+        x=xx-one
+        tmp=x+fpf
+        tmp=(x+half)*log(tmp)-tmp
+        ser=one
+        do 11 j=1,6
+           x=x+one
+           ser=ser+cof(j)/x
+11      continue
+        gammln=tmp+log(stp*ser)
+        return
+        end
 

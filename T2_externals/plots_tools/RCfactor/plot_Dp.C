@@ -71,9 +71,13 @@ void plot_Dp()
        }
    } 
 
+   ofstream outfile;
+   outfile.open("Dp_ratio.csv");
    TGraphErrors *gDpRaw[5];
+   TGraphErrors *gDp[5];
    for(int ii=0;ii<5;ii++){
        gDpRaw[ii]=new TGraphErrors();
+       gDp[ii]=new TGraphErrors();
        int nn=0;
        for(int jj=0;jj<MAXBIN;jj++){
           if(D2_x[ii][jj]==0||H1_x[ii][jj]==0)continue;
@@ -82,10 +86,17 @@ void plot_Dp()
           if(Dp_dataerr[ii][jj]>0.1)continue;
           gDpRaw[ii]->SetPoint(nn,D2_x[ii][jj],Dp_data[ii][jj]);
           gDpRaw[ii]->SetPointError(nn,0.0,Dp_dataerr[ii][jj]);
+
+	  Double_t tmp_ratio=Dp_data[ii][jj]*Dp_RC1[ii][jj];
+	  Double_t tmp_err=Dp_dataerr[ii][jj]*Dp_RC1[ii][jj];
+ 	  gDp[ii]->SetPoint(nn,D2_x[ii][jj],tmp_ratio);
+ 	  gDp[ii]->SetPointError(nn,0.0,tmp_err);
+
+	  outfile<<D2_x[ii][jj]<<","<<D2_Q2[ii][jj]<<","<<tmp_ratio<<","<<tmp_err<<endl;
           nn++;
       }
    }
-
+   outfile.close();
 
    TCanvas *c1=new TCanvas("c1","c1",1500,1500);
    TMultiGraph *mg1=new TMultiGraph();
@@ -113,10 +124,13 @@ void plot_Dp()
    for(int ii=0;ii<5;ii++){
        gDpRaw[ii]->SetMarkerStyle(22);
        gDpRaw[ii]->SetMarkerColor(color[ii]);
+       gDp[ii]->SetMarkerStyle(8);
+       gDp[ii]->SetMarkerColor(color[ii]);
        mg2->Add(gDpRaw[ii]);
+       mg2->Add(gDp[ii]);
    }
-   mg2->Add(hrad);
-   mg2->Add(hrad1);
+//   mg2->Add(hrad);
+//   mg2->Add(hrad1);
    mg2->Draw("AP");
    mg2->SetTitle("D/p rad cross section ratio;xbj;rad");
 

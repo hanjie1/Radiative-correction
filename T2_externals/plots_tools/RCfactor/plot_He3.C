@@ -18,9 +18,9 @@ void plot_He3()
    TString Yfile;
    int kin[11]={0,1,2,3,4,5,7,9,11,13,15};
    for(int ii=0;ii<11;ii++){
-       Yfile=Form("Bodek_final/He3_kin%d_xs.out",kin[ii]);
+       Yfile=Form("model211/He3_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],He3_x,He3_Q2,He3_Born,He3_Rad); 
-       Yfile=Form("f1f217/He3_kin%d_xs.out",kin[ii]);
+       Yfile=Form("model111/He3_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],He3_x,He3_Q2,He3_Born1,He3_Rad1); 
    }
 
@@ -39,14 +39,14 @@ void plot_He3()
            hborn->SetPoint(nn,He3_x[ii][jj],He3_Born[ii][jj]);
            hrad->SetPoint(nn,He3_x[ii][jj],He3_Rad[ii][jj]);
            if(He3_Rad[ii][jj]>0)He3_RC[ii][jj]=He3_Born[ii][jj]/He3_Rad[ii][jj];
-           //hRC->SetPoint(nn,He3_x[ii][jj],He3_RC[ii][jj]);
-           hRC->SetPoint(nn,He3_x[ii][jj],He3_Born[ii][jj]/He3_Born1[ii][jj]);
+           hRC->SetPoint(nn,He3_x[ii][jj],He3_RC[ii][jj]);
+           //hRC->SetPoint(nn,He3_x[ii][jj],He3_Born[ii][jj]/He3_Born1[ii][jj]);
 
            hborn1->SetPoint(nn,He3_x[ii][jj],He3_Born1[ii][jj]);
            hrad1->SetPoint(nn,He3_x[ii][jj],He3_Rad1[ii][jj]);
            if(He3_Rad1[ii][jj]>0)He3_RC1[ii][jj]=He3_Born1[ii][jj]/He3_Rad1[ii][jj];
-           //hRC1->SetPoint(nn,He3_x[ii][jj],He3_RC1[ii][jj]);
-           hRC1->SetPoint(nn,He3_x[ii][jj],He3_Rad[ii][jj]/He3_Rad1[ii][jj]);
+           hRC1->SetPoint(nn,He3_x[ii][jj],He3_RC1[ii][jj]);
+           //hRC1->SetPoint(nn,He3_x[ii][jj],He3_Rad[ii][jj]/He3_Rad1[ii][jj]);
 
            if(He3_RC1[ii][jj]>0)He3_ratio[ii][jj]=He3_RC[ii][jj]/He3_RC1[ii][jj];
            hratio->SetPoint(nn,He3_x[ii][jj],He3_ratio[ii][jj]);
