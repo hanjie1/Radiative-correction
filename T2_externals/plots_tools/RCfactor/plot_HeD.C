@@ -101,13 +101,13 @@ void plot_HeD()
    TCanvas *c1=new TCanvas("c1","c1",1500,1500);
    TMultiGraph *mg1=new TMultiGraph();
    hborn->SetMarkerStyle(8);
-   hborn->SetMarkerColor(4);
+   hborn->SetMarkerColor(2);
    hborn1->SetMarkerStyle(8);
-   hborn1->SetMarkerColor(9);
+   hborn1->SetMarkerColor(4);
    mg1->Add(hborn);
    mg1->Add(hborn1);
    mg1->Draw("AP");
-   mg1->SetTitle("D/p born cross section ratio;xbj;born");
+   mg1->SetTitle("He/D born cross section ratio;xbj;born");
 
    auto leg1=new TLegend(0.7,0.6,0.85,0.85);
    leg1->AddEntry(hborn,"Bodek","P");

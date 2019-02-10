@@ -26,11 +26,11 @@ void plot_H3D()
    TString Yfile;
    int kin[11]={0,1,2,3,4,5,7,9,11,13,15};
    for(int ii=0;ii<11;ii++){
-       Yfile=Form("Bodek/H3_kin%d_xs.out",kin[ii]);
+       Yfile=Form("model211/H3_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],H3_x,H3_Q2,H3_Born,H3_Rad); 
        Yfile=Form("model111/H3_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],H3_x,H3_Q2,H3_Born1,H3_Rad1); 
-       Yfile=Form("Bodek/D2_kin%d_xs.out",kin[ii]);
+       Yfile=Form("model211/D2_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born,D2_Rad);
        Yfile=Form("model111/D2_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born1,D2_Rad1);
@@ -101,13 +101,13 @@ void plot_H3D()
    TCanvas *c1=new TCanvas("c1","c1",1500,1500);
    TMultiGraph *mg1=new TMultiGraph();
    hborn->SetMarkerStyle(8);
-   hborn->SetMarkerColor(4);
+   hborn->SetMarkerColor(2);
    hborn1->SetMarkerStyle(8);
-   hborn1->SetMarkerColor(9);
+   hborn1->SetMarkerColor(4);
    mg1->Add(hborn);
    mg1->Add(hborn1);
    mg1->Draw("AP");
-   mg1->SetTitle("D/p born cross section ratio;xbj;born");
+   mg1->SetTitle("He/D born cross section ratio;xbj;born");
 
    auto leg1=new TLegend(0.7,0.6,0.85,0.85);
    leg1->AddEntry(hborn,"Bodek","P");

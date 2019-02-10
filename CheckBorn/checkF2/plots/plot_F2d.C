@@ -29,7 +29,7 @@ void plot_F2d()
            tmp.Tokenize(content,from," ");
            F2D_sys[nn-1]=atof(content.Data());
            tmp.Tokenize(content,from," ");
-           F2E[nn-1]=atof(content.Data())/2.0;
+           F2E[nn-1]=atof(content.Data());
            tmp.Tokenize(content,from," ");
            F2B[nn-1]=atof(content.Data());
 

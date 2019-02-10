@@ -235,20 +235,20 @@ c-------------------------------------------------------------------------------
         eta(3)=aa(3)+bb(3)*sbar
         eta(4)=aa(4)+bb(4)*sbar
 
-        W=sqrt(Mp*Mp+Q2*(1/x-1))
+        W=sqrt(Mp*Mp+Q2*(1./x-1.))
         GQ2=1.0/(1.0+Q2/0.71)**2
-        S=1-exp(-a*(W-Wthr))
+        S=1.0-exp(-a*(W-Wthr))
         xw=(Q2+ma2)/(Q2/x+mb2)
-        F2DIS=(5.0/18.0*3.0/beta(eta(1),eta(2)+1.0)*xw**eta(1)*(1-xw)**eta(2)
-     >       +1.0/3.0*eta(3)*(1-xw)**eta(4))*S
+        F2DIS=(5.0/18.0*3.0/beta(eta(1),eta(2)+1.0)*xw**eta(1)*(1.-xw)**eta(2)
+     >       +1.0/3.0*eta(3)*(1.-xw)**eta(4))*S
 
-        F2RES=aa(5)**2*GQ2**3./2.*exp(-(W-Mdelta)**2/gammac**2)  
+        F2RES=aa(5)**2*sqrt(GQ2**3)*exp(-(W-Mdelta)**2/gammac**2)  
 
-        eps=sqrt(((W+c)**2+Mp**2-Mpi**2)**2/(4*(W+c)**2)-Mp**2)
+        eps=sqrt(((W+c)**2+Mp**2-Mpi**2)**2/(4.*(W+c)**2)-Mp**2)
 
-        F2BG=aa(6)**2*G**1./2.*eps*exp(-b*(W-Wthr)**2)
+        F2BG=aa(6)**2*sqrt(GQ2)*eps*exp(-b*(W-Wthr)**2)
 
-        NMCF2d=(1-GQ2**2)*(F2DIS+F2RES+F2BG)
+        NMCF2d=(1.0-GQ2**2)*(F2DIS+F2RES+F2BG)
         return
         end
 
@@ -261,7 +261,7 @@ c-------------------------------------------------------------------------------
         end
 
         real*8 function gammln(xx)
-        real*8 xx,x,tmp        
+        real*8 xx,x,tmp,ser        
         dimension cof(6)
         data cof,stp/76.18009173d0,-86.50532033d0,24.01409822d0,
      *    -1.231739516d0,.120858003d-2,-.536382d-5,2.50662827465d0/

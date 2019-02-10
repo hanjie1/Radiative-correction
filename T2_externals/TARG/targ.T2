@@ -24,7 +24,7 @@ inel_model       206  inelastc d2 model: 0=ineft(Bodek);9,12=Stuart+F2Glob etc.
 pauli_model        4  0= stein; 1=tsai; 2 none; 3=vanorden; 4=lapikas
 Nuc Tail Method    1  0=No cos(theta_k) integration;  1= cos(th_k) integration
 Nuc FormFac Mdl    1  0=Shell,Gauss, 1=Hicks for Si28 and O16
-DIS_model        111  1=ineft;2=gsmearing; (used in sigmodel_calc_simple.f)
+DIS_model        211  1=ineft;2=gsmearing; (used in sigmodel_calc_simple.f)
 
 ! INEL_MODEL inelastc h2 modl: 0=ineft(Bodek);9,12=Stuart+F2Glob 
 !                                             1=f2nmc(DIS),ineft(RES)  
