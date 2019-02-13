@@ -38,9 +38,11 @@ C       Declare locals.
 	real*8	 	sig_qe,sig_dis,y,normfac,fact
         real*8		thr,cs,sn,tn,elastic_peak
 	real*8          Q2,nu,WSQ, x
+        real            x4,Qsq4,F2D4,F2P4,F2Derr_lo4,F2Derr_hi4,R4,DR4,F2Perr_lo4,F2Perr_hi4
 	real*8          F1,F2,FL,W1,W2,sigmott
         real*8          R,DR,GD
-	real*8          W1p,W1n,W1D,W2p,W2n,W2D,F2D,F1D
+        real*8          W1p,W1n,W1D,W2p,W2n,F1P,F2P,F2Perr_lo,F2Perr_hi
+        real*8          W2D,F2D,F1D,F2Derr_lo,F2Derr_hi
 	integer         xflag !flag for which xsec to calculate 1=both 2=QE only 3=DIS only
 	logical         first
         integer         D2_MODEL,EMC_MODEL,NP_MODEL,model  !DIS_MODEL defined in TARG
@@ -102,6 +104,9 @@ c	write(6,*) 'got to 1'
         flux = alp*kappa/(2.*pi2*Q2)*e2/e1/(1.-eps)
         wfn=2
 
+        x4=x
+        Qsq4=Q2
+
 	F1=0
 	F2=0
 	R=0
@@ -113,9 +118,22 @@ c	   call F1F2IN09(Z, A, Q2, WSQ, F1, F2, r)
 C Use old Bodek fit + SLAC EMC fit for now, b/c F1F2IN09 doesn't like large Q2,W2
 	  if(wsq.gt.1.1664) then
             if(A .eq. 1.0) then
-               call ineft(Q2,sqrt(wsq),W1p,W2p,dble(1.0))
-               F2 = nu*W2p
-               F1 = m_p*W1p
+               if(D2_MODEL .eq. 1) then
+                  call ineft(Q2,sqrt(wsq),W1p,W2p,dble(1.0))
+                  F2p = nu*W2p
+                  F1p = m_p*W1p
+               endif
+
+               if(D2_MODEL .eq. 2) then
+                 call F2NMC_new(1,x4,Qsq4,F2p4,F2perr_lo4,F2perr_hi4)
+                 call R1998(x4,Qsq4,R4,DR4,GD)
+                 F2p=dble(F2p4)
+                 R=dble(R4)
+                 F1p=F2p*(1+Q2/nu**2)/(2*x*(1+R))
+              endif
+        
+              F2=F2p
+              F1=F1p
             endif 
 
             if(A .gt. 1.0) then         
@@ -127,8 +145,10 @@ C Use old Bodek fit + SLAC EMC fit for now, b/c F1F2IN09 doesn't like large Q2,W
               endif
 
               if(D2_MODEL .eq. 2) then
-                 F2D=2.0*NMCF2d(x,Q2) 
-                 call R1998(x,Q2,R,DR,GD)
+                 call F2NMC_new(2,x4,Qsq4,F2D4,F2Derr_lo4,F2Derr_hi4)
+                 call R1998(x4,Qsq4,R4,DR4,GD)
+                 F2D=dble(F2D4)*2.0
+                 R=dble(R4)
                  F1D=F2D*(1+Q2/nu**2)/(2*x*(1+R))
               endif
 
@@ -215,6 +235,8 @@ c-------------------------------------------------------------------------------
 c----------------------------------------------------------------------------------------------
 
         real*8 function NMCF2d(x,Q2)
+c       F2d used in NMC radiative correction 
+c       NMC, P. Amaudruz et al., Nucl. Phys. B 371 (1992) 3.
         real*8 x,Q2,W,beta
         external beta
         real*8 F2DIS,F2RES,F2BG
@@ -277,4 +299,7 @@ c-------------------------------------------------------------------------------
         gammln=tmp+log(stp*ser)
         return
         end
+c------------------------------------------------------------------------------------------------
+
+
 

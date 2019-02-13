@@ -26,11 +26,11 @@ void plot_Dp()
    TString Yfile;
    int kin[5]={0,1,2,3,4};
    for(int ii=0;ii<5;ii++){
-       Yfile=Form("Bodek/D2_kin%d_xs.out",kin[ii]);
+       Yfile=Form("model211_1/D2_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born,D2_Rad); 
        Yfile=Form("model111/D2_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born1,D2_Rad1); 
-       Yfile=Form("Bodek/H1_kin%d_xs.out",kin[ii]);
+       Yfile=Form("model211_1/H1_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],H1_x,H1_Q2,H1_Born,H1_Rad);
        Yfile=Form("model111/H1_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],H1_x,H1_Q2,H1_Born1,H1_Rad1);
@@ -72,7 +72,7 @@ void plot_Dp()
    } 
 
    ofstream outfile;
-   outfile.open("Dp_ratio.csv");
+//   outfile.open("Dp_ratio.csv");
    TGraphErrors *gDpRaw[5];
    TGraphErrors *gDp[5];
    for(int ii=0;ii<5;ii++){
@@ -92,11 +92,11 @@ void plot_Dp()
  	  gDp[ii]->SetPoint(nn,D2_x[ii][jj],tmp_ratio);
  	  gDp[ii]->SetPointError(nn,0.0,tmp_err);
 
-	  outfile<<D2_x[ii][jj]<<","<<D2_Q2[ii][jj]<<","<<tmp_ratio<<","<<tmp_err<<endl;
+//	  outfile<<D2_x[ii][jj]<<","<<D2_Q2[ii][jj]<<","<<tmp_ratio<<","<<tmp_err<<endl;
           nn++;
       }
    }
-   outfile.close();
+//   outfile.close();
 
    TCanvas *c1=new TCanvas("c1","c1",1500,1500);
    TMultiGraph *mg1=new TMultiGraph();
@@ -110,7 +110,7 @@ void plot_Dp()
    mg1->SetTitle("D/p born cross section ratio;xbj;born");
 
    auto leg1=new TLegend(0.7,0.6,0.85,0.85);
-   leg1->AddEntry(hborn,"Bodek","P");
+   leg1->AddEntry(hborn,"model211","P");
    leg1->AddEntry(hborn1,"model111","P");
    leg1->Draw();
 
@@ -135,7 +135,7 @@ void plot_Dp()
    mg2->SetTitle("D/p rad cross section ratio;xbj;rad");
 
    auto leg2=new TLegend(0.7,0.6,0.85,0.85);
-   leg2->AddEntry(hrad,"Bodek","P");
+   leg2->AddEntry(hrad,"model211","P");
    leg2->AddEntry(hrad1,"model111","P");
    leg2->Draw();
 
@@ -153,7 +153,7 @@ void plot_Dp()
    mg3->SetTitle("Dp RC=born/rad ratio;xbj;RC");
 
    auto leg3=new TLegend(0.7,0.6,0.85,0.85);
-   leg3->AddEntry(hRC,"Bodek","P");
+   leg3->AddEntry(hRC,"model211_1","P");
    leg3->AddEntry(hRC1,"model111","P");
    leg3->Draw();
 
@@ -161,7 +161,7 @@ void plot_Dp()
    hratio->SetMarkerStyle(8);
    hratio->SetMarkerColor(4);
    hratio->Draw("AP");
-   hratio->SetTitle("Dp Bodek/model111 ratio;xbj;"); 
+   hratio->SetTitle("Dp model211_1/model111 ratio;xbj;"); 
 
 
 }

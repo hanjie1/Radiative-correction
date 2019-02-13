@@ -17,9 +17,9 @@ void plot_H1()
 
    TString Yfile;
    for(int ii=0;ii<5;ii++){
-       Yfile=Form("Bodek_final/H1_kin%d_xs.out",ii);
+       Yfile=Form("Bodek/H1_kin%d_xs.out",ii);
        ReadYield(Yfile,ii,H1_x,H1_Q2,H1_Born,H1_Rad); 
-       Yfile=Form("f1f217/H1_kin%d_xs.out",ii);
+       Yfile=Form("model211_1/H1_kin%d_xs.out",ii);
        ReadYield(Yfile,ii,H1_x,H1_Q2,H1_Born1,H1_Rad1); 
    }
 

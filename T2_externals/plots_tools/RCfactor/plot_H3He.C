@@ -20,11 +20,11 @@ void plot_H3He()
    TString Yfile;
    int kin[11]={0,1,2,3,4,5,7,9,11,13,15};
    for(int ii=0;ii<11;ii++){
-       Yfile=Form("model211/H3_kin%d_xs.out",kin[ii]);
+       Yfile=Form("model211_1/H3_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],H3_x,H3_Q2,H3_Born,H3_Rad); 
        Yfile=Form("model111/H3_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],H3_x,H3_Q2,H3_Born1,H3_Rad1); 
-       Yfile=Form("model211/He3_kin%d_xs.out",kin[ii]);
+       Yfile=Form("model211_1/He3_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],He3_x,He3_Q2,He3_Born,He3_Rad);
        Yfile=Form("model111/He3_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],He3_x,He3_Q2,He3_Born1,He3_Rad1);
@@ -73,8 +73,8 @@ void plot_H3He()
    mg1->SetTitle("H3/He3 born cross section ratio;xbj;born");
 
    auto leg1=new TLegend(0.7,0.6,0.85,0.85);
-   leg1->AddEntry(hborn,"Before","P");
-   leg1->AddEntry(hborn1,"After","P");
+   leg1->AddEntry(hborn,"model211","P");
+   leg1->AddEntry(hborn1,"model111","P");
    leg1->Draw();
 
    c1->cd(2);
@@ -89,8 +89,8 @@ void plot_H3He()
    mg2->SetTitle("H3/He3 rad cross section ratio;xbj;rad");
 
    auto leg2=new TLegend(0.7,0.6,0.85,0.85);
-   leg2->AddEntry(hrad,"Before","P");
-   leg2->AddEntry(hrad1,"After","P");
+   leg2->AddEntry(hrad,"model211","P");
+   leg2->AddEntry(hrad1,"model111","P");
    leg2->Draw();
 
    TCanvas *c2=new TCanvas("c2","c2",1500,1500);
@@ -107,15 +107,15 @@ void plot_H3He()
    mg3->SetTitle("H3/He3 RC=born/rad ratio;xbj;RC");
 
    auto leg3=new TLegend(0.7,0.6,0.85,0.85);
-   leg3->AddEntry(hRC,"Before","P");
-   leg3->AddEntry(hRC1,"After","P");
+   leg3->AddEntry(hRC,"model211_1","P");
+   leg3->AddEntry(hRC1,"model111","P");
    leg3->Draw();
 
    c2->cd(2);
    hratio->SetMarkerStyle(8);
    hratio->SetMarkerColor(4);
    hratio->Draw("AP");
-   hratio->SetTitle("H3/He3 Before/After ratio;xbj;"); 
+   hratio->SetTitle("H3/He3 model211_1/model111 ratio;xbj;"); 
 
 
 }

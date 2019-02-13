@@ -26,11 +26,11 @@ void plot_H3D()
    TString Yfile;
    int kin[11]={0,1,2,3,4,5,7,9,11,13,15};
    for(int ii=0;ii<11;ii++){
-       Yfile=Form("model211/H3_kin%d_xs.out",kin[ii]);
+       Yfile=Form("model211_1/H3_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],H3_x,H3_Q2,H3_Born,H3_Rad); 
        Yfile=Form("model111/H3_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],H3_x,H3_Q2,H3_Born1,H3_Rad1); 
-       Yfile=Form("model211/D2_kin%d_xs.out",kin[ii]);
+       Yfile=Form("model211_1/D2_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born,D2_Rad);
        Yfile=Form("model111/D2_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born1,D2_Rad1);
@@ -107,10 +107,10 @@ void plot_H3D()
    mg1->Add(hborn);
    mg1->Add(hborn1);
    mg1->Draw("AP");
-   mg1->SetTitle("He/D born cross section ratio;xbj;born");
+   mg1->SetTitle("H3/D born cross section ratio;xbj;born");
 
    auto leg1=new TLegend(0.7,0.6,0.85,0.85);
-   leg1->AddEntry(hborn,"Bodek","P");
+   leg1->AddEntry(hborn,"model211","P");
    leg1->AddEntry(hborn1,"model111","P");
    leg1->Draw();
 
@@ -132,10 +132,10 @@ void plot_H3D()
 //   mg2->Add(hrad);
 //   mg2->Add(hrad1);
    mg2->Draw("AP");
-   mg2->SetTitle("D/p rad cross section ratio;xbj;rad");
+   mg2->SetTitle("H3/D rad cross section ratio;xbj;rad");
 
    auto leg2=new TLegend(0.7,0.6,0.85,0.85);
-   leg2->AddEntry(hrad,"Bodek","P");
+   leg2->AddEntry(hrad,"model211","P");
    leg2->AddEntry(hrad1,"model111","P");
    leg2->Draw();
 
@@ -153,7 +153,7 @@ void plot_H3D()
    mg3->SetTitle("H3D RC=born/rad ratio;xbj;RC");
 
    auto leg3=new TLegend(0.7,0.6,0.85,0.85);
-   leg3->AddEntry(hRC,"Bodek","P");
+   leg3->AddEntry(hRC,"model211_1","P");
    leg3->AddEntry(hRC1,"model111","P");
    leg3->Draw();
 
@@ -161,7 +161,7 @@ void plot_H3D()
    hratio->SetMarkerStyle(8);
    hratio->SetMarkerColor(4);
    hratio->Draw("AP");
-   hratio->SetTitle("H3D Bodek/model111 ratio;xbj;"); 
+   hratio->SetTitle("H3D model211_1/model111 ratio;xbj;"); 
 
 
 }

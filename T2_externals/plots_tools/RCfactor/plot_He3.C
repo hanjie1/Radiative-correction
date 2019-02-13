@@ -18,9 +18,9 @@ void plot_He3()
    TString Yfile;
    int kin[11]={0,1,2,3,4,5,7,9,11,13,15};
    for(int ii=0;ii<11;ii++){
-       Yfile=Form("model211/He3_kin%d_xs.out",kin[ii]);
+       Yfile=Form("model211_1/He3_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],He3_x,He3_Q2,He3_Born,He3_Rad); 
-       Yfile=Form("model111/He3_kin%d_xs.out",kin[ii]);
+       Yfile=Form("model211/He3_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],He3_x,He3_Q2,He3_Born1,He3_Rad1); 
    }
 
