@@ -7591,7 +7591,10 @@ C          UNIVERSAL AND RESONANCE FIT FOR DEUTERIUM
            UNIV = SLACF2(W,QQ,CFD)/SP
            BRES = B(W,QQ,CD)          
       ENDIF                                                             
-                                                                        
+                  
+cccccc RC error test cccccc
+      if(amuM.gt.2.5)BRES=1.0 
+                                                     
 C COMPUTE VW2,W2,W1                                                     
                                                                         
       VW2    = UNIV*BRES 
@@ -7600,9 +7603,10 @@ C COMPUTE VW2,W2,W1
       W1     = (1.0D0+VV/QQ)/(V*(1.0D0+R))*VW2                          
 !      if(prttst) write(*,'(1x,''univ...='',6f10.4)') sp,univ,bres,
 !     >  vw2,w2,w1
-      IF (amuM.LE.2.5) RETURN                                               
-      X      = QQ/2./PM/V
-      EMCFAC= FITEMC(REAL(X),REAL(amuM),GOODFIT)
+      RETURN
+C      IF (amuM.LE.2.5) RETURN                                               
+C      X      = QQ/2./PM/V
+C      EMCFAC= FITEMC(REAL(X),REAL(amuM),GOODFIT)
 cdg      EMCFAC= FITEMC(REAL(X),REAL(amuM),GOODFIT)
 C$$      SUMEF  = EF(1)                                                    
 C$$      DO 11 J=2,7                                                       
@@ -7610,10 +7614,10 @@ C$$      ZZ     = J-1.
 C$$11    SUMEF  = SUMEF+EF(J)*X**ZZ                                        
 C$$      EMCFAC = 1+SUMEF*DLOG(amuM)                                       
                                                                         
-      W2     = W2*EMCFAC                                                
-      W1     = W1*EMCFAC                                                
+C      W2     = W2*EMCFAC                                                
+C      W1     = W1*EMCFAC                                                
                                                                         
-      RETURN                                                            
+C      RETURN                                                            
       END                                                               
                                                                         
 C-----------------------------------------------------------------------

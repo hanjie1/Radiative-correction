@@ -14,7 +14,7 @@ c       M_TGT:	- Mass of target nucleus in GeV/c2.
 c       M_REC:	- Mass of recoiling nucleon in GeV/c2.
 c       E_SEP:	- Separation energy for target nucleus in GeV/c2.
 c       SIG  :	- Calculated cross section in nb/(MeV-ster).// should be nb/(GeV-ster)
-c       model:  first digit -- F2d model: 1=Bodek, 2=Eric, 3=NMC
+c       model:  first digit -- F2d model: 1=Bodek, 2=NMC_new, 3=NMC_1992
 c               second digit -- EMC model: 1=KP, 2=Close
 c               third digit --F2n/F2p model: 1=curve1, 2=crve2, 3=curve3 
 c                             used to remove isoscalar correction in EMC ratio
@@ -61,8 +61,8 @@ C       Declare locals.
 	real*8 emc_func_slac
 	external emc_func_slac
 
-	real*8 NMCF2d
-	external NMCF2d
+	real*8 NMCF2
+	external NMCF2
 
 	data first/.true./
 
@@ -132,13 +132,24 @@ C Use old Bodek fit + SLAC EMC fit for now, b/c F1F2IN09 doesn't like large Q2,W
                  F1p=F2p*(1+Q2/nu**2)/(2*x*(1+R))
               endif
         
+               if(D2_MODEL .eq. 3) then
+                 F2p=NMCF2(A,x,Q2)
+                 call R1998(x4,Qsq4,R4,DR4,GD)
+                 R=dble(R4)
+                 F1p=F2p*(1+Q2/nu**2)/(2*x*(1+R))
+              endif
+
               F2=F2p
               F1=F1p
             endif 
 
             if(A .gt. 1.0) then         
               if(D2_MODEL .eq. 1) then
-	         call ineft(Q2,sqrt(wsq),W1D,W2D,dble(2.0))
+	         if(A.lt.2.5) then
+                     call ineft(Q2,sqrt(wsq),W1D,W2D,dble(2.0))
+	         else 
+                     call ineft(Q2,sqrt(wsq),W1D,W2D,dble(3.0))
+                 endif
         
                  F2D=nu*W2D*2.0
                  F1D=m_p*W1D*2.0
@@ -148,6 +159,13 @@ C Use old Bodek fit + SLAC EMC fit for now, b/c F1F2IN09 doesn't like large Q2,W
                  call F2NMC_new(2,x4,Qsq4,F2D4,F2Derr_lo4,F2Derr_hi4)
                  call R1998(x4,Qsq4,R4,DR4,GD)
                  F2D=dble(F2D4)*2.0
+                 R=dble(R4)
+                 F1D=F2D*(1+Q2/nu**2)/(2*x*(1+R))
+              endif
+
+               if(D2_MODEL .eq. 3) then
+                 F2D=NMCF2(dble(2.0),x,Q2)
+                 call R1998(x4,Qsq4,R4,DR4,GD)
                  R=dble(R4)
                  F1D=F2D*(1+Q2/nu**2)/(2*x*(1+R))
               endif
@@ -234,10 +252,11 @@ c-------------------------------------------------------------------------------
 
 c----------------------------------------------------------------------------------------------
 
-        real*8 function NMCF2d(x,Q2)
-c       F2d used in NMC radiative correction 
+        real*8 function NMCF2(amuM,x,Q2)
+c       F2d and F2p used in NMC radiative correction 
 c       NMC, P. Amaudruz et al., Nucl. Phys. B 371 (1992) 3.
-        real*8 x,Q2,W,beta
+c       F2d is (A.1); F2p is calculated by (A.1) and (B.1)
+        real*8 x,Q2,W,beta,amuM
         external beta
         real*8 F2DIS,F2RES,F2BG
         real*8 GQ2,S,sbar,xw,eps
@@ -246,6 +265,8 @@ c       NMC, P. Amaudruz et al., Nucl. Phys. B 371 (1992) 3.
         real*8 b/0.5/,c/0.05/,Mpi/0.138/
         real*8 eta(4)
         real*8 aa(6),bb(4)
+        real*8 F2d,F2p,F2np
+        real*8 AX,BX
 
         DATA aa(1) /0.75966/, aa(2) /3.52/, aa(3) /0.83691/, 
      *       aa(4) /12.876/, aa(5) /0.89456/, aa(6) /0.16452/
@@ -270,7 +291,16 @@ c       NMC, P. Amaudruz et al., Nucl. Phys. B 371 (1992) 3.
 
         F2BG=aa(6)**2*sqrt(GQ2)*eps*exp(-b*(W-Wthr)**2)
 
-        NMCF2d=(1.0-GQ2**2)*(F2DIS+F2RES+F2BG)
+        F2d=(1.0-GQ2**2)*(F2DIS+F2RES+F2BG)
+
+        AX=0.979-1.692*x+2.797*x**2-4.313*x**3+3.075*x**4
+        BX=-0.171*x+0.244*x**2
+        F2np=AX*((Q2/20.0)**BX)*(1+x**2/Q2)
+        F2p=F2d/(1.0+F2np)
+
+        if(amuM .eq. 1.0) NMCF2=F2p
+        if(amuM .eq. 2.0) NMCF2=F2d
+
         return
         end
 

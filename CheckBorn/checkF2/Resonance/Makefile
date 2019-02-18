@@ -5,8 +5,8 @@ FFLAGS    = -C -g -w -fno-automatic -fbounds-check -ffixed-line-length-132
 F77       :=gfortran
 ########################################
 
-CheckRes_objs = CheckRes.o ineft.o
-CheckRes_srcs = CheckRes.f ineft.f
+CheckRes_objs = CheckRes.o F2NMC.o
+CheckRes_srcs = CheckRes.f F2NMC.f
 
 ########################################
 
@@ -17,7 +17,7 @@ all:  CheckRes
 CheckRes.o: CheckRes.f
 		 $(F77) $(FFLAGS) -c $< -o $@
 
-ineft.o: ineft.f
+F2NMC.o: F2NMC.f
 	$(F77) $(FFLAGS) -c $< -o $@
 
 CheckRes: $(CheckRes_objs) Makefile

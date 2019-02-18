@@ -23,11 +23,11 @@ void plot_D2()
    TString Yfile;
    int kin[11]={0,1,2,3,4,5,7,9,11,13,15};
    for(int ii=0;ii<11;ii++){
-       Yfile=Form("model111/D2_kin%d_xs.out",kin[ii]);
-       ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born,D2_Rad); 
-       Yfile=Form("model211/D2_kin%d_xs.out",kin[ii]);
-       ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born1,D2_Rad1); 
        Yfile=Form("model211_1/D2_kin%d_xs.out",kin[ii]);
+       ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born,D2_Rad); 
+       Yfile=Form("model111_noResAll/D2_kin%d_xs.out",kin[ii]);
+       ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born1,D2_Rad1); 
+       Yfile=Form("model111_ResOnlyD2H1/D2_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born2,D2_Rad2); 
    }
 
@@ -148,8 +148,8 @@ void plot_D2()
 
    auto leg1=new TLegend(0.7,0.6,0.811,0.811);
    leg1->AddEntry(hborn,"model111","P");
-   leg1->AddEntry(hborn1,"model211","P");
-   leg1->AddEntry(hborn2,"model211_1","P");
+   leg1->AddEntry(hborn1,"model111_noResAll","P");
+   leg1->AddEntry(hborn2,"model111_ResOnlyD2H1","P");
    leg1->Draw();
 
    c1->cd(2);
@@ -168,8 +168,8 @@ void plot_D2()
 
    auto leg2=new TLegend(0.7,0.6,0.811,0.811);
    leg2->AddEntry(hrad,"model111","P");
-   leg2->AddEntry(hrad1,"model211","P");
-   leg2->AddEntry(hrad2,"model211_1","P");
+   leg2->AddEntry(hrad1,"model111_noResAll","P");
+   leg2->AddEntry(hrad2,"model111_ResOnlyD2H1","P");
    leg2->Draw();
 
    TCanvas *c2=new TCanvas("c2","c2",1500,1500);
@@ -190,8 +190,8 @@ void plot_D2()
 
    auto leg3=new TLegend(0.7,0.6,0.811,0.811);
    leg3->AddEntry(hRC,"model111","P");
-   leg3->AddEntry(hRC1,"model211","P");
-   leg3->AddEntry(hRC2,"model211_1","P");
+   leg3->AddEntry(hRC1,"model111_noResAll","P");
+   leg3->AddEntry(hRC2,"model111_ResOnlynD2H1","P");
    leg3->Draw();
 
    c2->cd(2);
@@ -203,11 +203,11 @@ void plot_D2()
    mg4->Add(hratio);
    mg4->Add(hratio1);
    mg4->Draw("AP");
-   mg4->SetTitle("D2 model111/model211;xbj;"); 
+   mg4->SetTitle("D2 RC ratio between models;xbj;"); 
 
    auto leg4=new TLegend(0.7,0.6,0.811,0.811);
-   leg4->AddEntry(hratio,"model111/model211","P");
-   leg4->AddEntry(hratio1,"model111/model211_1","P");
+   leg4->AddEntry(hratio,"model111/model111_noResAll","P");
+   leg4->AddEntry(hratio1,"model111/model111_ResOnlyD2H1","P");
    leg4->Draw();
 
 }
