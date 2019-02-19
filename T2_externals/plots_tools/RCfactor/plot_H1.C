@@ -17,9 +17,9 @@ void plot_H1()
 
    TString Yfile;
    for(int ii=0;ii<5;ii++){
-       Yfile=Form("Bodek/H1_kin%d_xs.out",ii);
+       Yfile=Form("model111/H1_kin%d_xs.out",ii);
        ReadYield(Yfile,ii,H1_x,H1_Q2,H1_Born,H1_Rad); 
-       Yfile=Form("model211_1/H1_kin%d_xs.out",ii);
+       Yfile=Form("model111_noResAll/H1_kin%d_xs.out",ii);
        ReadYield(Yfile,ii,H1_x,H1_Q2,H1_Born1,H1_Rad1); 
    }
 
@@ -88,7 +88,7 @@ void plot_H1()
    leg2->Draw();
 
    TCanvas *c2=new TCanvas("c2","c2",1500,1500);
-   c2->Divide(2,1);
+/*   c2->Divide(2,1);
    c2->cd(1);
    TMultiGraph *mg3=new TMultiGraph();
    hRC->SetMarkerStyle(8);
@@ -106,10 +106,10 @@ void plot_H1()
    leg3->Draw();
 
    c2->cd(2);
-   hratio->SetMarkerStyle(8);
+*/   hratio->SetMarkerStyle(8);
    hratio->SetMarkerColor(4);
    hratio->Draw("AP");
-   hratio->SetTitle("H1 Bodek/f1f217;xbj;"); 
+   hratio->SetTitle("H1 model111/model11_noResAll;xbj;"); 
 
 
 }

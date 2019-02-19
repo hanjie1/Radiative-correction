@@ -23,11 +23,11 @@ void plot_D2()
    TString Yfile;
    int kin[11]={0,1,2,3,4,5,7,9,11,13,15};
    for(int ii=0;ii<11;ii++){
-       Yfile=Form("model211_1/D2_kin%d_xs.out",kin[ii]);
+       Yfile=Form("model111/D2_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born,D2_Rad); 
        Yfile=Form("model111_noResAll/D2_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born1,D2_Rad1); 
-       Yfile=Form("model111_ResOnlyD2H1/D2_kin%d_xs.out",kin[ii]);
+       Yfile=Form("model211/D2_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born2,D2_Rad2); 
    }
 
@@ -173,7 +173,7 @@ void plot_D2()
    leg2->Draw();
 
    TCanvas *c2=new TCanvas("c2","c2",1500,1500);
-   c2->Divide(2,1);
+/*   c2->Divide(2,1);
    c2->cd(1);
    TMultiGraph *mg3=new TMultiGraph();
    hRC->SetMarkerStyle(8);
@@ -195,19 +195,19 @@ void plot_D2()
    leg3->Draw();
 
    c2->cd(2);
-   TMultiGraph *mg4=new TMultiGraph();
+*/   TMultiGraph *mg4=new TMultiGraph();
    hratio->SetMarkerStyle(8);
    hratio->SetMarkerColor(4);
-   hratio1->SetMarkerStyle(8);
-   hratio1->SetMarkerColor(2);
+//   hratio1->SetMarkerStyle(8);
+//   hratio1->SetMarkerColor(2);
    mg4->Add(hratio);
-   mg4->Add(hratio1);
+//   mg4->Add(hratio1);
    mg4->Draw("AP");
-   mg4->SetTitle("D2 RC ratio between models;xbj;"); 
-
+   mg4->SetTitle("D2 model111/model111_noResAll;xbj;"); 
+/*
    auto leg4=new TLegend(0.7,0.6,0.811,0.811);
    leg4->AddEntry(hratio,"model111/model111_noResAll","P");
    leg4->AddEntry(hratio1,"model111/model111_ResOnlyD2H1","P");
    leg4->Draw();
-
+*/
 }

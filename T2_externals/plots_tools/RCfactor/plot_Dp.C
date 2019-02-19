@@ -26,13 +26,13 @@ void plot_Dp()
    TString Yfile;
    int kin[5]={0,1,2,3,4};
    for(int ii=0;ii<5;ii++){
-       Yfile=Form("model111_noResAll/D2_kin%d_xs.out",kin[ii]);
+       Yfile=Form("model211/D2_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born,D2_Rad); 
-       Yfile=Form("model111/D2_kin%d_xs.out",kin[ii]);
+       Yfile=Form("model311/D2_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born1,D2_Rad1); 
-       Yfile=Form("model111_noResAll/H1_kin%d_xs.out",kin[ii]);
+       Yfile=Form("model211/H1_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],H1_x,H1_Q2,H1_Born,H1_Rad);
-       Yfile=Form("model111/H1_kin%d_xs.out",kin[ii]);
+       Yfile=Form("model311/H1_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],H1_x,H1_Q2,H1_Born1,H1_Rad1);
 
        Yfile=Form("H1_kin%d.txt",kin[ii]);
@@ -111,7 +111,7 @@ void plot_Dp()
 
    auto leg1=new TLegend(0.7,0.6,0.85,0.85);
    leg1->AddEntry(hborn,"model211","P");
-   leg1->AddEntry(hborn1,"model111","P");
+   leg1->AddEntry(hborn1,"model211","P");
    leg1->Draw();
 
    TCanvas *c3=new TCanvas("c3","c3",1500,1500);
@@ -136,7 +136,7 @@ void plot_Dp()
 
    auto leg2=new TLegend(0.7,0.6,0.85,0.85);
    leg2->AddEntry(hrad,"model211","P");
-   leg2->AddEntry(hrad1,"model111","P");
+   leg2->AddEntry(hrad1,"model211","P");
    leg2->Draw();
 
    TCanvas *c2=new TCanvas("c2","c2",1500,1500);
@@ -153,15 +153,15 @@ void plot_Dp()
    mg3->SetTitle("Dp RC=born/rad ratio;xbj;RC");
 
    auto leg3=new TLegend(0.7,0.6,0.85,0.85);
-   leg3->AddEntry(hRC,"model211_1","P");
-   leg3->AddEntry(hRC1,"model111","P");
+   leg3->AddEntry(hRC,"model211","P");
+   leg3->AddEntry(hRC1,"model311","P");
    leg3->Draw();
 
    c2->cd(2);
    hratio->SetMarkerStyle(8);
    hratio->SetMarkerColor(4);
    hratio->Draw("AP");
-   hratio->SetTitle("Dp model211_1/model111 ratio;xbj;"); 
+   hratio->SetTitle("Dp model211/model311 ratio;xbj;"); 
 
 
 }

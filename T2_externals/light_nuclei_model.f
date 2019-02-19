@@ -164,7 +164,7 @@ C Use old Bodek fit + SLAC EMC fit for now, b/c F1F2IN09 doesn't like large Q2,W
               endif
 
                if(D2_MODEL .eq. 3) then
-                 F2D=NMCF2(dble(2.0),x,Q2)
+                 F2D=NMCF2(A,x,Q2)
                  call R1998(x4,Qsq4,R4,DR4,GD)
                  R=dble(R4)
                  F1D=F2D*(1+Q2/nu**2)/(2*x*(1+R))
@@ -292,6 +292,7 @@ c       F2d is (A.1); F2p is calculated by (A.1) and (B.1)
         F2BG=aa(6)**2*sqrt(GQ2)*eps*exp(-b*(W-Wthr)**2)
 
         F2d=(1.0-GQ2**2)*(F2DIS+F2RES+F2BG)
+        F2d=F2d*2.0
 
         AX=0.979-1.692*x+2.797*x**2-4.313*x**3+3.075*x**4
         BX=-0.171*x+0.244*x**2
@@ -299,8 +300,8 @@ c       F2d is (A.1); F2p is calculated by (A.1) and (B.1)
         F2p=F2d/(1.0+F2np)
 
         if(amuM .eq. 1.0) NMCF2=F2p
-        if(amuM .eq. 2.0) NMCF2=F2d
-
+        if(amuM .gt. 1.5) NMCF2=F2d
+        
         return
         end
 
