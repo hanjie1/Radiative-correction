@@ -51,7 +51,7 @@ C       Declare locals.
         integer         wfn,opt
         logical         doqe,dfirst/.false./
         real*8          pi2,alp
-        real*8          emccor
+        real*8          emccor,emciso,F2_NP,F_IS
 
 	save
 
@@ -175,6 +175,20 @@ C Use old Bodek fit + SLAC EMC fit for now, b/c F1F2IN09 doesn't like large Q2,W
                  emccor=EMC_KP(x,Z,A)
               endif
 
+              if((EMC_MODEL .eq. 2).AND.(A.GT.2.5)) then
+                 emciso=emc_func_slac(x,A)
+
+                 if(NP_MODEL .eq. 1) then
+c                   sig_n/sig_p from Jaiver EMC paper: Phys. Rev. D 49 4348 1994
+                    F2_NP=1-0.8*x
+                 endif 
+
+                 F_IS=(1+F2_NP)/(Z+(A-Z)*F2_NP)
+                 emccor=emciso/F_IS
+
+              endif
+
+
               F2=F2D*emccor
               F1=F1D*emccor
             endif
@@ -212,6 +226,7 @@ c-------------------------------------------------------------------------------
 	real*8 function emc_func_slac(x,A)
 	real*8 x,A,atemp
 	real*8 alpha,C
+!       Javier EMC fit for isoscalar nuclei, Phys. Rev. D 49 (4348) 1994
 
 	atemp = A
 !	if(A.eq.4.or.A.eq.3) then  ! emc effect is more like C for these 2...

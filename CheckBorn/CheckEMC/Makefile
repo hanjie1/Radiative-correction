@@ -5,24 +5,24 @@ FFLAGS    = -C -g -w -fno-automatic -fbounds-check -ffixed-line-length-132
 F77       :=gfortran
 ########################################
 
-EMCHE3_objs = EMCHE3.o ineft.o 
-EMCHE3_srcs = EMCHE3.f ineft.f
+EMC_SLAC_objs = EMC_SLAC.o ineft.o 
+EMC_SLAC_srcs = EMC_SLAC.f ineft.f
 
 ########################################
 
-none: EMCHE3
+none: EMC_SLAC
 
-all:  EMCHE3
+all:  EMC_SLAC
 
-EMCHE3.o: EMCHE3.f
+EMC_SLAC.o: EMC_SLAC.f
 		 $(F77) $(FFLAGS) -c $< -o $@
 
 ineft.o: ineft.f
 	$(F77) $(FFLAGS) -c $< -o $@
 
-EMCHE3: $(EMCHE3_objs) Makefile
-	$(F77) -o $@  $(FFLAGS) $(EMCHE3_objs) $(OTHERLIBS)
+EMC_SLAC: $(EMC_SLAC_objs) Makefile
+	$(F77) -o $@  $(FFLAGS) $(EMC_SLAC_objs) $(OTHERLIBS)
 
 
 clean:
-	rm -f *.o EMCHE3
+	rm -f *.o EMC_SLAC

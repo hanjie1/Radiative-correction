@@ -26,13 +26,13 @@ void plot_H3D()
    TString Yfile;
    int kin[11]={0,1,2,3,4,5,7,9,11,13,15};
    for(int ii=0;ii<11;ii++){
-       Yfile=Form("Bodek/H3_kin%d_xs.out",kin[ii]);
+       Yfile=Form("model111_ResOnlyD2H1/H3_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],H3_x,H3_Q2,H3_Born,H3_Rad); 
-       Yfile=Form("model111/H3_kin%d_xs.out",kin[ii]);
+       Yfile=Form("model121_ResOnlyD2H1/H3_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],H3_x,H3_Q2,H3_Born1,H3_Rad1); 
-       Yfile=Form("Bodek/D2_kin%d_xs.out",kin[ii]);
+       Yfile=Form("model111_ResOnlyD2H1/D2_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born,D2_Rad);
-       Yfile=Form("model111/D2_kin%d_xs.out",kin[ii]);
+       Yfile=Form("model121_ResOnlyD2H1/D2_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],D2_x,D2_Q2,D2_Born1,D2_Rad1);
 
        Yfile=Form("D2_kin%d.txt",kin[ii]);
@@ -110,8 +110,8 @@ void plot_H3D()
    mg1->SetTitle("H3/D born cross section ratio;xbj;born");
 
    auto leg1=new TLegend(0.7,0.6,0.85,0.85);
-   leg1->AddEntry(hborn,"Bodek","P");
-   leg1->AddEntry(hborn1,"model111","P");
+   leg1->AddEntry(hborn,"model111_ResOnlyD2H1","P");
+   leg1->AddEntry(hborn1,"model121_ResOnlyD2H1","P");
    leg1->Draw();
 
    TCanvas *c3=new TCanvas("c3","c3",1500,1500);
@@ -135,8 +135,8 @@ void plot_H3D()
    mg2->SetTitle("H3/D rad cross section ratio;xbj;rad");
 
    auto leg2=new TLegend(0.7,0.6,0.85,0.85);
-   leg2->AddEntry(hrad,"Bodek","P");
-   leg2->AddEntry(hrad1,"model111","P");
+   leg2->AddEntry(hrad,"model111_ResOnlyD2H1","P");
+   leg2->AddEntry(hrad1,"model121_ResOnlyD2H1","P");
    leg2->Draw();
 
    TCanvas *c2=new TCanvas("c2","c2",1500,1500);
@@ -153,15 +153,15 @@ void plot_H3D()
    mg3->SetTitle("H3D RC=born/rad ratio;xbj;RC");
 
    auto leg3=new TLegend(0.7,0.6,0.85,0.85);
-   leg3->AddEntry(hRC,"Bodek","P");
-   leg3->AddEntry(hRC1,"model111","P");
+   leg3->AddEntry(hRC,"model111_ResOnlyD2H1","P");
+   leg3->AddEntry(hRC1,"model121_ResOnlyD2H1","P");
    leg3->Draw();
 
    c2->cd(2);
    hratio->SetMarkerStyle(8);
    hratio->SetMarkerColor(4);
    hratio->Draw("AP");
-   hratio->SetTitle("H3D Bodek/model111 ratio;xbj;"); 
+   hratio->SetTitle("H3D model111_ResOnlyD2H1/model121_ResOnlyD2H1 ratio;xbj;"); 
 
 
 }
