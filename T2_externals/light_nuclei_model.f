@@ -51,7 +51,7 @@ C       Declare locals.
         integer         wfn,opt
         logical         doqe,dfirst/.false./
         real*8          pi2,alp
-        real*8          emccor,emciso,F2_NP,F_IS
+        real*8          emccor,emciso,F2_NP,F_IS,CJ_f2n,CJ_f2p
 
 	save
 
@@ -63,6 +63,9 @@ C       Declare locals.
 
 	real*8 NMCF2
 	external NMCF2
+
+	real*8 CJsfn
+	external CJsfn
 
 	data first/.true./
 
@@ -181,6 +184,13 @@ C Use old Bodek fit + SLAC EMC fit for now, b/c F1F2IN09 doesn't like large Q2,W
                  if(NP_MODEL .eq. 1) then
 c                   sig_n/sig_p from Jaiver EMC paper: Phys. Rev. D 49 4348 1994
                     F2_NP=1-0.8*x
+                 endif 
+
+                 if(NP_MODEL .eq. 2) then
+c                   F2_n/F2_p from CJ15
+                    CJ_f2p=CJsfn(1,x,sqrt(Q2)) 
+                    CJ_f2n=CJsfn(2,x,sqrt(Q2)) 
+                    F2_NP=CJ_f2n/CJ_f2p
                  endif 
 
                  F_IS=(1+F2_NP)/(Z+(A-Z)*F2_NP)

@@ -9,12 +9,12 @@
         real*8 emc_func_slac
         external emc_func_slac
 
-        outfile='OUT/SLAC_EMC_He3.out'
+        outfile='OUT/SLAC_EMC_H3.out'
         open(unit=66,file=outfile)
         write(66,*) 'x   F2A/F2D '
 
         A=3.0
-        Z=2.0
+        Z=1.0
 
         do 99 ii=1,99
            x=0.+0.01*ii

@@ -152,10 +152,14 @@ c check out pauli supp.
           write(6,'(1x,12f5.2)') e0set,q2set,psf1,psf2
         enddo
       enddo
-
+c  This is to load tables for f1f217
       dfirst = .true.
       wfn=2
       call SQESUB(1.0,1.0,wfn,f2dqe,f1dqe,fLdqe,dfirst)
+
+c  This is to load tables for CJ15
+      call setCJ(600)
+
 c Loop over kinematic points:                                           
                                                                         
       npts=0                                                                     
@@ -7593,7 +7597,7 @@ C          UNIVERSAL AND RESONANCE FIT FOR DEUTERIUM
       ENDIF                                                             
                   
 cccccc RC error test cccccc
-      if(amuM.gt.2.5)BRES=1.0 
+c      if(amuM.gt.2.5)BRES=1.0 
                                                      
 C COMPUTE VW2,W2,W1                                                     
                                                                         

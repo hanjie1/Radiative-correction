@@ -4,7 +4,7 @@ void plot_SLACEMC()
      Double_t x[MAXBIN],EMC_ISO[MAXBIN],EMC[MAXBIN];
 
      ifstream file1;
-     file1.open("OUT/SLAC_EMC_He3.out");
+     file1.open("OUT/SLAC_EMC_H3.out");
 
      Ssiz_t from=0;
      TString content,tmp;

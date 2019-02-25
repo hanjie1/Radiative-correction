@@ -18,9 +18,9 @@ void plot_H3()
    TString Yfile;
    int kin[11]={0,1,2,3,4,5,7,9,11,13,15};
    for(int ii=0;ii<11;ii++){
-       Yfile=Form("model111/H3_kin%d_xs.out",kin[ii]);
+       Yfile=Form("new_H3/H3_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],H3_x,H3_Q2,H3_Born,H3_Rad); 
-       Yfile=Form("model111_noResAll/H3_kin%d_xs.out",kin[ii]);
+       Yfile=Form("model121_ResOnlyD2H1/H3_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],H3_x,H3_Q2,H3_Born1,H3_Rad1); 
    }
 
@@ -108,7 +108,7 @@ void plot_H3()
 */   hratio->SetMarkerStyle(8);
    hratio->SetMarkerColor(4);
    hratio->Draw("AP");
-   hratio->SetTitle("H3 model111/model111_noResAll;xbj;"); 
+   hratio->SetTitle("H3 new_H3/model121_ResOnlyD2H1;xbj;"); 
 
 
 }
