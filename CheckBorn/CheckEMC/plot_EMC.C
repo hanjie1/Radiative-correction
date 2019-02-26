@@ -4,7 +4,7 @@ void plot_EMC()
      Double_t x[MAXBIN],EMC[MAXBIN];
 
      ifstream file1;
-     file1.open("OUT/EMC_He4.out");
+     file1.open("OUT/EMC_He3.out");
 
      Ssiz_t from=0;
      TString content,tmp;

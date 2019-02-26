@@ -64,6 +64,9 @@ C       Declare locals.
 	real*8 NMCF2
 	external NMCF2
 
+	real*8 F2NP_NMC
+    	external F2NP_NMC
+
 	real*8 CJsfn
 	external CJsfn
 
@@ -191,6 +194,11 @@ c                   F2_n/F2_p from CJ15
                     CJ_f2p=CJsfn(1,x,sqrt(Q2)) 
                     CJ_f2n=CJsfn(2,x,sqrt(Q2)) 
                     F2_NP=CJ_f2n/CJ_f2p
+                 endif 
+
+                 if(NP_MODEL .eq. 3) then
+c                   F2_n/F2_p NMC paper 1992
+                    F2_NP=F2NP_NMC(x,Q2)
                  endif 
 
                  F_IS=(1+F2_NP)/(Z+(A-Z)*F2_NP)
@@ -357,6 +365,15 @@ c-------------------------------------------------------------------------------
         return
         end
 c------------------------------------------------------------------------------------------------
+        real*8 function F2NP_NMC(x,Q2)
+        real*8 x,Q2,AX,BX
+
+        AX=0.979-1.692*x+2.797*x**2-4.313*x**3+3.075*x**4
+        BX=-0.171*x+0.244*x**2
+        F2NP_NMC=AX*((Q2/20.0)**BX)*(1+x**2/Q2)
+
+        return
+        end
 
 
 
