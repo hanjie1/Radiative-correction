@@ -25,9 +25,9 @@ void plot_He3()
    for(int ii=0;ii<11;ii++){
        Yfile=Form("model111/He3_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],He3_x,He3_Q2,He3_Born,He3_Rad); 
-       Yfile=Form("model211/He3_kin%d_xs.out",kin[ii]);
+       Yfile=Form("model111_ResOnlyD2H1/He3_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],He3_x,He3_Q2,He3_Born1,He3_Rad1); 
-       Yfile=Form("model311/He3_kin%d_xs.out",kin[ii]);
+       Yfile=Form("model111_noResAll/He3_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],He3_x,He3_Q2,He3_Born2,He3_Rad2); 
    }
 
@@ -141,15 +141,15 @@ void plot_He3()
    hborn2->SetMarkerStyle(8);
    hborn2->SetMarkerColor(1);
    mg1->Add(hborn);
-//   mg1->Add(hborn1);
+   mg1->Add(hborn1);
    mg1->Add(hborn2);
    mg1->Draw("AP");
    mg1->SetTitle("He3 born cross section;xbj;born");
 
    auto leg1=new TLegend(0.7,0.6,0.811,0.811);
    leg1->AddEntry(hborn,"model111","P");
-   leg1->AddEntry(hborn1,"model211","P");
-   leg1->AddEntry(hborn2,"model311","P");
+   leg1->AddEntry(hborn1,"model111_ResOnlyD2H1","P");
+   leg1->AddEntry(hborn2,"model111_noResAll","P");
    leg1->Draw();
 
    c1->cd(2);
@@ -161,15 +161,15 @@ void plot_He3()
    hrad2->SetMarkerStyle(8);
    hrad2->SetMarkerColor(1);
    mg2->Add(hrad);
-//   mg2->Add(hrad1);
+   mg2->Add(hrad1);
    mg2->Add(hrad2);
    mg2->Draw("AP");
    mg2->SetTitle("He3 rad cross section;xbj;rad");
 
    auto leg2=new TLegend(0.7,0.6,0.811,0.811);
    leg2->AddEntry(hrad,"model111","P");
-   leg2->AddEntry(hrad1,"model211","P");
-   leg2->AddEntry(hrad2,"model311","P");
+   leg2->AddEntry(hrad1,"model111_ResOnlyD2H1","P");
+   leg2->AddEntry(hrad2,"model111_noResAll","P");
    leg2->Draw();
 
    TCanvas *c2=new TCanvas("c2","c2",1500,1500);
@@ -190,8 +190,8 @@ void plot_He3()
 
    auto leg3=new TLegend(0.7,0.6,0.811,0.811);
    leg3->AddEntry(hRC,"model111","P");
-   leg3->AddEntry(hRC1,"model211","P");
-   leg3->AddEntry(hRC2,"model311","P");
+   leg3->AddEntry(hRC1,"model111_ResOnlyD2H1","P");
+   leg3->AddEntry(hRC2,"model111_noResAll","P");
    leg3->Draw();
 
    c2->cd(2);
@@ -203,11 +203,11 @@ void plot_He3()
    mg4->Add(hratio);
    mg4->Add(hratio1);
    mg4->Draw("AP");
-   mg4->SetTitle("He3 model111/model211;xbj;"); 
+   mg4->SetTitle("He3 model111/model111_ResOnlyD2H1;xbj;"); 
 
    auto leg4=new TLegend(0.7,0.6,0.811,0.811);
-   leg4->AddEntry(hratio,"model111/model211","P");
-   leg4->AddEntry(hratio1,"model111/model311","P");
+   leg4->AddEntry(hratio,"model111/model111_ResOnlyD2H1","P");
+   leg4->AddEntry(hratio1,"model111/model111_noResAll","P");
    leg4->Draw();
 
 }

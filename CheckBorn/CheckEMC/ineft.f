@@ -96,12 +96,15 @@ C OVERCOME RISK OF UNDERFLOW IN THE EXPONENTIATION
       IF (amuM.LE.1.5) THEN !hydrogen
 C          UNIVERSAL AND RESONANCE FIT FOR HYDROGEN                     
            UNIV = SLACF2(W,QQ,CF)
-           BRES = B(W,QQ,C)
+           BRES = B(W,QQ,C,amuM)
       ELSE
 C          UNIVERSAL AND RESONANCE FIT FOR DEUTERIUM                    
            UNIV = SLACF2(W,QQ,CFD)/SP
-           BRES = B(W,QQ,CD)
+           BRES = B(W,QQ,CD,amuM)
       ENDIF
+
+cccccc RC error test cccccc
+      if(amuM.gt.2.5)BRES=1.0 
 
 C COMPUTE VW2,W2,W1                                                     
 
@@ -155,7 +158,7 @@ C OMEGAW FIT...NO PHOTO-PRODUCTION COUPLING
 
 C-----------------------------------------------------------------------
 
-      REAL*8 FUNCTION B(WM,QSQ,C)                                              
+      REAL*8 FUNCTION B(WM,QSQ,C,amuM)                                              
 
 C BACKGROUND AND RESONANCE CONTRIBUTION FOR ATWOOD'S FIT                
 
@@ -169,6 +172,7 @@ C BACKGROUND AND RESONANCE CONTRIBUTION FOR ATWOOD'S FIT
       common/testing/prttst
       logical prttst
       DATA      LSPIN/1,2,3,2/
+      real*8  amuM
 
 C KINEMATICS                                                            
 
@@ -224,7 +228,10 @@ C COLLECT RES. CONTRIBUTION
      >  ressv
 
 C FORM VW2/F2                                                           
-
+c      if(amuM .gt. 2.5) then
+c         RESSUM=1.0
+c         BRES=1.0
+c      endif
       B = BBKG*(1.+(1.-BBKG)*XPX)+RESSUM*(1.-BRES)
 !      if(prttst) write(*,'(1x,''b...'',6f10.5)') b,bbkg,xpx,ressum                                                                  
       RETURN

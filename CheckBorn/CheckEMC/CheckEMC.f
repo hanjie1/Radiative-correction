@@ -1,6 +1,7 @@
         program CheckEMC
         implicit none
 
+c       Close EMC check
         real*8 e0,ep,theta,Mp,thr
         real*8 Q2,Wsq,f1qe,f2qe,flqe
         real*8 f1d,f2d,fld,f1dqe,f2dqe,fldqe

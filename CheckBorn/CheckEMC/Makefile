@@ -5,24 +5,24 @@ FFLAGS    = -C -g -w -fno-automatic -fbounds-check -ffixed-line-length-132
 F77       :=gfortran
 ########################################
 
-EMC_SLAC_objs = EMC_SLAC.o ineft.o 
-EMC_SLAC_srcs = EMC_SLAC.f ineft.f
+CheckA3_objs = CheckA3.o ineft.o 
+CheckA3_srcs = CheckA3.f ineft.f
 
 ########################################
 
-none: EMC_SLAC
+none: CheckA3
 
-all:  EMC_SLAC
+all:  CheckA3
 
-EMC_SLAC.o: EMC_SLAC.f
+CheckA3.o: CheckA3.f
 		 $(F77) $(FFLAGS) -c $< -o $@
 
 ineft.o: ineft.f
 	$(F77) $(FFLAGS) -c $< -o $@
 
-EMC_SLAC: $(EMC_SLAC_objs) Makefile
-	$(F77) -o $@  $(FFLAGS) $(EMC_SLAC_objs) $(OTHERLIBS)
+CheckA3: $(CheckA3_objs) Makefile
+	$(F77) -o $@  $(FFLAGS) $(CheckA3_objs) $(OTHERLIBS)
 
 
 clean:
-	rm -f *.o EMC_SLAC
+	rm -f *.o CheckA3
