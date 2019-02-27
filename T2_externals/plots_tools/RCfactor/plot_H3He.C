@@ -29,18 +29,18 @@ void plot_H3He()
    TString Yfile;
    int kin[11]={0,1,2,3,4,5,7,9,11,13,15};
    for(int ii=0;ii<11;ii++){
-       Yfile=Form("model121_AllRes/H3_kin%d_xs.out",kin[ii]);
+       Yfile=Form("model111/H3_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],H3_x,H3_Q2,H3_Born,H3_Rad); 
        Yfile=Form("model122_AllRes/H3_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],H3_x,H3_Q2,H3_Born1,H3_Rad1); 
-       Yfile=Form("model123_AllRes/H3_kin%d_xs.out",kin[ii]);
+       Yfile=Form("model411/H3_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],H3_x,H3_Q2,H3_Born2,H3_Rad2); 
 
-       Yfile=Form("model121_AllRes/He3_kin%d_xs.out",kin[ii]);
+       Yfile=Form("model111/He3_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],He3_x,He3_Q2,He3_Born,He3_Rad);
        Yfile=Form("model122_AllRes/He3_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],He3_x,He3_Q2,He3_Born1,He3_Rad1);
-       Yfile=Form("model123_AllRes/He3_kin%d_xs.out",kin[ii]);
+       Yfile=Form("model411/He3_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],He3_x,He3_Q2,He3_Born2,He3_Rad2);
 
        Yfile=Form("He3_kin%d.txt",kin[ii]);
@@ -133,7 +133,7 @@ void plot_H3He()
    mg1->SetTitle("H3/He3 born cross section ratio;xbj;born");
 
    auto leg1=new TLegend(0.7,0.6,0.85,0.85);
-   leg1->AddEntry(hborn,"model121_AllRes","P");
+   leg1->AddEntry(hborn,"model111","P");
    leg1->AddEntry(hborn1,"model122_AllRes","P");
    leg1->AddEntry(hborn2,"model123_ResOnlyHe3H1","P");
    leg1->Draw();
@@ -161,7 +161,7 @@ void plot_H3He()
    mg2->SetTitle("H3/He3 rad cross section ratio;xbj;rad");
 
    auto leg2=new TLegend(0.7,0.6,0.85,0.85);
-   leg2->AddEntry(hrad,"model121_AllRes","P");
+   leg2->AddEntry(hrad,"model111","P");
    leg2->AddEntry(hrad1,"model122_AllRes","P");
    leg2->AddEntry(hrad2,"model123_ResOnlyHe3H1","P");
    leg2->Draw();
@@ -183,9 +183,9 @@ void plot_H3He()
    mg3->SetTitle("H3/He3 RC=born/rad ratio;xbj;RC");
 
    auto leg3=new TLegend(0.7,0.6,0.85,0.85);
-   leg3->AddEntry(hRC,"model121_AllRes","P");
+   leg3->AddEntry(hRC,"model111","P");
    leg3->AddEntry(hRC1,"model122_AllRes","P");
-   leg3->AddEntry(hRC2,"model123_AllRes","P");
+   leg3->AddEntry(hRC2,"model411","P");
    leg3->Draw();
 
    c2->cd(2);
@@ -200,8 +200,8 @@ void plot_H3He()
    mg4->SetTitle("H3/He3 RC ratio between models;xbj;");
 
    auto leg4=new TLegend(0.7,0.6,0.811,0.811);
-   leg4->AddEntry(hratio,"model121_AllRes/model122_AllRes","P");
-   leg4->AddEntry(hratio1,"model121_AllRes/model123_AllRes","P");
+   leg4->AddEntry(hratio,"model111/model122_AllRes","P");
+   leg4->AddEntry(hratio1,"model111/model411","P");
    leg4->Draw();
 
 

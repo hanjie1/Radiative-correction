@@ -7598,7 +7598,7 @@ C          UNIVERSAL AND RESONANCE FIT FOR DEUTERIUM
                   
 cccccc RC error test cccccc
 c      if(amuM.gt.2.5)BRES=1.0 
-                                                     
+c      WRITE(6,'(A5,3F8.4,2E15.4)') 'ALL: ',QQ/(2.*PM*V),QQ,WW,UNIV,BRES
 C COMPUTE VW2,W2,W1                                                     
                                                                         
       VW2    = UNIV*BRES 
@@ -7725,6 +7725,7 @@ C COLLECT RES. CONTRIBUTION
 C FORM VW2/F2                                                           
                                                                         
       B = BBKG*(1.+(1.-BBKG)*XPX)+RESSUM*(1.-BRES)                      
+c      write(6,'(A5,2E15.4)') 'RES: ',BBKG*(1.+(1.-BBKG)*XPX),RESSUM*(1.-BRES)
 !      if(prttst) write(*,'(1x,''b...'',6f10.5)') b,bbkg,xpx,ressum                                                                  
       RETURN                                                            
       END                                                               

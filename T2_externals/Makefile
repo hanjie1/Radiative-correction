@@ -7,10 +7,10 @@ F77       :=gfortran
 
 externals_all_objs = externals_all.o light_nuclei_model.o fy.o target_info.o \
 	             F1F209.o f_to_sig.o y_calc.o sig_bar_df.o nform_xem.o \
-                     get_cc_info.o f1f217b.o f2allm.o gf2glob.o CJgrids.o
+                     get_cc_info.o f1f217b.o f2allm.o CJgrids.o gf2glob.o
 externals_all_srcs = externals_all.f light_nuclei_model.f fy.f target_info.f \
                      F1F209.f f_to_sig.f y_calc.f sig_bar_df.f nform_xem.f \
-                     get_cc_info.f f1f217b.f f2allm.f gf2glob.f\
+                     get_cc_info.f f1f217b.f f2allm.f gf2glob.f \
 		     /home/hanjie/work/MARATHON/CJ-master/downloads/CJgrids.f
 
 ########################################

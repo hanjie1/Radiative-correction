@@ -5,24 +5,27 @@ FFLAGS    = -C -g -w -fno-automatic -fbounds-check -ffixed-line-length-132
 F77       :=gfortran
 ########################################
 
-CheckA3_objs = CheckA3.o ineft.o 
-CheckA3_srcs = CheckA3.f ineft.f
+CheckHE3_objs = CheckHE3.o ineft.o f2glob.o
+CheckHE3_srcs = CheckHE3.f ineft.f f2glob.f
 
 ########################################
 
-none: CheckA3
+none: CheckHE3
 
-all:  CheckA3
+all:  CheckHE3
 
-CheckA3.o: CheckA3.f
+CheckHE3.o: CheckHE3.f
 		 $(F77) $(FFLAGS) -c $< -o $@
 
 ineft.o: ineft.f
 	$(F77) $(FFLAGS) -c $< -o $@
 
-CheckA3: $(CheckA3_objs) Makefile
-	$(F77) -o $@  $(FFLAGS) $(CheckA3_objs) $(OTHERLIBS)
+f2glob.o: f2glob.f
+	$(F77) $(FFLAGS) -c $< -o $@
+
+CheckHE3: $(CheckHE3_objs) Makefile
+	$(F77) -o $@  $(FFLAGS) $(CheckHE3_objs) $(OTHERLIBS)
 
 
 clean:
-	rm -f *.o CheckA3
+	rm -f *.o CheckHE3

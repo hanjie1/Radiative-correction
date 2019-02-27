@@ -105,6 +105,7 @@ C          UNIVERSAL AND RESONANCE FIT FOR DEUTERIUM
 
 cccccc RC error test cccccc
       if(amuM.gt.2.5)BRES=1.0 
+      
 
 C COMPUTE VW2,W2,W1                                                     
 
