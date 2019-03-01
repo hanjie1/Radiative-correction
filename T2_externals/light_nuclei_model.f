@@ -178,6 +178,7 @@ C Use old Bodek fit + SLAC EMC fit for now, b/c F1F2IN09 doesn't like large Q2,W
 
                if(D2_MODEL .eq. 4) then
 c                this is using whitlow dis fit for HE3 and H3 only
+c                Whitlow fit is for W2>3 only
                  call gF2GLOB(X,Q2,'D',12,F2D)
                  call R1998(x4,Qsq4,R4,DR4,GD)
                  R=dble(R4)

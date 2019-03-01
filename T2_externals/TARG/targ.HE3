@@ -11,9 +11,9 @@ avgM (GeV)
 target type         TRITIUM     : columns 21-27                                         
 thicknesses (rad. lengths):
    target          0.00075   
-   walls           0.00481                                               
-   pre-target      0.00342   
-   post-target     0.00732
+   walls           0.00519                                               
+   pre-target      0.00285
+   post-target     0.00832
 nseg (even)        4                                                     
                                                                          
 Pking: Ep/E >      1.0                                                   
