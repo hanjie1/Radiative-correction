@@ -70,7 +70,7 @@ C=======================================================================
       real deltae_cc, f1cc ! boost and focus factor for coulomb correction.
       real sigborn_cc,sigborninel_cc,sigbornqe_cc
       real beame_cc,eprime_cc,ccor
-      real*8 f1dqe,f2dqe,fldqe
+      real*8 f1dqe,f2dqe,fldqe,tmp_cor
       integer wfn
 
       COMMON/ioana/xval
@@ -228,6 +228,7 @@ c     CALL  FYXSEC8(E0SET,EPSET,TH,SIGMA_CORR)
 
          dorad=.true.
          doext=.true.
+c test materials other than gas
           
          if(dorad) then 
 C Radiation length integral. Loop over internal and internal+external:  
@@ -438,8 +439,9 @@ c effect for this version
      >          sbqesv(npts),srsv(npts),
      >          srelsv(npts),srqesv(npts),srinsv(npts),ccor
 
+           tmp_cor=srsv(npts)/sbsv(npts)
            write(66,*) xsv(npts),q2set,thsv(npts),
-     >          epsv(npts),sbsv(npts),srsv(npts)
+     >          epsv(npts),sbsv(npts),srsv(npts),tmp_cor
 
            write(6,'(1x,5f9.4,9e13.5)') e0sv(npts),epsv(npts),
      >          thsv(npts),xsv(npts),q2set,sbsv(npts),
@@ -1444,12 +1446,10 @@ C so set DEL0 and DELP to zero
 C Equivalent radiator for internal bremstrahlung correction             
       TEQUI = AL/PI*(LOG(Q2/EM**2)-1.)/B                                
 
-                                                                        
       TB  = TBEFOR+TBAL+TEQUI                                           
       TA  = TAFTER+TAAL+TEQUI                                           
       BTB = B*(TBEFOR+TEQUI)+BA*TBAL                                    
       BTA = B*(TAFTER+TEQUI)+BA*TAAL                                    
-
 CDG Do external only for dummy/target wall tests
 c      TB  = TBEFOR+TBAL                                           
 c      TA  = TAFTER+TAAL
@@ -3846,7 +3846,7 @@ c      OPEN(UNIT=20,FILE='extern.inp')
      >     '; deut elastic=',i2, '; inelastc=',I3, 
      >     '; Pauli Supresion=',i2 /
      >     ' NUCLEAR METHOD=',I2,';   NUCLEAR_MODEL=',I2/
-     >     ' DIS MODEL=',I2/)
+     >     ' DIS MODEL=',I3/)
 
 
 C Now open output files
@@ -3862,7 +3862,8 @@ c     > '  Sig_Rad_QE Sig_Rad_DIS C_cor'
       i = index(base,' ')      	
       filename = 'OUT/'//base(1:i-1)//'_xs.out'                             
       open(unit=66,file=filename)
-      write(66,*) '***x   Q2   Theta   Eprime   Sig_Born   Sig_Rad'
+      write(66,*) '***x   Q2   Theta   Eprime   Sig_Born   Sig_Rad'//
+     > '   Rad_cor'
       i = index(base,' ')      	
       filename = 'OUT/'//base(1:i-1)//'_int.out'                             
       open(unit=18,file=filename)
