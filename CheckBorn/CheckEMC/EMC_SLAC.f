@@ -3,25 +3,33 @@
 
         real*8 m_p /0.93827231/
         real*8 amuM,x,Q2,eps,nu,wsq,A,Z
-        real*8 emciso,emccor,F_IS,F2_NP
+        real*8 emciso,emccor,F_IS,F2_NP,CJ_f2n,CJ_f2p
         character*80  outfile
         integer ii
         real*8 emc_func_slac
         external emc_func_slac
+        real*8 CJsfn
+        external CJsfn
 
-        outfile='OUT/SLAC_EMC_H3.out'
+        outfile='OUT/SLAC_EMC_He3_CJ15.out'
         open(unit=66,file=outfile)
         write(66,*) 'x   F2A/F2D '
 
         A=3.0
-        Z=1.0
+        Z=2.0
+        call setCJ(600)
 
-        do 99 ii=1,99
-           x=0.+0.01*ii
+        do 99 ii=1,80
+           x=0.1+0.01*ii
+           Q2=14.0*x
 
            emciso=emc_func_slac(x,A)
 
-           F2_NP=1-0.8*x
+c           F2_NP=1-0.8*x
+           CJ_f2p=CJsfn(1,x,sqrt(Q2))
+           CJ_f2n=CJsfn(2,x,sqrt(Q2))
+           F2_NP=CJ_f2n/CJ_f2p
+
 
            F_IS=(1+F2_NP)/(Z+(A-Z)*F2_NP)
            emccor=emciso/F_IS

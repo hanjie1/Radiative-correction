@@ -15,10 +15,10 @@ c       M_REC:	- Mass of recoiling nucleon in GeV/c2.
 c       E_SEP:	- Separation energy for target nucleus in GeV/c2.
 c       SIG  :	- Calculated cross section in nb/(MeV-ster).// should be nb/(GeV-ster)
 c       model:  first digit -- F2d model: 1=Bodek, 2=NMC_new, 3=NMC_1992
-c               second digit -- EMC model: 1=KP, 2=Close
-c               third digit --F2n/F2p model: 1=curve1, 2=crve2, 3=curve3 
-c                             used to remove isoscalar correction in EMC ratio
-c               exp: 111 = Bodek F2d + KP EMC + curve1 F2n/F2p
+c               second digit -- EMC model: 1=KP, 2=SLAC EMC
+c               third digit --F2n/F2p model: 1=linear line, 2=CJ15, 3=NMC 1992 
+c                             used to remove isoscalar correction in SLAC EMC ratio
+c               exp: 121 = Bodek F2d + SLAC EMC + curve1 F2n/F2p
 C       ______________________________________________________________________________
 
         implicit none

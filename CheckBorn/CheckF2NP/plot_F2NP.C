@@ -40,6 +40,13 @@ void plot_F2NP()
      mg->Add(gF2NP_SLAC);
      mg->Add(gF2NP_NMC);
      mg->Draw("AP");
+     mg->SetTitle("F2n/F2p;x;");
+
+   auto leg1=new TLegend(0.7,0.6,0.85,0.85);
+   leg1->AddEntry(gF2NP_CJ,"CJ15","P");
+   leg1->AddEntry(gF2NP_SLAC,"SLAC linear","P");
+   leg1->AddEntry(gF2NP_NMC,"NMC","P");
+   leg1->Draw();
 
 
 }

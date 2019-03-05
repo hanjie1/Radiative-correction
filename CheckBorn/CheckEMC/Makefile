@@ -5,16 +5,17 @@ FFLAGS    = -C -g -w -fno-automatic -fbounds-check -ffixed-line-length-132
 F77       :=gfortran
 ########################################
 
-CheckHE3_objs = CheckHE3.o ineft.o f2glob.o
-CheckHE3_srcs = CheckHE3.f ineft.f f2glob.f
+EMC_SLAC_objs = EMC_SLAC.o ineft.o f2glob.o CJgrids.o
+EMC_SLAC_srcs = EMC_SLAC.f ineft.f f2glob.f \
+		/home/hanjie/work/MARATHON/CJ-master/downloads/CJgrids.f
 
 ########################################
 
-none: CheckHE3
+none: EMC_SLAC
 
-all:  CheckHE3
+all:  EMC_SLAC
 
-CheckHE3.o: CheckHE3.f
+EMC_SLAC.o: EMC_SLAC.f
 		 $(F77) $(FFLAGS) -c $< -o $@
 
 ineft.o: ineft.f
@@ -23,9 +24,12 @@ ineft.o: ineft.f
 f2glob.o: f2glob.f
 	$(F77) $(FFLAGS) -c $< -o $@
 
-CheckHE3: $(CheckHE3_objs) Makefile
-	$(F77) -o $@  $(FFLAGS) $(CheckHE3_objs) $(OTHERLIBS)
+CJgrids.o: /home/hanjie/work/MARATHON/CJ-master/downloads/CJgrids.f
+	$(F77) $(FFLAGS) -c $< -o $@
+
+EMC_SLAC: $(EMC_SLAC_objs) Makefile
+	$(F77) -o $@  $(FFLAGS) $(EMC_SLAC_objs) $(OTHERLIBS)
 
 
 clean:
-	rm -f *.o CheckHE3
+	rm -f *.o EMC_SLAC

@@ -135,7 +135,7 @@ void plot_Dp()
    auto leg1=new TLegend(0.7,0.6,0.85,0.85);
    leg1->AddEntry(hrad,"model111","P");
    leg1->AddEntry(hrad1,"model211","P");
-   leg1->AddEntry(hrad2,"model311","P");
+//   leg1->AddEntry(hrad2,"model311","P");
    leg1->Draw();
 
    TCanvas *c3=new TCanvas("c3","c3",1500,1500);
@@ -163,7 +163,7 @@ void plot_Dp()
    auto leg2=new TLegend(0.7,0.6,0.85,0.85);
    leg2->AddEntry(hrad,"model111","P");
    leg2->AddEntry(hrad1,"model211","P");
-   leg2->AddEntry(hrad2,"model311","P");
+//   leg2->AddEntry(hrad2,"model311","P");
    leg2->Draw();
 
    TCanvas *c2=new TCanvas("c2","c2",1500,1500);
@@ -178,14 +178,14 @@ void plot_Dp()
    hRC2->SetMarkerColor(1);
    mg3->Add(hRC);
    mg3->Add(hRC1);
-   mg3->Add(hRC2);
+//   mg3->Add(hRC2);
    mg3->Draw("AP");
    mg3->SetTitle("Dp RC=born/rad ratio;xbj;RC");
 
    auto leg3=new TLegend(0.7,0.6,0.85,0.85);
    leg3->AddEntry(hRC,"model111","P");
    leg3->AddEntry(hRC1,"model211","P");
-   leg3->AddEntry(hRC2,"model311","P");
+//   leg3->AddEntry(hRC2,"model311","P");
    leg3->Draw();
 
    c2->cd(2);
@@ -195,14 +195,14 @@ void plot_Dp()
    hratio1->SetMarkerStyle(8);
    hratio1->SetMarkerColor(2);
    mg4->Add(hratio);
-   mg4->Add(hratio1);
+//   mg4->Add(hratio1);
    mg4->Draw("AP");
-   mg4->SetTitle("D/p RC ratio between models;xbj;");
+   mg4->SetTitle("D/p RC ratio model111/model211;xbj;");
 
    auto leg4=new TLegend(0.7,0.6,0.85,0.85);
    leg4->AddEntry(hratio,"model111/model211","P");
-   leg4->AddEntry(hratio1,"model111/model311","P");
-   leg4->Draw();
+//   leg4->AddEntry(hratio1,"model111/model311","P");
+//   leg4->Draw();
 
 
 
