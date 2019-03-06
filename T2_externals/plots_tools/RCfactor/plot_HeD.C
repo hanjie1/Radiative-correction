@@ -4,12 +4,12 @@ using namespace std;
 
 void plot_HeD()
 {
-     Double_t D2_x[11][MAXBIN],D2_Q2[11][MAXBIN],D2_Born[11][MAXBIN],D2_Rad[11][MAXBIN],D2_Born1[11][MAXBIN],D2_Rad1[11][MAXBIN];
-     Double_t He3_x[11][MAXBIN],He3_Q2[11][MAXBIN],He3_Born[11][MAXBIN],He3_Rad[11][MAXBIN],He3_Born1[11][MAXBIN],He3_Rad1[11][MAXBIN];
-     Double_t Dp_RC[11][MAXBIN],Dp_RC1[11][MAXBIN];
-     Double_t Dp_ratio[11][MAXBIN];
+     Double_t D2_x[12][MAXBIN],D2_Q2[12][MAXBIN],D2_Born[12][MAXBIN],D2_Rad[12][MAXBIN],D2_Born1[12][MAXBIN],D2_Rad1[12][MAXBIN];
+     Double_t He3_x[12][MAXBIN],He3_Q2[12][MAXBIN],He3_Born[12][MAXBIN],He3_Rad[12][MAXBIN],He3_Born1[12][MAXBIN],He3_Rad1[12][MAXBIN];
+     Double_t Dp_RC[12][MAXBIN],Dp_RC1[12][MAXBIN];
+     Double_t Dp_ratio[12][MAXBIN];
 
-     for(int ii=0;ii<11;ii++){
+     for(int ii=0;ii<12;ii++){
 	 for(int jj=0;jj<MAXBIN;jj++){
              D2_x[ii][jj]=0.0; D2_Q2[ii][jj]=0.0; D2_Born[ii][jj]=0.0; D2_Rad[ii][jj]=0.0;D2_Born1[ii][jj]=0.0; D2_Rad1[ii][jj]=0.0;
              He3_x[ii][jj]=0.0; He3_Q2[ii][jj]=0.0; He3_Born[ii][jj]=0.0; He3_Rad[ii][jj]=0.0;He3_Born1[ii][jj]=0.0; He3_Rad1[ii][jj]=0.0;
@@ -18,8 +18,8 @@ void plot_HeD()
      }}
 
    TString Yfile;
-   int kin[11]={0,1,2,3,4,5,7,9,11,13,15};
-   for(int ii=0;ii<11;ii++){
+   int kin[12]={0,1,2,3,4,5,7,9,11,13,15,16};
+   for(int ii=0;ii<12;ii++){
        Yfile=Form("model111/He3_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],He3_x,He3_Q2,He3_Born,He3_Rad); 
        Yfile=Form("model122/He3_kin%d_xs.out",kin[ii]);
@@ -39,7 +39,7 @@ void plot_HeD()
    TGraph *hratio=new TGraph();
     
    int nn=0;
-   for(int ii=0;ii<11;ii++){
+   for(int ii=0;ii<12;ii++){
        for(int jj=0;jj<MAXBIN;jj++){
 	   if(He3_x[ii][jj]==0)continue;
            if(abs(He3_x[ii][jj]-D2_x[ii][jj])>0.001)continue;

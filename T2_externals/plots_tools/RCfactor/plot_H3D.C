@@ -4,15 +4,15 @@ using namespace std;
 
 void plot_H3D()
 {
-     Double_t D2_x[11][MAXBIN],D2_Q2[11][MAXBIN],D2_Born[11][MAXBIN],D2_Rad[11][MAXBIN],D2_Born1[11][MAXBIN],D2_Rad1[11][MAXBIN];
-     Double_t H3_x[11][MAXBIN],H3_Q2[11][MAXBIN],H3_Born[11][MAXBIN],H3_Rad[11][MAXBIN],H3_Born1[11][MAXBIN],H3_Rad1[11][MAXBIN];
-     Double_t H3D_RC[11][MAXBIN],H3D_RC1[11][MAXBIN];
-     Double_t H3D_ratio[11][MAXBIN];
-     Double_t D2_Yield[11][MAXBIN],D2_Yerr[11][MAXBIN]; 
-     Double_t H3_Yield[11][MAXBIN],H3_Yerr[11][MAXBIN]; 
-     Double_t H3D_data[11][MAXBIN],H3D_dataerr[11][MAXBIN]; 
+     Double_t D2_x[12][MAXBIN],D2_Q2[12][MAXBIN],D2_Born[12][MAXBIN],D2_Rad[12][MAXBIN],D2_Born1[12][MAXBIN],D2_Rad1[12][MAXBIN];
+     Double_t H3_x[12][MAXBIN],H3_Q2[12][MAXBIN],H3_Born[12][MAXBIN],H3_Rad[12][MAXBIN],H3_Born1[12][MAXBIN],H3_Rad1[12][MAXBIN];
+     Double_t H3D_RC[12][MAXBIN],H3D_RC1[12][MAXBIN];
+     Double_t H3D_ratio[12][MAXBIN];
+     Double_t D2_Yield[12][MAXBIN],D2_Yerr[12][MAXBIN]; 
+     Double_t H3_Yield[12][MAXBIN],H3_Yerr[12][MAXBIN]; 
+     Double_t H3D_data[12][MAXBIN],H3D_dataerr[12][MAXBIN]; 
 
-     for(int ii=0;ii<11;ii++){
+     for(int ii=0;ii<12;ii++){
 	 for(int jj=0;jj<MAXBIN;jj++){
              D2_x[ii][jj]=0.0; D2_Q2[ii][jj]=0.0; D2_Born[ii][jj]=0.0; D2_Rad[ii][jj]=0.0;D2_Born1[ii][jj]=0.0; D2_Rad1[ii][jj]=0.0;
              H3_x[ii][jj]=0.0; H3_Q2[ii][jj]=0.0; H3_Born[ii][jj]=0.0; H3_Rad[ii][jj]=0.0;H3_Born1[ii][jj]=0.0; H3_Rad1[ii][jj]=0.0;
@@ -24,8 +24,8 @@ void plot_H3D()
      }}
 
    TString Yfile;
-   int kin[11]={0,1,2,3,4,5,7,9,11,13,15};
-   for(int ii=0;ii<11;ii++){
+   int kin[12]={0,1,2,3,4,5,7,9,11,13,15,16};
+   for(int ii=0;ii<12;ii++){
        Yfile=Form("model111/H3_kin%d_xs.out",kin[ii]);
        ReadYield(Yfile,kin[ii],H3_x,H3_Q2,H3_Born,H3_Rad); 
        Yfile=Form("model122/H3_kin%d_xs.out",kin[ii]);
@@ -50,7 +50,7 @@ void plot_H3D()
    TGraph *hratio=new TGraph();
     
    int nn=0;
-   for(int ii=0;ii<11;ii++){
+   for(int ii=0;ii<12;ii++){
        for(int jj=0;jj<MAXBIN;jj++){
 	   if(H3_x[ii][jj]==0)continue;
            if(abs(H3_x[ii][jj]-D2_x[ii][jj])>0.001)continue;
@@ -71,11 +71,11 @@ void plot_H3D()
        }
    } 
 
-   ofstream outfile;
-   outfile.open("H3D_ratio.csv");
-   TGraphErrors *gH3DRaw[11];
-   TGraphErrors *gH3D[11];
-   for(int ii=0;ii<11;ii++){
+//   ofstream outfile;
+//   outfile.open("H3D_ratio.csv");
+   TGraphErrors *gH3DRaw[12];
+   TGraphErrors *gH3D[12];
+   for(int ii=0;ii<12;ii++){
        gH3DRaw[ii]=new TGraphErrors();
        gH3D[ii]=new TGraphErrors();
        int nn=0;
@@ -92,11 +92,11 @@ void plot_H3D()
  	  gH3D[ii]->SetPoint(nn,H3_x[ii][jj],tmp_ratio);
  	  gH3D[ii]->SetPointError(nn,0.0,tmp_err);
 
-	  outfile<<H3_x[ii][jj]<<","<<H3_Q2[ii][jj]<<","<<tmp_ratio<<","<<tmp_err<<endl;
+//	  outfile<<H3_x[ii][jj]<<","<<H3_Q2[ii][jj]<<","<<tmp_ratio<<","<<tmp_err<<endl;
           nn++;
       }
    }
-   outfile.close();
+//   outfile.close();
 
    TCanvas *c1=new TCanvas("c1","c1",1500,1500);
    TMultiGraph *mg1=new TMultiGraph();
@@ -110,7 +110,7 @@ void plot_H3D()
    mg1->SetTitle("H3/D born cross section ratio;xbj;born");
 
    auto leg1=new TLegend(0.7,0.6,0.85,0.85);
-   leg1->AddEntry(hborn,"model211","P");
+   leg1->AddEntry(hborn,"model111","P");
    leg1->AddEntry(hborn1,"model122","P");
    leg1->Draw();
 
@@ -120,8 +120,8 @@ void plot_H3D()
    hrad->SetMarkerColor(4);
    hrad1->SetMarkerStyle(8);
    hrad1->SetMarkerColor(8);
-   int color[11]={1,2,3,4,5,6,7,8,9,46,30};
-   for(int ii=0;ii<11;ii++){
+   int color[12]={1,2,3,4,5,6,7,8,9,46,30,38};
+   for(int ii=0;ii<12;ii++){
        gH3DRaw[ii]->SetMarkerStyle(22);
        gH3DRaw[ii]->SetMarkerColor(color[ii]);
        gH3D[ii]->SetMarkerStyle(8);
@@ -135,7 +135,7 @@ void plot_H3D()
    mg2->SetTitle("H3/D rad cross section ratio;xbj;rad");
 
    auto leg2=new TLegend(0.7,0.6,0.85,0.85);
-   leg2->AddEntry(hrad,"model211","P");
+   leg2->AddEntry(hrad,"model111","P");
    leg2->AddEntry(hrad1,"model122","P");
    leg2->Draw();
 

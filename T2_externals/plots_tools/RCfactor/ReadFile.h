@@ -16,6 +16,7 @@ int ReadYield(TString filename,int kin,Double_t x[][MAXBIN],Double_t Q2[][MAXBIN
     if(kin==11)KKin=kin-3;
     if(kin==13)KKin=kin-4;
     if(kin==15)KKin=kin-5;
+    if(kin==16)KKin=kin-5;
     
     while(tmp.ReadLine(file)){
           if(nn==0){nn++;continue;}
@@ -55,6 +56,7 @@ int ReadData(TString filename,int kin,Double_t Yield[][MAXBIN],Double_t Y_err[][
     if(kin==11)KKin=kin-3;
     if(kin==13)KKin=kin-4;
     if(kin==15)KKin=kin-5;
+    if(kin==16)KKin=kin-5;
 
     while(tmp.ReadLine(file)){
           if(nn==0){nn++;continue;}

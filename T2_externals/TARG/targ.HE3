@@ -13,7 +13,7 @@ thicknesses (rad. lengths):
    target          0.00075   
    walls           0.00519                                               
    pre-target      0.00285
-   post-target     0.00832
+   post-target     0.00759
 nseg (even)        4                                                     
                                                                          
 Pking: Ep/E >      1.0                                                   

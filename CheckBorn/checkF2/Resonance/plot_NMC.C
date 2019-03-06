@@ -1,8 +1,9 @@
-#define MAXBIN 41
+#define MAXBIN 81
 void plot_NMC()
 {
      Double_t xx[MAXBIN],Q2[MAXBIN],WSQ[MAXBIN];
-     Double_t F2_dis[MAXBIN],F2_res[MAXBIN];
+     Double_t F2_NMC[MAXBIN],err_lo[MAXBIN],err_hi[MAXBIN];
+     Double_t F2_B[MAXBIN],R[MAXBIN],DR[MAXBIN];
 
      ifstream file1;
      file1.open("F2D_NMC.dat");
@@ -18,22 +19,41 @@ void plot_NMC()
            tmp.Tokenize(content,from," ");
            WSQ[nn]=atof(content.Data());
            tmp.Tokenize(content,from," ");
-           F2_dis[nn]=atof(content.Data());
+           F2_NMC[nn]=atof(content.Data());
            tmp.Tokenize(content,from," ");
-           F2_res[nn]=atof(content.Data());
+           err_lo[nn]=atof(content.Data());
+           tmp.Tokenize(content,from," ");
+           err_hi[nn]=atof(content.Data());
+           tmp.Tokenize(content,from," ");
+           F2_B[nn]=atof(content.Data());
+           tmp.Tokenize(content,from," ");
+           R[nn]=atof(content.Data());
+           tmp.Tokenize(content,from," ");
+           DR[nn]=atof(content.Data());
            nn++;
            from=0;
          }
      file1.close();
 
-      TGraph *gF2_dis=new TGraph(nn,WSQ,F2_dis);
-      TGraph *gF2_res=new TGraph(nn,WSQ,F2_res);
+      TGraphAsymmErrors *gF2_NMC=new TGraphAsymmErrors(nn-1,xx,F2_NMC,0,0,err_lo,err_hi);
+      TGraph *gF2_B=new TGraph(nn,xx,F2_B);
+      TGraphErrors *gR=new TGraphErrors(nn,xx,R,0,DR);
 
       TCanvas *c1=new TCanvas("c1");
-      c1->Divide(2,1);
-      c1->cd(1);
-      gF2_res->Draw("AP*");
-      c1->cd(2);
-      gF2_dis->Draw("AP*");
+      TMultiGraph *mg=new TMultiGraph();
+      gF2_NMC->SetMarkerColor(2);
+      gF2_NMC->SetMarkerStyle(8);
+      gF2_B->SetMarkerColor(4);
+      gF2_B->SetMarkerStyle(8);
+      mg->Add(gF2_NMC);
+      mg->Add(gF2_B);
+      mg->Draw("AP");
 
+   auto leg1=new TLegend(0.7,0.6,0.85,0.85);
+   leg1->AddEntry(gF2_NMC,"NMC","P");
+   leg1->AddEntry(gF2_B,"Bodek","P");
+   leg1->Draw();
+
+	TCanvas *c2=new TCanvas("c2");
+	gR->Draw("AP*");
 }

@@ -1,30 +1,35 @@
         program CheckRes
         implicit none
 
-        real*8 Q2,xx,WSQ
-        real*8 W1,W2,F2,F2_1
+        real*8 Q2,xx,WSQ,nu
+        real*8 W1,W2,F2,F2_1,W1D,W2D
         integer ii
-        real   x4,Qsq4,F2D4,F2Derr_lo4,F2Derr_hi4
+        real   x4,Qsq4,F2D4,F2Derr_lo4,F2Derr_hi4,R4,DR4
         real*8 NMCF2d
         external NMCF2d
+        real*8 Mp /0.93827231/
+        logical GD
 
 
         open(unit=77,file='F2D_NMC.dat')
 
-        do 10 ii=0,40
-           xx=0.15+ii*0.02
+        do 10 ii=0,80
+           xx=0.1+ii*0.01
            Q2=14.0*xx
-           wsq=0.938**2+Q2*(1.0/xx-1)
+           wsq=Mp**2+Q2*(1.0/xx-1.0)
+           nu=Q2/(2.0*Mp*xx)
            
            x4=xx
            Qsq4=Q2
 
 c           call ineft(Q2,sqrt(wsq),w1,w2,dble(2.0))
            call F2NMC_new(2,x4,Qsq4,F2D4,F2Derr_lo4,F2Derr_hi4)
-           F2=F2D4
-           F2_1=NMCF2d(xx,Q2)
+           F2=F2D4*2.0
+           call ineft(Q2,sqrt(wsq),W1D,W2D,dble(2.0))
+           F2_1=W2D*nu*2.0
+           call R1998(x4,Qsq4,R4,DR4,GD)
 
-           write(77,'(3f8.3,2E15.3)')xx,Q2,Wsq,F2,F2_1
+           write(77,'(3f8.3,6E15.3)')xx,Q2,Wsq,F2,F2Derr_lo4,F2Derr_hi4,F2_1,R4,DR4
 
 10      continue
   
