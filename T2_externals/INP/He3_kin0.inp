@@ -1,5 +1,5 @@
 input files for EXTERNAL: runplan/target/output
-RUNPLAN/bin_avg/He3_kin0.inp
+RUNPLAN/newbin/He3_kin0.inp
 TARG/targ.HE3
 OUT/output_He3_kin0.out
 

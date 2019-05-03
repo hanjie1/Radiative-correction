@@ -5,7 +5,7 @@ void gen_Etheta(){
      ifstream file1;
      cout<<"Input file name: ";
      cin>>filename;
-     file1.open(Form("datafile/%s",filename.Data()));
+     file1.open(Form("newbin_datafile/%s",filename.Data()));
 
      Double_t xbj[MAXBIN]={0.0},Q2[MAXBIN]={0.0};
      Ssiz_t from=0;
@@ -29,7 +29,7 @@ void gen_Etheta(){
      ofstream file;
      Ssiz_t pos=filename.Index(".");
      TString outfile=filename.Replace(pos,5,".inp",4);
-     file.open(outfile);
+     file.open(Form("newbin/%s",outfile.Data()));
      file<<"Marathon"<<endl;    
      file<<filename.Data()<<endl;    
      file<<endl;    

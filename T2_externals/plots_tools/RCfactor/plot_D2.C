@@ -173,7 +173,7 @@ void plot_D2()
    leg2->Draw();
 
    TCanvas *c2=new TCanvas("c2","c2",1500,1500);
-/*   c2->Divide(2,1);
+   c2->Divide(2,1);
    c2->cd(1);
    TMultiGraph *mg3=new TMultiGraph();
    hRC->SetMarkerStyle(8);
@@ -195,7 +195,7 @@ void plot_D2()
    leg3->Draw();
 
    c2->cd(2);
-*/   TMultiGraph *mg4=new TMultiGraph();
+   TMultiGraph *mg4=new TMultiGraph();
    hratio->SetMarkerStyle(8);
    hratio->SetMarkerColor(4);
 //   hratio1->SetMarkerStyle(8);

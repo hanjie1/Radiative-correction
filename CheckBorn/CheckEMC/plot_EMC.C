@@ -22,7 +22,9 @@ void plot_EMC()
      file1.close();
 
      TGraph *gEMC=new TGraph(nn,x,EMC);
-     gEMC->Draw("AP*");
+     gEMC->SetMarkerStyle(8);
+     gEMC->Draw("AP");
+     gEMC->SetTitle("He3 EMC ratio;x;");
 
 
 }

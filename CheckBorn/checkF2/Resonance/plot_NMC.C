@@ -48,6 +48,7 @@ void plot_NMC()
       mg->Add(gF2_NMC);
       mg->Add(gF2_B);
       mg->Draw("AP");
+      mg->SetTitle("F2d;x");
 
    auto leg1=new TLegend(0.7,0.6,0.85,0.85);
    leg1->AddEntry(gF2_NMC,"NMC","P");
