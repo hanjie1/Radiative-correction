@@ -6,6 +6,7 @@ void fitplot()
 
           Double_t xbj[101]={0.0},Q2[101]={0.0};
 	  Double_t F2D[101]={0.0},F2H3[101]={0.0},F2HE[101]={0.0};
+	  Double_t F2n[101]={0.0},F2p[101]={0.0};
           Ssiz_t from=0;
           TString content,tmp;
           int nn=0;
@@ -15,7 +16,9 @@ void fitplot()
                 tmp.Tokenize(content,from,"  ");
                 Q2[nn]=atof(content.Data());
                 tmp.Tokenize(content,from,"  ");
+                F2p[nn]=atof(content.Data());
                 tmp.Tokenize(content,from,"  ");
+                F2n[nn]=atof(content.Data());
                 tmp.Tokenize(content,from,"  ");
                 F2D[nn]=atof(content.Data());
                 tmp.Tokenize(content,from,"  ");
@@ -28,13 +31,23 @@ void fitplot()
           file1.close();
 
 	  Double_t H3D[101]={0.0},HED[101]={0.0};
+	  Double_t F2np[101]={0.0},H3HE[101]={0.0};
+	  Double_t REMCD[101]={0.0},superR[101]={0.0};
 	  for(int ii=0;ii<nn;ii++){
 		H3D[ii]=F2H3[ii]/F2D[ii];
 		HED[ii]=F2HE[ii]/F2D[ii];
+		F2np[ii]=F2n[ii]/F2p[ii];
+		H3HE[ii]=F2H3[ii]/F2HE[ii];
+		REMCD[ii]=F2D[ii]/(F2n[ii]+F2p[ii]);
+		superR[ii]=(F2HE[ii]/(2.0*F2p[ii]+F2n[ii]))/(F2H3[ii]/(F2p[ii]+2.0*F2n[ii]));
 	  }
 
 	  TGraph *gH3=new TGraph(nn,xbj,H3D);
 	  TGraph *gHE=new TGraph(nn,xbj,HED);
+	  TGraph *gH3HE=new TGraph(nn,xbj,H3HE);
+	  TGraph *gNP=new TGraph(nn,xbj,F2np);
+	  TGraph *gREMCD=new TGraph(nn,xbj,REMCD);
+	  TGraph *gsuperR=new TGraph(nn,xbj,superR);
 
 	  TCanvas *c1=new TCanvas("c1");
  	  gH3->Draw("AP*");
@@ -43,4 +56,20 @@ void fitplot()
 	  TCanvas *c2=new TCanvas("c2");
  	  gHE->Draw("AP*");
 	  gHE->SetTitle("HE/D2");
+
+	  TCanvas *c3=new TCanvas("c3");
+ 	  gH3HE->Draw("AP*");
+	  gH3HE->SetTitle("H3/HE");
+
+	  TCanvas *c4=new TCanvas("c4");
+ 	  gNP->Draw("AP*");
+	  gNP->SetTitle("F2n/F2p");
+
+	  TCanvas *c5=new TCanvas("c5");
+ 	  gREMCD->Draw("AP*");
+	  gREMCD->SetTitle("F2D/(F2n+F2p)");
+
+	  TCanvas *c6=new TCanvas("c6");
+ 	  gsuperR->Draw("AP*");
+	  gsuperR->SetTitle("super ratio");
 }

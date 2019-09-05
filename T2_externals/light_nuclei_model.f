@@ -216,7 +216,6 @@ c                   F2_n/F2_p NMC paper 1992
 
               endif
 
-
               F2=F2D*emccor
               F1=F1D*emccor
             endif
@@ -239,13 +238,13 @@ C       Mott cross section
 C Temp test - DJG May 23, 2013
 c          sig_qe=sig_qe/0.8
         endif
-
+        
 	sig = sig_qe + sig_dis !sig is already real*4
 
 
 	sig_qe_pass = sig_qe ! pass back as real*4
 	sig_dis_pass = sig_dis
-
+        
 	return
 	end
 

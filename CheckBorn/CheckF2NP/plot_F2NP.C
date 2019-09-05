@@ -4,7 +4,7 @@ void plot_F2NP()
      Double_t x[MAXBIN],F2NP_SLAC[MAXBIN],F2NP_CJ[MAXBIN],F2NP_NMC[MAXBIN];
 
      ifstream file1;
-     file1.open("OUT/F2NP.out");
+     file1.open("OUT/F2NP_newNMC.out");
 
      Ssiz_t from=0;
      TString content,tmp;

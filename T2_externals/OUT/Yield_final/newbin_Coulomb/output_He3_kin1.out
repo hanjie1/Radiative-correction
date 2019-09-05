@@ -1,0 +1,33 @@
+EXTERNAL/TSAI:  VERSION OF 8/8/96
+
+Marathon                                                                
+He3_kin1.inp                                                            
+                                                                        
+Hall A 2018: 25 cm He3 target                                           
+Nominal values - not exact                                              
+
+----*----1----*----2----*----3----*----4----*----5----*----6----*----7--
+                                                                        
+
+TARGET (iZ,iA) = (  2,  3);   avgA =   3.000; amuM=  3.016; avgM=  2.809
+ targ=TRITIUM; ttarg(rl)=0.00075; twall=0.00519; tbeam=0.00285; tspec=0.00759
+         Nseg  =   4
+ MODELS: P elastc(ikk)=14; deut elastic=13; inelastc=206; Pauli Supresion= 4
+ NUCLEAR METHOD= 1;   NUCLEAR_MODEL= 1
+ DIS MODEL=111
+
+    E1    TH    Q2 COS_K         SMR     NUC          INT-SMR
+    EP     X    W2 QE-PK  INELA  Q-ELA  ELAST   TOTAL  MODEL
+
+  10.589 16.616  2.72    3.98   14.85    2.73    0.18   17.76  0.828
+   3.074  0.193 12.27    4.42   13.96    2.91    0.18   17.04 2.348E+01
+
+  10.589 17.641  3.09    3.25   12.91    2.15    0.10   15.17  0.838
+   3.100  0.220 11.85    3.59   11.51    2.29    0.10   13.91 1.787E+01
+
+  10.589 18.657  3.47    2.73   11.14    1.72    0.06   12.92  0.844
+   3.117  0.247 11.43    2.99    9.30    1.83    0.06   11.19 1.367E+01
+
+  0.000 0.000  0.000 .000  0.00  0.00  0.00  0.00  0.00  0.00 0.000
+                           0.00  0.00  0.00  0.00  0.00  0.00 0.000E+00
+

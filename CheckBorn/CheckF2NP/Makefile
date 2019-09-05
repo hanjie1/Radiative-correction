@@ -5,8 +5,8 @@ FFLAGS    = -C -g -w -fno-automatic -fbounds-check -ffixed-line-length-132
 F77       :=gfortran
 ########################################
 
-CheckF2NP_objs = CheckF2NP.o CJgrids.o 
-CheckF2NP_srcs = CheckF2NP.f /home/hanjie/work/MARATHON/CJ-master/downloads/CJgrids.f
+CheckF2NP_objs = CheckF2NP.o CJgrids.o F2NMC.o
+CheckF2NP_srcs = CheckF2NP.f /home/hanjie/work/MARATHON/CJ-master/downloads/CJgrids.f F2NMC.f
 
 ########################################
 
@@ -15,6 +15,9 @@ none: CheckF2NP
 all:  CheckF2NP
 
 CheckF2NP.o: CheckF2NP.f
+		 $(F77) $(FFLAGS) -c $< -o $@
+
+F2NMC.o: F2NMC.f
 		 $(F77) $(FFLAGS) -c $< -o $@
 
 CJgrids.o: /home/hanjie/work/MARATHON/CJ-master/downloads/CJgrids.f

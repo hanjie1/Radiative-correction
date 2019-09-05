@@ -3,24 +3,28 @@
 
         real*8 m_p /0.93827231/
         real*8 amuM,x,Q2,eps,nu,wsq,A,Z
+        REAL*8 F2_NP_NMC,F2_NP_SLAC,FIS_NMC,FIS_SLAC
         real*8 emciso,emccor,F_IS,F2_NP,CJ_f2n,CJ_f2p
+        REAL*8 EMC_NMC,EMCSLAC
         character*80  outfile
         integer ii
         real*8 emc_func_slac
         external emc_func_slac
         real*8 CJsfn
         external CJsfn
+        real*8 F2NP_NMC
+        external F2NP_NMC
 
-        outfile='OUT/SLAC_EMC_He3_CJ15.out'
+        outfile='OUT/Compare_EMC_H3.out'
         open(unit=66,file=outfile)
-        write(66,*) 'x   F2A/F2D '
+        write(66,*) 'x   F2A/F2D_CJ   NMC     SLAC'
 
         A=3.0
-        Z=2.0
+        Z=1.0
         call setCJ(600)
 
-        do 99 ii=1,80
-           x=0.1+0.01*ii
+        do 99 ii=0,70
+           x=0.15+0.01*ii
            Q2=14.0*x
 
            emciso=emc_func_slac(x,A)
@@ -30,11 +34,20 @@ c           F2_NP=1-0.8*x
            CJ_f2n=CJsfn(2,x,sqrt(Q2))
            F2_NP=CJ_f2n/CJ_f2p
 
+           F2_NP_SLAC=1-0.8*x
+           F2_NP_NMC=F2NP_NMC(x,Q2)
 
            F_IS=(1+F2_NP)/(Z+(A-Z)*F2_NP)
            emccor=emciso/F_IS
 
-           write(66,'(3F13.5)') x,emciso,EMCcor
+           FIS_NMC=(1+F2_NP_NMC)/(Z+(A-Z)*F2_NP_NMC)
+           emc_NMC=emciso/FIS_NMC
+
+           FIS_SLAC=(1+F2_NP_SLAC)/(Z+(A-Z)*F2_NP_SLAC)
+           emcSLAC=emciso/FIS_SLAC
+           
+
+           write(66,'(5F13.5)') x,emciso,EMCcor,emc_nmc,emcslac
 
 99      continue
 
@@ -63,4 +76,18 @@ c-------------------------------------------------------------------------------
         emc_func_slac = C*atemp**alpha
         return
         end
+
+
+!---------------------------------------------------------------------
+!---------------------------------------------------------------------
+        real*8 function F2NP_NMC(x,Q2)
+        real*8 x,Q2,AX,BX
+
+        AX=0.979-1.692*x+2.797*x**2-4.313*x**3+3.075*x**4
+        BX=-0.171*x+0.244*x**2
+        F2NP_NMC=AX*((Q2/20.0)**BX)*(1+x**2/Q2)
+
+        return
+        end
+
 

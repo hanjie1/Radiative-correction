@@ -390,8 +390,8 @@ c           sfactsv(npts) = qefact
 c --- aji ----------------------------------------------
 c now do Coulomb correction
 
-           doccor=.true.
-
+           doccor=.false.
+           ccor=1.0
            if(doccor) then 
 cc first get the vertex quantities and do a target dependent
 cc boost to beam energy and scattered electron energy
