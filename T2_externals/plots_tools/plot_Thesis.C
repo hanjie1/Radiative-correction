@@ -49,6 +49,7 @@ void plot_Thesis(){
      TGraph *gB_QE=new TGraph(nn,xbj,B_QE);
      TGraph *gB_DIS=new TGraph(nn,xbj,B_DIS);
 
+     TCanvas *c1=new TCanvas("c1","c1",1500,1100);
      TMultiGraph *mg=new TMultiGraph();
      gR_EL->SetLineStyle(8);
      gR_EL->SetLineWidth(3);
@@ -79,14 +80,17 @@ void plot_Thesis(){
      mg->Add(gB);
 
      mg->Draw("AL");
+     mg->SetTitle(";Bjorken x;d#sigma/d#Omega/dE_{p}(nB/Sr/GeV)");
 
-     auto leg = new TLegend(0.5,0.5,0.85,0.85);
+     auto leg = new TLegend(0.65,0.5,0.85,0.85);
      leg->AddEntry(gR_EL,"#sigma^{#scale[0.5]{rad}}_{#scale[0.5]{EL}}","L");
      leg->AddEntry(gR_QE,"#sigma^{#scale[0.5]{rad}}_{#scale[0.5]{QE}}","L");
      leg->AddEntry(gR_DIS,"#sigma^{#scale[0.5]{rad}}_{#scale[0.5]{DIS}}","L");
      leg->AddEntry(gR,"#sigma^{#scale[0.5]{rad}}","L");
      leg->AddEntry(gB,"#sigma^{#scale[0.5]{born}}","L");
      leg->Draw();
+     leg->SetMargin(0.7);
      //leg->SetBorderSize(1);
 
+    c1->Print("XS_RC.pdf"); 
 }

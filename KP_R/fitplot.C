@@ -33,12 +33,15 @@ void fitplot()
 	  Double_t H3D[101]={0.0},HED[101]={0.0};
 	  Double_t F2np[101]={0.0},H3HE[101]={0.0};
 	  Double_t REMCD[101]={0.0},superR[101]={0.0};
+	  Double_t REMCHe[101]={0.0},REMCH3[101]={0.0};
 	  for(int ii=0;ii<nn;ii++){
 		H3D[ii]=F2H3[ii]/F2D[ii];
 		HED[ii]=F2HE[ii]/F2D[ii];
 		F2np[ii]=F2n[ii]/F2p[ii];
 		H3HE[ii]=F2H3[ii]/F2HE[ii];
-		REMCD[ii]=F2D[ii]/(F2n[ii]+F2p[ii]);
+		REMCD[ii]=F2D[ii]*2.0/(F2n[ii]+F2p[ii]);
+		REMCHe[ii]=F2HE[ii]*3.0/(F2n[ii]+2.0*F2p[ii]);
+		REMCH3[ii]=F2H3[ii]*3.0/(2.0*F2n[ii]+F2p[ii]);
 		superR[ii]=(F2HE[ii]/(2.0*F2p[ii]+F2n[ii]))/(F2H3[ii]/(F2p[ii]+2.0*F2n[ii]));
 	  }
 
@@ -47,6 +50,8 @@ void fitplot()
 	  TGraph *gH3HE=new TGraph(nn,xbj,H3HE);
 	  TGraph *gNP=new TGraph(nn,xbj,F2np);
 	  TGraph *gREMCD=new TGraph(nn,xbj,REMCD);
+	  TGraph *gREMCH3=new TGraph(nn,xbj,REMCH3);
+	  TGraph *gREMCHe=new TGraph(nn,xbj,REMCHe);
 	  TGraph *gsuperR=new TGraph(nn,xbj,superR);
 
 	  TCanvas *c1=new TCanvas("c1");
@@ -72,4 +77,12 @@ void fitplot()
 	  TCanvas *c6=new TCanvas("c6");
  	  gsuperR->Draw("AP*");
 	  gsuperR->SetTitle("super ratio");
+
+	  TCanvas *c7=new TCanvas("c7");
+ 	  gREMCH3->Draw("AP*");
+	  gREMCH3->SetTitle("F2H3/(2*F2n+F2p)");
+
+	  TCanvas *c8=new TCanvas("c8");
+ 	  gREMCHe->Draw("AP*");
+	  gREMCHe->SetTitle("F2He/(F2n+2*F2p)");
 }

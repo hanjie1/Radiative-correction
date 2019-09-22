@@ -31,7 +31,7 @@ void gen_Q2eff(){
 
 		Double_t RR=sqrt(5.0/3.0)*rr[ii];
 		Q2_eff[nn-1]=Q2[nn-1]*(1.0+0.00432*ZZ[ii]/(2*E0*RR))*(1.0+0.00432*ZZ[ii]/(2*E0*RR));
-cout<<Q2[nn-1]<<"  "<<Q2_eff[nn-1]<<endl;
+cout<<Q2[nn-1]<<"  "<<Q2_eff[nn-1]<<"  "<<Q2_eff[nn-1]-Q2[nn-1]<<endl;
                 nn++;
                 from=0;
               }
