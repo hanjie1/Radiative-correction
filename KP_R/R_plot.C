@@ -47,7 +47,7 @@ void R_plot()
 
 		RH3D[ii]=RH3[ii]/RD[ii];
 		RHeD[ii]=RHe[ii]/RD[ii];
-		RH3He[ii]=RH3[ii]/RHe[ii];
+		RH3He[ii]=RHe[ii]/RH3[ii];
 
 		gRH3->SetPoint(ii,xbj[ii],RH3[ii]);
 		gRHE->SetPoint(ii,xbj[ii],RHe[ii]);
@@ -84,7 +84,7 @@ void R_plot()
 	  leg1->SetMargin(0.5);
   	  leg1->Draw();
 
-   	  c1->Print("R_EMC.pdf");
+   	  //c1->Print("R_EMC.pdf");
 
 	  TCanvas *c2=new TCanvas("c2","c2",1500,1000);
 	  gHeD->SetLineStyle(2);
@@ -105,14 +105,32 @@ void R_plot()
 	  mg1->Add(gH3He);
  	  mg1->Draw("AL");
 	  mg1->SetTitle(";Bjorken x;ratio;");
+	  mg1->GetYaxis()->SetRangeUser(0.95,1.05);
 
-          auto leg2=new TLegend(0.6,0.6,0.75,0.85);
+          auto leg2=new TLegend(0.2,0.65,0.35,0.85);
    	  leg2->AddEntry(gHeD,"#scale[0.7]{R_{32}/R_{21}}","L");
    	  leg2->AddEntry(gH3D,"#scale[0.7]{R_{31}/R_{21}}","L");
-   	  leg2->AddEntry(gH3He,"#scale[0.7]{R_{31}/R_{32}}","L");
+   	  leg2->AddEntry(gH3He,"#scale[0.7]{R_{32}/R_{31}}","L");
 	  leg2->SetMargin(0.5);
   	  leg2->Draw();
 
-   	  c2->Print("ratioR.pdf");
+   	  //c2->Print("ratioR.pdf");
+
+	  TCanvas *c3=new TCanvas();
+	  TMultiGraph *mg2=new TMultiGraph();
+	  mg2->Add(gRD);
+	  mg2->Add(gH3He);
+ 	  mg2->Draw("AL");
+	  mg2->SetTitle(";Bjorken x;ratio;");
+	  mg2->GetYaxis()->SetRangeUser(0.95,1.05);
+
+          auto leg3=new TLegend(0.2,0.65,0.35,0.85);
+   	  leg3->AddEntry(gRD,"#scale[0.7]{R_{21}}","L");
+   	  leg3->AddEntry(gH3He,"#scale[0.7]{R_{32}/R_{31}}","L");
+	  leg3->SetMargin(0.5);
+  	  leg3->Draw();
+
+   	  c3->Print("R21_superR.pdf");
+
 
 }

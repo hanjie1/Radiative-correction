@@ -34,6 +34,7 @@ void fitplot()
 	  Double_t F2np[101]={0.0},H3HE[101]={0.0};
 	  Double_t REMCD[101]={0.0},superR[101]={0.0};
 	  Double_t REMCHe[101]={0.0},REMCH3[101]={0.0};
+	  Double_t HEDISO[101]={0.0},H3DISO[101]={0.0};
 	  for(int ii=0;ii<nn;ii++){
 		H3D[ii]=F2H3[ii]/F2D[ii];
 		HED[ii]=F2HE[ii]/F2D[ii];
@@ -43,10 +44,15 @@ void fitplot()
 		REMCHe[ii]=F2HE[ii]*3.0/(F2n[ii]+2.0*F2p[ii]);
 		REMCH3[ii]=F2H3[ii]*3.0/(2.0*F2n[ii]+F2p[ii]);
 		superR[ii]=(F2HE[ii]/(2.0*F2p[ii]+F2n[ii]))/(F2H3[ii]/(F2p[ii]+2.0*F2n[ii]));
+
+		HEDISO[ii]=F2HE[ii]*3.0/(F2D[ii]*2.0)*(F2n[ii]+F2p[ii])/(2.0*F2p[ii]+F2n[ii]);
+		H3DISO[ii]=F2H3[ii]*3.0/(F2D[ii]*2.0)*(F2n[ii]+F2p[ii])/(F2p[ii]+2.0*F2n[ii]);
 	  }
 
 	  TGraph *gH3=new TGraph(nn,xbj,H3D);
 	  TGraph *gHE=new TGraph(nn,xbj,HED);
+	  TGraph *gH3ISO=new TGraph(nn,xbj,H3DISO);
+	  TGraph *gHEISO=new TGraph(nn,xbj,HEDISO);
 	  TGraph *gH3HE=new TGraph(nn,xbj,H3HE);
 	  TGraph *gNP=new TGraph(nn,xbj,F2np);
 	  TGraph *gREMCD=new TGraph(nn,xbj,REMCD);
@@ -85,4 +91,12 @@ void fitplot()
 	  TCanvas *c8=new TCanvas("c8");
  	  gREMCHe->Draw("AP*");
 	  gREMCHe->SetTitle("F2He/(F2n+2*F2p)");
+
+	  TCanvas *c9=new TCanvas("c9");
+ 	  gHEISO->Draw("AP*");
+	  gHEISO->SetTitle("He3 EMC isoscalar");
+
+	  TCanvas *c10=new TCanvas("c10");
+ 	  gH3ISO->Draw("AP*");
+	  gH3ISO->SetTitle("H3 EMC isoscalar");
 }

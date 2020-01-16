@@ -9,7 +9,8 @@
         character*20 outfile
         
         DATA XX/0.17,0.19,0.22,0.25,0.29,0.32,0.34,0.38/
-        DATA Q2/2.42,2.72,2.72,3.08,3.09,3.15,3.35,3.46/
+        DATA Q2/2.42,2.72,3.10,3.48,4.02,4.50,4.91,5.32/
+
 
         outfile='OUT/F2dp_NMC.out'
         open(unit=66,file=outfile)
@@ -23,8 +24,10 @@
            call F2NMC_new(2,tmpX,tmpQ2,F2d,F2d_loerr,F2d_hierr)
            
            F2dp=2.0*F2d/F2p
-           F2dp_loerr=F2dp*sqrt((F2p_loerr/F2p)**2+(F2d_loerr/F2d)**2)
-           F2dp_hierr=F2dp*sqrt((F2p_hierr/F2p)**2+(F2d_hierr/F2d)**2)
+c           F2dp_loerr=F2dp*sqrt((F2p_loerr/F2p)**2+(F2d_loerr/F2d)**2)
+c           F2dp_hierr=F2dp*sqrt((F2p_hierr/F2p)**2+(F2d_hierr/F2d)**2)
+           F2dp_loerr=F2dp-2.0*(F2d-F2d_loerr)/(F2p+F2p_hierr)
+           F2dp_hierr=2.0*(F2d+F2d_hierr)/(F2p-F2p_loerr)-F2dp
 
            write(66,'(2F7.2,3F10.5)') tmpX,tmpQ2,F2dp,F2dp_loerr,F2dp_hierr
 99      continue

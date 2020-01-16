@@ -11,7 +11,7 @@
         logical GOODFIT
         
         DATA XX/0.17,0.19,0.22,0.25,0.29,0.32,0.34,0.38/
-        DATA Q2/2.42,2.72,2.72,3.08,3.09,3.15,3.35,3.46/
+        DATA Q2/2.42,2.72,3.10,3.48,4.02,4.50,4.91,5.32/
 
         MODEL=12
         outfile='OUT/F2dp_Whitlow.out'
@@ -24,7 +24,9 @@
 
            call F2GLOB(tmpX,tmpQ2,'P',MODEL,F2p,ST,SY,slope,dslope,GOODFIT) 
            F2p_err=sqrt(ST**2+SY**2)           
+           write(6,*) "1: ",SY/F2p
            call F2GLOB(tmpX,tmpQ2,'D',MODEL,F2d,ST,SY,slope,dslope,GOODFIT) 
+           write(6,*) "2: ",SY/F2d
            F2d=F2d*2.0
            F2d_err=2.0*sqrt(ST**2+SY**2)           
 
